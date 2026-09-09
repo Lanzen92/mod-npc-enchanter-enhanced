@@ -5,7 +5,7 @@
 [worldserver]
 
 ########################################
-# My module configuration
+# NPC Enchanter Enhanced
 ########################################
 
 # -------------------------------------------------------------------------------------
@@ -21,3 +21,49 @@ Enable = 1
 #  Disable: 0
 # -------------------------------------------------------------------------------------
 Announce = 1
+
+# -------------------------------------------------------------------------------------
+#  If the NPC should be spawnable for anyone.
+#  Enable : 1 (Any player can summon the enchanter)
+#  Disable: 0 (Only GM/Admin can summon the enchanter)
+# -------------------------------------------------------------------------------------
+SpawnableByAnyone = 1
+
+# -------------------------------------------------------------------------------------
+#  DespawnTimer in seconds
+#  0 = Dont despawn.
+#  1+ = Despawn after x seconds.
+#  Default: 90
+# -------------------------------------------------------------------------------------
+DespawnTimerInSeconds = 90
+
+# -------------------------------------------------------------------------------------
+#  Require the player to have correct profession and skill for enchants that require those.
+#  for example Rocket Boots (Engineering), ring enchants (Enchanting) etc
+#  Enable : 1
+#  Disable: 0
+#  Default: 1
+# -------------------------------------------------------------------------------------
+GateProfessionEnchants = 1
+
+# -------------------------------------------------------------------------------------
+#  Lock enchants that did not exist on the players current IP-phase.
+#  Enable : 1
+#  Disable: 0
+# -------------------------------------------------------------------------------------
+IndividualProgression = 1
+
+# -------------------------------------------------------------------------------------
+#  Enable free enchants
+#  Enable : 1 Enchants are free.
+#  Disable: 0 Enchants cost gold.
+# -------------------------------------------------------------------------------------
+FreeEnchants = 1
+
+# -------------------------------------------------------------------------------------
+#  Enable dynamic prices on enchants (Requires populated AH.) Not implemented yet.
+#  Overrides FreeEnchants.
+#  Enable : 1
+#  Disable: 0
+# -------------------------------------------------------------------------------------
+DynamicPricesOnEnchants = 0

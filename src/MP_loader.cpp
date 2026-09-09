@@ -4,6 +4,8 @@
 
 // From SC
 void AddSC_NPCEnchanterEnhanced();
+void AddSC_NPCEnchanterEnhancedConfigManager();
+void AddSC_NPCEnchanterEnhancedChatCommands();
 
 // Add all
 // cf. the naming convention https://github.com/azerothcore/azerothcore-wotlk/blob/master/doc/changelog/master.md#how-to-upgrade-4
@@ -11,5 +13,7 @@ void AddSC_NPCEnchanterEnhanced();
 void Addmod_npc_enchanter_enchancedScripts()
 {
     AddSC_NPCEnchanterEnhanced();
+    AddSC_NPCEnchanterEnhancedConfigManager();
+    AddSC_NPCEnchanterEnhancedChatCommands();
 }
 
