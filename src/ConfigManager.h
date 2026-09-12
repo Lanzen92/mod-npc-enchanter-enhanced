@@ -1,4 +1,6 @@
-﻿#include "Define.h"
+﻿#pragma once
+
+#include "Define.h"
 
 //Global values
 extern const uint32 NPCEnchanter_ID;

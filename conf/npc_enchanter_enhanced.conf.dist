@@ -58,7 +58,7 @@ IndividualProgression = 1
 #  Enable : 1 Enchants are free.
 #  Disable: 0 Enchants cost gold.
 # -------------------------------------------------------------------------------------
-FreeEnchants = 1
+FreeEnchants = 0
 
 # -------------------------------------------------------------------------------------
 #  Enable dynamic prices on enchants (Requires populated AH.) Not implemented yet.

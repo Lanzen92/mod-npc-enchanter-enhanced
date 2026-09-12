@@ -144,6 +144,8 @@ public:
         handler->SendSysMessage("NPCEnchanterEnhanced.DespawnTimerInSeconds: " + std::to_string(NPCEnchanterEnhancedDespawnTimerInSeconds));
         handler->SendSysMessage("NPCEnchanterEnhanced.IndividualProgression: " + std::to_string(NPCEnchanterEnhancedIndividualProgression));
         handler->SendSysMessage("NPCEnchanterEnhanced.LockProfessionEnchants: " + std::to_string(NPCEnchanterEnhancedLockProfessionEnchants));
+        handler->SendSysMessage("NPCEnchanterEnhanced.FreeEnchants: " + std::to_string(NPCEnchanterEnhancedFreeEnchants));
+        handler->SendSysMessage("NPCEnchanterEnhanced.DynamicPricesOnEnchants: " + std::to_string(NPCEnchanterEnhancedDynamicPricesOnEnchants));
         return true;
 
     }

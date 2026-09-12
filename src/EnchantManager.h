@@ -1,14 +1,17 @@
 ﻿#ifndef ENCHANT_MANAGER_H
 #define ENCHANT_MANAGER_H
 
+#pragma once
+
 #include "Define.h"
 #include <string>
 #include <vector>
 
+#include "Player.h"
+
 enum EnchantCategory : uint32 {
     Weapon = 1,
     Armor  = 2,
-    Shield = 3
 };
 
 enum EnchantSubCategory : uint32 {
@@ -25,12 +28,13 @@ enum EnchantSubCategory : uint32 {
     Armor_Shoulders = 31,
     Armor_Cloak = 32,
     Armor_Chest = 33,
-    Armor_Bracers = 34,
-    Armor_Gloves = 35,
-    Armor_Legs = 36,
-    Armor_Boots = 37,
-    Armor_Ring_Slot1 = 38,
-    Armor_Ring_Slot2 = 39,
+    Armor_Waist = 34,
+    Armor_Bracers = 35,
+    Armor_Gloves = 36,
+    Armor_Legs = 37,
+    Armor_Boots = 38,
+    Armor_Ring_Slot1 = 39,
+    Armor_Ring_Slot2 = 40,
 };
 
 enum class EnchantTier : uint32 {
@@ -42,14 +46,12 @@ enum class EnchantTier : uint32 {
 struct EnchantDefinition {
     uint32 enchantId;
     std::string name;
-    EnchantCategory category;
-    EnchantSubCategory subCategory;
     EnchantTier tier;
     std::string professionRequirement;
     uint32 professionSkillRequirement;
     uint32 minItemLevel;
+    uint32 levelRequirement;
     uint32 phase;
-    uint32 expansion;
     uint32 cost;
 };
 
@@ -57,10 +59,6 @@ struct EnchantSubCategoryDefinition {
     uint32 enchantCategorySubTypeId;
     std::string name;
     std::string icon;
-    std::string professionRequirement;
-    uint32 professionSkillRequirement;
-    uint32 minItemLevel;
-    uint32 phase;
     std::vector<EnchantDefinition> enchants;
 };
 
@@ -78,6 +76,8 @@ public:
 
     const std::vector<EnchantCategoryDefinition>& GetEnchantDatabase() const;
     const EnchantDefinition* GetEnchantDefinition(uint32 enchantId) const;
+    const bool AllEnchantsInSubCategoryHasProfessionRequirements(uint32 subCategoryId) const;
+    const std::string GetProfessionLockedPhrase(uint32 subCategoryId) const;
 
 private:
     NPCEnchanterEnhancedEnchantManager();
