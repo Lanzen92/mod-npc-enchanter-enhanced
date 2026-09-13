@@ -1,11 +1,10 @@
-﻿#include "helper.h"
+﻿#include "PriceHelper.h"
 
 #include "ConfigManager.h"
 #include "Define.h"
 #include "EnchantManager.h"
 
-
-const uint32 GetEnchantPriceInGold (const EnchantDefinition* enchantDef)
+uint32 PriceHelper::GetEnchantPriceInGold (const EnchantDefinition* enchantDef)
 {
     if (!NPCEnchanterEnhancedDynamicPricesOnEnchants)
         return enchantDef->cost;
@@ -15,7 +14,7 @@ const uint32 GetEnchantPriceInGold (const EnchantDefinition* enchantDef)
     return enchantDef->cost;
 }
 
-const uint32 GetEnchantPriceInCopper (const EnchantDefinition* enchantDef)
+uint32 PriceHelper::GetEnchantPriceInCopper (const EnchantDefinition* enchantDef)
 {
     if (!NPCEnchanterEnhancedDynamicPricesOnEnchants)
         return GOLD(enchantDef->cost);

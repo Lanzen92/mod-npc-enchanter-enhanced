@@ -221,7 +221,7 @@ const EnchantDefinition* NPCEnchanterEnhancedEnchantManager::GetEnchantDefinitio
 }
 
 //Check if all enchants are locked behind profession, to lock the whole category.
-const bool NPCEnchanterEnhancedEnchantManager::AllEnchantsInSubCategoryHasProfessionRequirements(uint32 subCategoryId) const
+bool NPCEnchanterEnhancedEnchantManager::AllEnchantsInSubCategoryHasProfessionRequirements(uint32 subCategoryId) const
 {
     for (const auto& cat : m_enchantDatabase)
     {
@@ -245,7 +245,7 @@ const bool NPCEnchanterEnhancedEnchantManager::AllEnchantsInSubCategoryHasProfes
 }
 
 //Check if all enchants are locked behind profession, to lock the whole category.
-const std::string NPCEnchanterEnhancedEnchantManager::GetProfessionLockedPhrase(uint32 subCategoryId) const
+std::string NPCEnchanterEnhancedEnchantManager::GetProfessionLockedPhrase(uint32 subCategoryId) const
 {
     for (const auto& cat : m_enchantDatabase)
     {

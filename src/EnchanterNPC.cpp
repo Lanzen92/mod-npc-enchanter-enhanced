@@ -3,6 +3,7 @@
 
 
 #include "Chat.h"
+#include "EnchanterCommon.h"
 #include "GameEventMgr.h"
 #include "GridNotifiers.h"
 #include "GridNotifiersImpl.h"
@@ -14,7 +15,9 @@
 #include "Unit.h"
 #include "ConfigManager.h"
 #include "EnchantManager.h"
-#include "helper.h"
+#include "PriceHelper.h"
+#include "ValidationHelper.h"
+#include "EnchanterCommon.h"
 
 class NPCEnchanterEnhancedAnnouncer : public PlayerScript {
 
@@ -147,53 +150,19 @@ class NPCEnchanterEnhanced : public CreatureScript {
                         parentCategoryId = cat.enchantCategoryId;
                         for (const auto& enchant : subCat.enchants)
                         {
-                            bool isEnchantLocked = false;
-                            std::string enchantLockReason = "";
-                            std::string priceString = "";
-
-                            //Todo
-                            //Check Phases
-                            //Check levelRequirement
-                            //Check itemLevelRequirements
-                            //Check if correct weapon for enchant (Now we can applie 2H on 1H etc)
-
-                            //Check for profession requirements
-                            if (NPCEnchanterEnhancedLockProfessionEnchants && !enchant.professionRequirement.empty())
-                            {
-                                SkillType reqSkill = GetProfessionSkillTypeFromString(enchant.professionRequirement);
-                                if (reqSkill != SKILL_NONE)
-                                {
-                                    if (!player->HasSkill(reqSkill) || player->GetSkillValue(reqSkill) < enchant.professionSkillRequirement)
-                                    {
-                                        isEnchantLocked = true;
-                                        enchantLockReason = " (Requires " + std::to_string(enchant.professionSkillRequirement) + " " + enchant.professionRequirement + ")";
-                                    }
-                                }
-                            }
-
-                            //If enabled, add gold costs.
-                            if (!NPCEnchanterEnhancedFreeEnchants || NPCEnchanterEnhancedDynamicPricesOnEnchants)
-                            {
-                                priceString = enchant.cost > 0 ? "   |cffffd700(" + std::to_string(enchant.cost) + "g)|r" : "";
-                                uint64 totalCostCopper = GOLD(enchant.cost);
-                                if (player->GetMoney() < totalCostCopper)
-                                {
-                                    isEnchantLocked = true;
-                                    enchantLockReason = " (Not enough gold)";
-                                }
-                            }
+                            EnchantValidationResult validation = ValidationHelper::ValidateEnchant(player, subCategoryId, enchant);
 
                             uint32 gossipAction = (subCategoryId << 16) | (enchant.enchantId & 0xFFFF);
                             std::string label;
 
-                            if (isEnchantLocked)
+                            if (validation.isLocked)
                             {
-                                label = "|cff808080" + enchant.name + enchantLockReason + "|r";
+                                label = "|cff808080" + enchant.name + validation.reason + "|r";
                                 gossipAction = 99998; // Dummy action
                             }
                             else
                             {
-                                label = enchant.name + priceString;
+                                label = enchant.name + validation.priceString;
                             }
 
                             AddGossipItemFor(player, GOSSIP_ICON_BATTLE, label, GOSSIP_SENDER_MAIN, gossipAction);
@@ -223,8 +192,8 @@ class NPCEnchanterEnhanced : public CreatureScript {
             uint8 slot = GetEquipmentSlotFromSubCategory(owningSubCategoryId);
             Item* targetItem = player->GetItemByPos(INVENTORY_SLOT_BAG_0, slot);
 
-            LOG_INFO("server.loading", "Resolved SubCat {} to Equipment Slot {}. Item found: {}",
-                owningSubCategoryId, slot, targetItem ? targetItem->GetTemplate()->Name1.c_str() : "nullptr");
+            // LOG_INFO("server.loading", "Resolved SubCat {} to Equipment Slot {}. Item found: {}",
+            //     owningSubCategoryId, slot, targetItem ? targetItem->GetTemplate()->Name1.c_str() : "nullptr");
 
             Enchant(player, creature, targetItem, selectedEnchant);
             return true;
@@ -232,7 +201,6 @@ class NPCEnchanterEnhanced : public CreatureScript {
 
         return true;
     }
-
 
     void Enchant(Player* player, Creature* creature, Item* item, const EnchantDefinition* enchant)
     {
@@ -255,10 +223,10 @@ class NPCEnchanterEnhanced : public CreatureScript {
 
         if (!NPCEnchanterEnhancedFreeEnchants || NPCEnchanterEnhancedDynamicPricesOnEnchants)
         {
-            uint64 costInCopper = GetEnchantPriceInCopper(enchant);
+            uint64 costInCopper = PriceHelper::GetEnchantPriceInCopper(enchant);
             if (player->GetMoney() < costInCopper)
             {
-                creature->Whisper("You do not have enough gold for this enchantment!", LANG_UNIVERSAL, player);
+                creature->Whisper("You do not have enough gold for this enchant!", LANG_UNIVERSAL, player);
                 return;
             }
 
@@ -270,71 +238,6 @@ class NPCEnchanterEnhanced : public CreatureScript {
 
         creature->CastSpell(player, 12512);
         player->PlayerTalkClass->SendCloseGossip();
-    }
-
-    //Move to helper
-    SkillType static GetProfessionSkillTypeFromString(const std::string& profName)
-    {
-        if (profName == "Enchanting")   return SKILL_ENCHANTING;
-        if (profName == "Engineering")  return SKILL_ENGINEERING;
-        if (profName == "Blacksmithing") return SKILL_BLACKSMITHING;
-        if (profName == "Tailoring")    return SKILL_TAILORING;
-        if (profName == "Leatherworking") return SKILL_LEATHERWORKING;
-        if (profName == "Alchemy")      return SKILL_ALCHEMY;
-        if (profName == "Herbalism")    return SKILL_HERBALISM;
-        if (profName == "Mining")       return SKILL_MINING;
-        if (profName == "Skinning")     return SKILL_SKINNING;
-        if (profName == "Inscription")  return SKILL_INSCRIPTION;
-        if (profName == "Jewelcrafting") return SKILL_JEWELCRAFTING;
-
-        return SKILL_NONE;
-    }
-    //Move to helper
-    EquipmentSlots static GetEquipmentSlotFromSubCategory(uint32 subCat)
-    {
-        switch (subCat)
-        {
-            case EnchantSubCategory::Weapon_1H_Melee:
-            case EnchantSubCategory::Weapon_1H_Caster:
-            case EnchantSubCategory::Weapon_2H_Melee:
-            case EnchantSubCategory::Weapon_2H_Caster:
-                return EquipmentSlots::EQUIPMENT_SLOT_MAINHAND;
-
-            case EnchantSubCategory::Weapon_1H_Melee_Offhand:
-                return EquipmentSlots::EQUIPMENT_SLOT_OFFHAND;
-
-            case EnchantSubCategory::Weapon_Ranged:
-                return EquipmentSlots::EQUIPMENT_SLOT_RANGED;
-
-            case EnchantSubCategory::Subtype_Shield:
-                return EquipmentSlots::EQUIPMENT_SLOT_OFFHAND;
-
-            case EnchantSubCategory::Armor_Helm:
-                return EquipmentSlots::EQUIPMENT_SLOT_HEAD;
-            case EnchantSubCategory::Armor_Shoulders:
-                return EquipmentSlots::EQUIPMENT_SLOT_SHOULDERS;
-            case EnchantSubCategory::Armor_Cloak:
-                return EquipmentSlots::EQUIPMENT_SLOT_BACK;
-            case EnchantSubCategory::Armor_Chest:
-                return EquipmentSlots::EQUIPMENT_SLOT_CHEST;
-            case EnchantSubCategory::Armor_Waist:
-                return EquipmentSlots::EQUIPMENT_SLOT_WAIST;
-            case EnchantSubCategory::Armor_Bracers:
-                return EquipmentSlots::EQUIPMENT_SLOT_WRISTS;
-            case EnchantSubCategory::Armor_Gloves:
-                return EquipmentSlots::EQUIPMENT_SLOT_HANDS;
-            case EnchantSubCategory::Armor_Legs:
-                return EquipmentSlots::EQUIPMENT_SLOT_LEGS;
-            case EnchantSubCategory::Armor_Boots:
-                return EquipmentSlots::EQUIPMENT_SLOT_FEET;
-            case EnchantSubCategory::Armor_Ring_Slot1:
-                return EquipmentSlots::EQUIPMENT_SLOT_FINGER1;
-            case EnchantSubCategory::Armor_Ring_Slot2:
-                return EquipmentSlots::EQUIPMENT_SLOT_FINGER2;
-
-            default:
-                return EquipmentSlots::EQUIPMENT_SLOT_MAINHAND;
-        }
     }
 };
 

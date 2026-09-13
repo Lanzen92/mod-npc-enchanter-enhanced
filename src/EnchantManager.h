@@ -1,7 +1,4 @@
-﻿#ifndef ENCHANT_MANAGER_H
-#define ENCHANT_MANAGER_H
-
-#pragma once
+﻿#pragma once
 
 #include "Define.h"
 #include <string>
@@ -76,8 +73,8 @@ public:
 
     const std::vector<EnchantCategoryDefinition>& GetEnchantDatabase() const;
     const EnchantDefinition* GetEnchantDefinition(uint32 enchantId) const;
-    const bool AllEnchantsInSubCategoryHasProfessionRequirements(uint32 subCategoryId) const;
-    const std::string GetProfessionLockedPhrase(uint32 subCategoryId) const;
+    bool AllEnchantsInSubCategoryHasProfessionRequirements(uint32 subCategoryId) const;
+    std::string GetProfessionLockedPhrase(uint32 subCategoryId) const;
 
 private:
     NPCEnchanterEnhancedEnchantManager();
@@ -86,4 +83,3 @@ private:
 
 #define sEnchantManager NPCEnchanterEnhancedEnchantManager::instance()
 
-#endif // ENCHANT_MANAGER_H

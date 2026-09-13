@@ -3,8 +3,6 @@
 #include "Config.h"
 #include "ScriptMgr.h"
 
-
-
 extern const uint32 NPCEnchanter_ID = 602050;
 bool NPCEnchanterEnhancedEnabled = false;
 bool NPCEnchanterEnhancedAnnounce= false;
