@@ -6,7 +6,6 @@
 #include <string>
 #include "EnchantManager.h"
 
-// Forward or direct inline functions
 inline SkillType GetProfessionSkillTypeFromString(const std::string& profName)
 {
     if (profName == "Enchanting")   return SKILL_ENCHANTING;

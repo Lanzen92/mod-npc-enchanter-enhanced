@@ -10,60 +10,105 @@
 
 # -------------------------------------------------------------------------------------
 #  Enable the module
+#
 #  Enable : 1
 #  Disable: 0
 # -------------------------------------------------------------------------------------
-Enable = 1
+NPCEnchanterEnhanced.Enable = 1
 
 # -------------------------------------------------------------------------------------
+#  Announce
+#
 #  Announce the module when the player logs in?
 #  Enable : 1
 #  Disable: 0
 # -------------------------------------------------------------------------------------
-Announce = 1
+NPCEnchanterEnhanced.Announce = 1
 
 # -------------------------------------------------------------------------------------
+#
+#  NPC Settings
+#
+# -------------------------------------------------------------------------------------
+#  SpawnableByAnyone
+#
 #  If the NPC should be spawnable for anyone.
 #  Enable : 1 (Any player can summon the enchanter)
 #  Disable: 0 (Only GM/Admin can summon the enchanter)
 # -------------------------------------------------------------------------------------
-SpawnableByAnyone = 1
+NPCEnchanterEnhanced.SpawnableByAnyone = 1
 
 # -------------------------------------------------------------------------------------
-#  DespawnTimer in seconds
+#  DespawnTimerInSeconds
+#
+#  NPC DespawnTimer in seconds
 #  0 = Dont despawn.
 #  1+ = Despawn after x seconds.
 #  Default: 90
 # -------------------------------------------------------------------------------------
-DespawnTimerInSeconds = 90
+NPCEnchanterEnhanced.DespawnTimerInSeconds = 90
 
 # -------------------------------------------------------------------------------------
+#  GateProfessionEnchants
+#
 #  Require the player to have correct profession and skill for enchants that require those.
 #  for example Rocket Boots (Engineering), ring enchants (Enchanting) etc
 #  Enable : 1
 #  Disable: 0
 #  Default: 1
 # -------------------------------------------------------------------------------------
-GateProfessionEnchants = 1
+NPCEnchanterEnhanced.GateProfessionEnchants = 1
 
 # -------------------------------------------------------------------------------------
-#  Lock enchants that did not exist on the players current IP-phase.
-#  Enable : 1
+#
+#  Phases
+#  Lock enchants that was not available in the current phase.
+#  1-6 Vanilla
+#  7-12 TBC
+#  13-17 WOTLK
+#
+# -------------------------------------------------------------------------------------
+#  NPCEnchanterEnhancedPhase
+#
+#  Only enable enchants that were available during this phase (Or lower)
+#  Enable: 1-17
 #  Disable: 0
 # -------------------------------------------------------------------------------------
-IndividualProgression = 1
-
+NPCEnchanterEnhanced.NPCEnchanterEnhancedPhase = 1
+#
 # -------------------------------------------------------------------------------------
+#  IndividualProgression - !! This will override NPCEnchanterEnhancedPhase !!
+#
+#  Only enable enchants that were available during the player's current IndividualProgression phase.
+#  Uses the same achievements as the IndividualProgression-module for phases.
+#  Enable: 1-17
+#  Disable: 0
+# -------------------------------------------------------------------------------------
+NPCEnchanterEnhanced.IndividualProgression = 1
+#
+#-------------------------------------------------------------------------------------
+
+#-------------------------------------------------------------------------------------
+#
+#  Prices
+#
+# -------------------------------------------------------------------------------------
+#  FreeEnchants
+#
 #  Enable free enchants
 #  Enable : 1 Enchants are free.
 #  Disable: 0 Enchants cost gold.
 # -------------------------------------------------------------------------------------
-FreeEnchants = 0
-
+NPCEnchanterEnhanced.FreeEnchants = 0
+#
 # -------------------------------------------------------------------------------------
+#  DynamicPricesOnEnchants - !! This will override FreeEnchants !!
+#
 #  Enable dynamic prices on enchants (Requires populated AH.) Not implemented yet.
-#  Overrides FreeEnchants.
 #  Enable : 1
 #  Disable: 0
 # -------------------------------------------------------------------------------------
-DynamicPricesOnEnchants = 0
+NPCEnchanterEnhanced.DynamicPricesOnEnchants = 0
+#
+#-------------------------------------------------------------------------------------
+

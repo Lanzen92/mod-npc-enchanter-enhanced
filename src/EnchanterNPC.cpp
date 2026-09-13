@@ -1,6 +1,4 @@
-﻿
-#include <vector>
-
+﻿#include <vector>
 
 #include "Chat.h"
 #include "EnchanterCommon.h"
@@ -38,7 +36,8 @@ class NPCEnchanterEnhanced : public CreatureScript {
     NPCEnchanterEnhanced() : CreatureScript("NPCEnchanterEnhanced") {
     }
 
-    bool OnGossipHello(Player* player, Creature* creature) override {
+    bool OnGossipHello(Player* player, Creature* creature) override
+    {
 
         if (!NPCEnchanterEnhancedEnabled)
             return false;
@@ -60,6 +59,12 @@ class NPCEnchanterEnhanced : public CreatureScript {
     {
         if (!NPCEnchanterEnhancedEnabled)
             return false;
+
+        uint32 currentPhase = 1;
+        if (NPCEnchanterEnhancedIndividualProgression)
+            currentPhase = ValidationHelper::CalculatePlayerPhase(player);
+        else
+            currentPhase = NPCEnchanterEnhancedPhase;
 
         ClearGossipMenuFor(player);
 
@@ -150,14 +155,14 @@ class NPCEnchanterEnhanced : public CreatureScript {
                         parentCategoryId = cat.enchantCategoryId;
                         for (const auto& enchant : subCat.enchants)
                         {
-                            EnchantValidationResult validation = ValidationHelper::ValidateEnchant(player, subCategoryId, enchant);
+                            EnchantValidationResult validation = ValidationHelper::ValidateEnchant(player, subCategoryId, enchant, currentPhase);
 
                             uint32 gossipAction = (subCategoryId << 16) | (enchant.enchantId & 0xFFFF);
                             std::string label;
 
                             if (validation.isLocked)
                             {
-                                label = "|cff808080" + enchant.name + validation.reason + "|r";
+                                label = "|cff808080" + enchant.name + " — " + validation.reason + "|r";
                                 gossipAction = 99998; // Dummy action
                             }
                             else

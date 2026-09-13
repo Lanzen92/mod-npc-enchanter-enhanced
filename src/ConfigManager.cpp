@@ -7,9 +7,12 @@ extern const uint32 NPCEnchanter_ID = 602050;
 bool NPCEnchanterEnhancedEnabled = false;
 bool NPCEnchanterEnhancedAnnounce= false;
 bool NPCEnchanterEnhancedSpawnableByAnyone = false;
-uint32 NPCEnchanterEnhancedDespawnTimerInSeconds = 120;
-bool NPCEnchanterEnhancedIndividualProgression = false;
+uint32 NPCEnchanterEnhancedDespawnTimerInSeconds = 90;
 bool NPCEnchanterEnhancedLockProfessionEnchants = false;
+
+bool NPCEnchanterEnhancedIndividualProgression = false;
+uint NPCEnchanterEnhancedPhase = 1;
+
 bool NPCEnchanterEnhancedFreeEnchants = false;
 bool NPCEnchanterEnhancedDynamicPricesOnEnchants = false;
 
@@ -19,8 +22,11 @@ void LoadEnchantConfig(bool /*reload*/)
     NPCEnchanterEnhancedAnnounce = sConfigMgr->GetOption<bool>("NPCEnchanterEnhanced.Announce", true);
     NPCEnchanterEnhancedSpawnableByAnyone = sConfigMgr->GetOption<bool>("NPCEnchanterEnhanced.SpawnableByAnyone", true);
     NPCEnchanterEnhancedDespawnTimerInSeconds = sConfigMgr->GetOption<uint32>("NPCEnchanterEnhanced.DespawnTimerInSeconds", 120);
-    NPCEnchanterEnhancedIndividualProgression = sConfigMgr->GetOption<bool>("NPCEnchanterEnhanced.IndividualProgression", false);
     NPCEnchanterEnhancedLockProfessionEnchants = sConfigMgr->GetOption<bool>("NPCEnchanterEnhanced.LockProfessionEnchants", false);
+
+    NPCEnchanterEnhancedIndividualProgression = sConfigMgr->GetOption<bool>("NPCEnchanterEnhanced.IndividualProgression", false);
+    NPCEnchanterEnhancedPhase = sConfigMgr->GetOption<bool>("NPCEnchanterEnhanced.Phase", false);
+
     NPCEnchanterEnhancedFreeEnchants = sConfigMgr->GetOption<bool>("NPCEnchanterEnhanced.FreeEnchants", false);
     NPCEnchanterEnhancedDynamicPricesOnEnchants = sConfigMgr->GetOption<bool>("NPCEnchanterEnhanced.DynamicPricesOnEnchants", false);
 };
