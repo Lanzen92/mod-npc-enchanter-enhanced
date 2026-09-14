@@ -8,7 +8,7 @@ struct EnchantDefinition;
 
 enum ProgressionAchievements
 {
-    KEL_THUZAD_40_KILL   = 533, //Vanilla
+    KEL_THUZAD_40_KILL   = 533, // Vanilla
     KEL_THUZAD_KILL      = 575, // WotLK
     ONYXIA_KILL          = 684,
     NEFARIAN_KILL        = 685,
@@ -28,18 +28,21 @@ struct EnchantValidationResult {
     bool isLocked = false;
     std::string reason = "";
     std::string priceString = "";
+    bool showEnchant = true;
 };
 
 class ValidationHelper
 {
-    static bool CheckEquipment(const Player* player, uint32 subCatId, std::string& reason);
-    static bool CheckProfession(const Player* player, const EnchantDefinition& enchant, std::string& reason);
-    static bool CheckGold(const Player* player, const EnchantDefinition& enchant, std::string& reason, std::string& priceString);
-    static bool CheckPhase(uint32 playerPhase, const EnchantDefinition& enchant, std::string& reason);
-    static bool CheckLevel(const Player* player, const EnchantDefinition& enchant, std::string& reason);
-    static bool CheckItemLevel(const Player* player, uint32 subCatId, const EnchantDefinition& enchant, std::string& reason);
+    static bool ValidateEquipment(const Player* player, uint32 subCatId, std::string& reason);
+    static bool ValidateProfession(const Player* player, const EnchantDefinition& enchant, std::string& reason);
+    static bool ValidateGold(const Player* player, const EnchantDefinition& enchant, std::string& reason, std::string& priceString);
+    static bool ValidatePhase(uint32 playerPhase, const EnchantDefinition& enchant, std::string& reason);
+    static bool ValidateLevel(const Player* player, const EnchantDefinition& enchant, std::string& reason);
+    static bool ValidateItemLevel(const Player* player, uint32 subCatId, const EnchantDefinition& enchant, std::string& reason);
+    static bool ValidatePlayerClass(const Player* player, const EnchantDefinition& enchant, std::string& reason);
+    static bool FilterTier(const EnchantDefinition& enchant, const std::string& allowedTiersConfig);
 
 public:
-    static EnchantValidationResult ValidateEnchant(const Player* player, uint32 subCatId, const EnchantDefinition& enchant, const uint32 currentPhase);
-    static uint32 CalculatePlayerPhase(const Player* player);
+    static EnchantValidationResult EvaluateEnchant(const Player* player, uint32 subCatId, const EnchantDefinition& enchant, const uint32 currentPhase);
+    static uint32 GetPlayerPhase(const Player* player);
 };

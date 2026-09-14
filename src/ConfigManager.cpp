@@ -3,29 +3,52 @@
 #include "Config.h"
 #include "ScriptMgr.h"
 
-extern const uint32 NPCEnchanter_ID = 602050;
+//Global
+extern const uint32 NPCEnchanterID = 602050;
+
+//Confvalues
 bool NPCEnchanterEnhancedEnabled = false;
 bool NPCEnchanterEnhancedAnnounce= false;
+
+//Filtering
+bool NPCEnchanterEnhancedIgnoreProfessionRequirements = false;
+bool NPCEnchanterEnhancedIgnoreLevelRequirements = false;
+bool NPCEnchanterEnhancedIgnoreItemLevelRequirements = false;
+bool NPCEnchanterEnhancedIgnoreClassRequirements = false;
+std::string NPCEnchanterEnhancedTiersToShow = "Leveling, Preraid, Raid";
+bool NPCEnchanterEnhancedHideUnavailableEnchants = false;
+
+//NPC
 bool NPCEnchanterEnhancedSpawnableByAnyone = false;
 uint32 NPCEnchanterEnhancedDespawnTimerInSeconds = 90;
-bool NPCEnchanterEnhancedLockProfessionEnchants = false;
 
+//Phases
 bool NPCEnchanterEnhancedIndividualProgression = false;
-uint NPCEnchanterEnhancedPhase = 1;
+uint32 NPCEnchanterEnhancedPhase = 1;
 
+//Prices
 bool NPCEnchanterEnhancedFreeEnchants = false;
 bool NPCEnchanterEnhancedDynamicPricesOnEnchants = false;
+
+
 
 void LoadEnchantConfig(bool /*reload*/)
 {
     NPCEnchanterEnhancedEnabled = sConfigMgr->GetOption<bool>("NPCEnchanterEnhanced.Enabled", true);
     NPCEnchanterEnhancedAnnounce = sConfigMgr->GetOption<bool>("NPCEnchanterEnhanced.Announce", true);
+
+    NPCEnchanterEnhancedIgnoreProfessionRequirements = sConfigMgr->GetOption<bool>("NPCEnchanterEnhanced.IgnoreProfessionRequirements", false);
+    NPCEnchanterEnhancedIgnoreLevelRequirements = sConfigMgr->GetOption<bool>("NPCEnchanterEnhanced.IgnoreLevelRequirements", false);
+    NPCEnchanterEnhancedIgnoreItemLevelRequirements = sConfigMgr->GetOption<bool>("NPCEnchanterEnhanced.IgnoreItemLevelRequirements", false);
+    NPCEnchanterEnhancedIgnoreClassRequirements = sConfigMgr->GetOption<bool>("NPCEnchanterEnhanced.IgnoreClassRequirements", false);
+    NPCEnchanterEnhancedTiersToShow = sConfigMgr->GetOption<std::string>("NPCEnchanterEnhanced.TiersToShow", "Leveling, PreRaid, Raid");
+    NPCEnchanterEnhancedHideUnavailableEnchants = sConfigMgr->GetOption<bool>("NPCEnchanterEnhanced.HideUnavailableEnchants", false);
+
     NPCEnchanterEnhancedSpawnableByAnyone = sConfigMgr->GetOption<bool>("NPCEnchanterEnhanced.SpawnableByAnyone", true);
     NPCEnchanterEnhancedDespawnTimerInSeconds = sConfigMgr->GetOption<uint32>("NPCEnchanterEnhanced.DespawnTimerInSeconds", 120);
-    NPCEnchanterEnhancedLockProfessionEnchants = sConfigMgr->GetOption<bool>("NPCEnchanterEnhanced.LockProfessionEnchants", false);
 
     NPCEnchanterEnhancedIndividualProgression = sConfigMgr->GetOption<bool>("NPCEnchanterEnhanced.IndividualProgression", false);
-    NPCEnchanterEnhancedPhase = sConfigMgr->GetOption<bool>("NPCEnchanterEnhanced.Phase", false);
+    NPCEnchanterEnhancedPhase = sConfigMgr->GetOption<uint32>("NPCEnchanterEnhanced.Phase", 1);
 
     NPCEnchanterEnhancedFreeEnchants = sConfigMgr->GetOption<bool>("NPCEnchanterEnhanced.FreeEnchants", false);
     NPCEnchanterEnhancedDynamicPricesOnEnchants = sConfigMgr->GetOption<bool>("NPCEnchanterEnhanced.DynamicPricesOnEnchants", false);

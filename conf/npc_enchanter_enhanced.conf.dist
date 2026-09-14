@@ -37,7 +37,7 @@ NPCEnchanterEnhanced.Announce = 1
 #  Disable: 0 (Only GM/Admin can summon the enchanter)
 # -------------------------------------------------------------------------------------
 NPCEnchanterEnhanced.SpawnableByAnyone = 1
-
+#
 # -------------------------------------------------------------------------------------
 #  DespawnTimerInSeconds
 #
@@ -48,16 +48,54 @@ NPCEnchanterEnhanced.SpawnableByAnyone = 1
 # -------------------------------------------------------------------------------------
 NPCEnchanterEnhanced.DespawnTimerInSeconds = 90
 
+
 # -------------------------------------------------------------------------------------
-#  GateProfessionEnchants
 #
-#  Require the player to have correct profession and skill for enchants that require those.
-#  for example Rocket Boots (Engineering), ring enchants (Enchanting) etc
-#  Enable : 1
-#  Disable: 0
-#  Default: 1
+#  Filtering - Ignore different requirements
+#
 # -------------------------------------------------------------------------------------
-NPCEnchanterEnhanced.GateProfessionEnchants = 1
+#  IgnoreProfessionRequirements
+#
+#  Ignore profession requirements.
+#  for example Rocket Boots (Engineering), ring enchants (Enchanting) etc
+#  Enable : 1 - Ignores requirements
+#  Disable: 0
+# -------------------------------------------------------------------------------------
+NPCEnchanterEnhanced.IgnoreProfessionRequirements = 0
+#
+# -------------------------------------------------------------------------------------
+#  IgnoreLevelRequirements
+#
+#  Ignore level requirements.
+#  Scopes in vanilla etc.
+#  Enable : 1 - Ignores requirements
+#  Disable: 0
+# -------------------------------------------------------------------------------------
+NPCEnchanterEnhanced.IgnoreLevelRequirements = 0
+#
+# -------------------------------------------------------------------------------------
+#  IgnoreItemLevelRequirements
+#
+#  Ignore itemlevel requirements.
+#  Enable : 1 - Ignores requirements
+#  Disable: 0
+# -------------------------------------------------------------------------------------
+NPCEnchanterEnhanced.IgnoreItemLevelRequirements = 0
+#
+# -------------------------------------------------------------------------------------
+#  TiersToShow
+#
+#   Raid: Crusader, +15 agility, 30+ spellpower, 55+ healing etc
+#   PreRaid:
+#   Leveling: Low-level enchants like Striking, Impact, Lesser Spirit etc
+#
+#  Ignore itemlevel requirements.
+#  Show all tiers: "Leveling, PreRaid, Raid"
+#
+# -------------------------------------------------------------------------------------
+NPCEnchanterEnhanced.TiersToShow = "Leveling, PreRaid, Raid"
+#
+
 
 # -------------------------------------------------------------------------------------
 #
@@ -71,7 +109,7 @@ NPCEnchanterEnhanced.GateProfessionEnchants = 1
 #  NPCEnchanterEnhancedPhase
 #
 #  Only enable enchants that were available during this phase (Or lower)
-#  Enable: 1-17
+#  Enable : 1-17w
 #  Disable: 0
 # -------------------------------------------------------------------------------------
 NPCEnchanterEnhanced.NPCEnchanterEnhancedPhase = 1
@@ -81,7 +119,7 @@ NPCEnchanterEnhanced.NPCEnchanterEnhancedPhase = 1
 #
 #  Only enable enchants that were available during the player's current IndividualProgression phase.
 #  Uses the same achievements as the IndividualProgression-module for phases.
-#  Enable: 1-17
+#  Enable : 1
 #  Disable: 0
 # -------------------------------------------------------------------------------------
 NPCEnchanterEnhanced.IndividualProgression = 1

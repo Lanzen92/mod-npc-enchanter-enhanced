@@ -56,7 +56,7 @@ public:
         //Rotate facing the player
         float spawnOrientation = o + float(M_PI);
 
-        if (Creature* enchanter = player->SummonCreature(NPCEnchanter_ID, spawnX, spawnY, z, spawnOrientation, TEMPSUMMON_TIMED_DESPAWN, NPCEnchanterEnhancedDespawnTimerInMS))
+        if (Creature* enchanter = player->SummonCreature(NPCEnchanterID, spawnX, spawnY, z, spawnOrientation, TEMPSUMMON_TIMED_DESPAWN, NPCEnchanterEnhancedDespawnTimerInMS))
         {
             handler->SendSysMessage(enchanter->GetName() + " spawned. Despawns in " + std::to_string(NPCEnchanterEnhancedDespawnTimerInSeconds) + " seconds.");
             enchanter->Say("Greetings, champion! Ready to imbue your gear?", LANG_UNIVERSAL, 0);
@@ -76,7 +76,7 @@ public:
         if (!NPCEnchanterEnhancedSpawnableByAnyone && handler->GetSession()->GetSecurity() < SEC_GAMEMASTER)
             return false;
 
-        Creature* enchanter = player->FindNearestCreature(NPCEnchanter_ID, 30.0f, true);
+        Creature* enchanter = player->FindNearestCreature(NPCEnchanterID, 30.0f, true);
         if (enchanter)
         {
             if (enchanter->IsSummon() && enchanter->ToTempSummon()->GetSummonerGUID() == player->GetGUID())
@@ -87,7 +87,7 @@ public:
             }
         }
 
-        handler->SendSysMessage("Enchanter entity not found.. You may need to be closer to it.");
+        handler->SendSysMessage("Enchanter entity not found.. You may need to be closer to him.");
         return true;
     }
 
@@ -98,7 +98,7 @@ public:
             return false;
 
         std::string creatureName = "";
-        CreatureTemplate const* cInfo = sObjectMgr->GetCreatureTemplate(NPCEnchanter_ID);
+        CreatureTemplate const* cInfo = sObjectMgr->GetCreatureTemplate(NPCEnchanterID);
         if (cInfo)
         {
             creatureName = cInfo->Name;
@@ -143,7 +143,7 @@ public:
         handler->SendSysMessage("NPCEnchanterEnhanced.SpawnableByAnyone: " + std::to_string(NPCEnchanterEnhancedSpawnableByAnyone));
         handler->SendSysMessage("NPCEnchanterEnhanced.DespawnTimerInSeconds: " + std::to_string(NPCEnchanterEnhancedDespawnTimerInSeconds));
         handler->SendSysMessage("NPCEnchanterEnhanced.IndividualProgression: " + std::to_string(NPCEnchanterEnhancedIndividualProgression));
-        handler->SendSysMessage("NPCEnchanterEnhanced.LockProfessionEnchants: " + std::to_string(NPCEnchanterEnhancedLockProfessionEnchants));
+        handler->SendSysMessage("NPCEnchanterEnhanced.LockProfessionEnchants: " + std::to_string(NPCEnchanterEnhancedIgnoreProfessionRequirements));
         handler->SendSysMessage("NPCEnchanterEnhanced.FreeEnchants: " + std::to_string(NPCEnchanterEnhancedFreeEnchants));
         handler->SendSysMessage("NPCEnchanterEnhanced.DynamicPricesOnEnchants: " + std::to_string(NPCEnchanterEnhancedDynamicPricesOnEnchants));
         return true;

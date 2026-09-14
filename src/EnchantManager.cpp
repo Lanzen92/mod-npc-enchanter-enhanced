@@ -21,22 +21,22 @@ NPCEnchanterEnhancedEnchantManager::NPCEnchanterEnhancedEnchantManager()
                     .name = "One-Handed Melee",
                     .icon = "inv_sword_39",
                     .enchants = {
-                        EnchantDefinition{ 1900, "Crusader", EnchantTier::Raid, "", 0, 0, 0, 1, 150 },
-                        EnchantDefinition{ 2563, "Strength (+15 Strength)", EnchantTier::Raid, "", 0, 0, 0, 5, 200 },
-                        EnchantDefinition{ 2564, "Agility (+15 Agility)", EnchantTier::Raid, "", 0, 0, 0, 5, 200 },
-                        EnchantDefinition{ 803,  "Fiery Weapon", EnchantTier::PreRaid, "", 0, 0, 0, 1, 50 },
-                        EnchantDefinition{ 1899, "Unholy Weapon", EnchantTier::PreRaid, "", 0, 0, 0, 1, 50 },
-                        EnchantDefinition{ 1898, "Lifestealing", EnchantTier::PreRaid, "", 0, 0, 0, 1, 50 },
-                        EnchantDefinition{ 912,  "Demonslaying", EnchantTier::PreRaid, "", 0, 0, 0, 1, 50 },
-                        EnchantDefinition{ 1894, "Icy Weapon", EnchantTier::PreRaid, "", 0, 0, 0, 1, 50 },
-                        EnchantDefinition{ 1897, "Superior Striking (+5 Damage)", EnchantTier::Leveling, "", 0, 0, 0, 1, 10 },
-                        EnchantDefinition{ 864,  "Greater Striking (+4 Damage)", EnchantTier::Leveling, "", 0, 0, 0, 1, 10 },
-                        EnchantDefinition{ 943,  "Striking (+3 Damage)", EnchantTier::Leveling, "", 0, 0, 0, 1, 5 },
-                        EnchantDefinition{ 241,  "Lesser Striking (+2 Damage)", EnchantTier::Leveling, "", 0, 0, 0, 1, 5 },
-                        EnchantDefinition{ 250,  "Minor Striking (+1 Damage)", EnchantTier::Leveling, "", 0, 0, 0, 1, 5 },
-                        EnchantDefinition{ 854,  "Lesser Elemental Slayer", EnchantTier::Leveling, "", 0, 0, 0, 1, 5 },
-                        EnchantDefinition{ 190,  "Lesser Beastslayer", EnchantTier::Leveling, "", 0, 0, 0, 1, 5 },
-                        EnchantDefinition{ 188,  "Minor Beastslayer", EnchantTier::Leveling, "", 0, 0, 0, 1, 5 }
+                        EnchantDefinition{ 1900, "Crusader", EnchantTier::Raid, "", Classes::CLASS_NONE, 0, 0, 0, 1, 150 },
+                        EnchantDefinition{ 2563, "Strength (+15 Strength)", EnchantTier::Raid, "", Classes::CLASS_NONE, 0, 0, 0, 5, 200 },
+                        EnchantDefinition{ 2564, "Agility (+15 Agility)", EnchantTier::Raid, "", Classes::CLASS_NONE, 0, 0, 0, 5, 200 },
+                        EnchantDefinition{ 803,  "Fiery Weapon", EnchantTier::PreRaid, "", Classes::CLASS_NONE, 0, 0, 0, 1, 50 },
+                        EnchantDefinition{ 1899, "Unholy Weapon", EnchantTier::PreRaid, "", Classes::CLASS_NONE, 0, 0, 0, 1, 50 },
+                        EnchantDefinition{ 1898, "Lifestealing", EnchantTier::PreRaid, "", Classes::CLASS_NONE, 0, 0, 0, 1, 50 },
+                        EnchantDefinition{ 912,  "Demonslaying", EnchantTier::PreRaid, "", Classes::CLASS_NONE, 0, 0, 0, 1, 50 },
+                        EnchantDefinition{ 1894, "Icy Weapon", EnchantTier::PreRaid, "", Classes::CLASS_NONE, 0, 0, 0, 1, 50 },
+                        EnchantDefinition{ 1897, "Superior Striking (+5 Damage)", EnchantTier::Leveling, "", Classes::CLASS_NONE, 0, 0, 0, 1, 10 },
+                        EnchantDefinition{ 864,  "Greater Striking (+4 Damage)", EnchantTier::Leveling, "", Classes::CLASS_NONE, 0, 0, 0, 1, 10 },
+                        EnchantDefinition{ 943,  "Striking (+3 Damage)", EnchantTier::Leveling, "", Classes::CLASS_NONE, 0, 0, 0, 1, 5 },
+                        EnchantDefinition{ 241,  "Lesser Striking (+2 Damage)", EnchantTier::Leveling, "", Classes::CLASS_NONE, 0, 0, 0, 1, 5 },
+                        EnchantDefinition{ 250,  "Minor Striking (+1 Damage)", EnchantTier::Leveling, "", Classes::CLASS_NONE, 0, 0, 0, 1, 5 },
+                        EnchantDefinition{ 854,  "Lesser Elemental Slayer", EnchantTier::Leveling, "", Classes::CLASS_NONE, 0, 0, 0, 1, 5 },
+                        EnchantDefinition{ 190,  "Lesser Beastslayer", EnchantTier::Leveling, "", Classes::CLASS_NONE, 0, 0, 0, 1, 5 },
+                        EnchantDefinition{ 188,  "Minor Beastslayer", EnchantTier::Leveling, "", Classes::CLASS_NONE, 0, 0, 0, 1, 5 }
                     }
                 },
                 EnchantSubCategoryDefinition {
@@ -44,22 +44,22 @@ NPCEnchanterEnhancedEnchantManager::NPCEnchanterEnhancedEnchantManager()
                     .name = "Offhand",
                     .icon = "inv_weapon_shortblade_03",
                     .enchants = {
-                        EnchantDefinition{ 1900, "Crusader", EnchantTier::Raid, "", 0, 0, 0, 1, 150 },
-                        EnchantDefinition{ 2563, "Strength (+15 Strength)", EnchantTier::Raid, "", 0, 0, 0, 5, 200 },
-                        EnchantDefinition{ 2564, "Agility (+15 Agility)", EnchantTier::Raid, "", 0, 0, 0, 5, 200 },
-                        EnchantDefinition{ 803,  "Fiery Weapon", EnchantTier::PreRaid, "", 0, 0, 0, 1, 50 },
-                        EnchantDefinition{ 1899, "Unholy Weapon", EnchantTier::PreRaid, "", 0, 0, 0, 1, 50 },
-                        EnchantDefinition{ 1898, "Lifestealing", EnchantTier::PreRaid, "", 0, 0, 0, 1, 50 },
-                        EnchantDefinition{ 912,  "Demonslaying", EnchantTier::PreRaid, "", 0, 0, 0, 1, 50 },
-                        EnchantDefinition{ 1894, "Icy Weapon", EnchantTier::PreRaid, "", 0, 0, 0, 1, 50 },
-                        EnchantDefinition{ 1897, "Superior Striking (+5 Damage)", EnchantTier::Leveling, "", 0, 0, 0, 1, 10 },
-                        EnchantDefinition{ 864,  "Greater Striking (+4 Damage)", EnchantTier::Leveling, "", 0, 0, 0, 1, 10 },
-                        EnchantDefinition{ 943,  "Striking (+3 Damage)", EnchantTier::Leveling, "", 0, 0, 0, 1, 5 },
-                        EnchantDefinition{ 241,  "Lesser Striking (+2 Damage)", EnchantTier::Leveling, "", 0, 0, 0, 1, 5 },
-                        EnchantDefinition{ 250,  "Minor Striking (+1 Damage)", EnchantTier::Leveling, "", 0, 0, 0, 1, 5 },
-                        EnchantDefinition{ 854,  "Lesser Elemental Slayer", EnchantTier::Leveling, "", 0, 0, 0, 1, 5 },
-                        EnchantDefinition{ 190,  "Lesser Beastslayer", EnchantTier::Leveling, "", 0, 0, 0, 1, 5 },
-                        EnchantDefinition{ 188,  "Minor Beastslayer", EnchantTier::Leveling, "", 0, 0, 0, 1, 5 }
+                        EnchantDefinition{ 1900, "Crusader", EnchantTier::Raid, "", Classes::CLASS_NONE, 0, 0, 0, 1, 150 },
+                        EnchantDefinition{ 2563, "Strength (+15 Strength)", EnchantTier::Raid, "", Classes::CLASS_NONE, 0, 0, 0, 5, 200 },
+                        EnchantDefinition{ 2564, "Agility (+15 Agility)", EnchantTier::Raid, "", Classes::CLASS_NONE, 0, 0, 0, 5, 200 },
+                        EnchantDefinition{ 803,  "Fiery Weapon", EnchantTier::PreRaid, "", Classes::CLASS_NONE, 0, 0, 0, 1, 50 },
+                        EnchantDefinition{ 1899, "Unholy Weapon", EnchantTier::PreRaid, "", Classes::CLASS_NONE, 0, 0, 0, 1, 50 },
+                        EnchantDefinition{ 1898, "Lifestealing", EnchantTier::PreRaid, "", Classes::CLASS_NONE, 0, 0, 0, 1, 50 },
+                        EnchantDefinition{ 912,  "Demonslaying", EnchantTier::PreRaid, "", Classes::CLASS_NONE, 0, 0, 0, 1, 50 },
+                        EnchantDefinition{ 1894, "Icy Weapon", EnchantTier::PreRaid, "", Classes::CLASS_NONE, 0, 0, 0, 1, 50 },
+                        EnchantDefinition{ 1897, "Superior Striking (+5 Damage)", EnchantTier::PreRaid, "", Classes::CLASS_NONE, 0, 0, 0, 1, 10 },
+                        EnchantDefinition{ 864,  "Greater Striking (+4 Damage)", EnchantTier::Leveling, "", Classes::CLASS_NONE, 0, 0, 0, 1, 10 },
+                        EnchantDefinition{ 943,  "Striking (+3 Damage)", EnchantTier::Leveling, "", Classes::CLASS_NONE, 0, 0, 0, 1, 5 },
+                        EnchantDefinition{ 241,  "Lesser Striking (+2 Damage)", EnchantTier::Leveling, "", Classes::CLASS_NONE, 0, 0, 0, 1, 5 },
+                        EnchantDefinition{ 250,  "Minor Striking (+1 Damage)", EnchantTier::Leveling, "", Classes::CLASS_NONE, 0, 0, 0, 1, 5 },
+                        EnchantDefinition{ 854,  "Lesser Elemental Slayer", EnchantTier::Leveling, "", Classes::CLASS_NONE, 0, 0, 0, 1, 5 },
+                        EnchantDefinition{ 190,  "Lesser Beastslayer", EnchantTier::Leveling, "", Classes::CLASS_NONE, 0, 0, 0, 1, 5 },
+                        EnchantDefinition{ 188,  "Minor Beastslayer", EnchantTier::Leveling, "", Classes::CLASS_NONE, 0, 0, 0, 1, 5 }
                     }
                 },
                 EnchantSubCategoryDefinition {
@@ -67,18 +67,18 @@ NPCEnchanterEnhancedEnchantManager::NPCEnchanterEnhancedEnchantManager()
                     .name = "Two-Handed Melee",
                     .icon = "inv_axe_09",
                     .enchants = {
-                        EnchantDefinition{ 1900, "Crusader", EnchantTier::Raid, "", 0, 0, 0, 1, 150 },
-                        EnchantDefinition{ 2646, "Agility (+25 Agility)", EnchantTier::Raid, "", 0, 0, 5, 1, 200 },
-                        EnchantDefinition{ 803,  "Fiery Weapon", EnchantTier::PreRaid, "", 0, 0, 0, 1, 50 },
-                        EnchantDefinition{ 1899, "Unholy Weapon", EnchantTier::PreRaid, "", 0, 0, 0, 1, 50 },
-                        EnchantDefinition{ 1898, "Lifestealing", EnchantTier::PreRaid, "", 0, 0, 0, 1, 50 },
-                        EnchantDefinition{ 912,  "Demonslaying", EnchantTier::PreRaid, "", 0, 0, 0, 1, 50 },
-                        EnchantDefinition{ 1894, "Icy Weapon", EnchantTier::PreRaid, "", 0, 0, 0, 1, 50 },
-                        EnchantDefinition{ 1896, "Superior Impact (+9 Damage)", EnchantTier::Leveling, "", 0, 0, 0, 1, 15 },
-                        EnchantDefinition{ 963,  "Greater Impact (+7 Damage)", EnchantTier::Leveling, "", 0, 0, 0, 1, 10 },
-                        EnchantDefinition{ 1897, "Impact (+5 Damage)", EnchantTier::Leveling, "", 0, 0, 0, 1, 5 },
-                        EnchantDefinition{ 943,  "Lesser Impact (+3 Damage)", EnchantTier::Leveling, "", 0, 0, 0, 1, 5 },
-                        EnchantDefinition{ 241,  "Minor Impact (+2 Damage)", EnchantTier::Leveling, "", 0, 0, 0, 1, 5 }
+                        EnchantDefinition{ 1900, "Crusader", EnchantTier::Raid, "", Classes::CLASS_NONE, 0, 0, 0, 1, 150 },
+                        EnchantDefinition{ 2646, "Agility (+25 Agility)", EnchantTier::Raid, "", Classes::CLASS_NONE, 0, 0, 5, 1, 200 },
+                        EnchantDefinition{ 803,  "Fiery Weapon", EnchantTier::PreRaid, "", Classes::CLASS_NONE, 0, 0, 0, 1, 50 },
+                        EnchantDefinition{ 1899, "Unholy Weapon", EnchantTier::PreRaid, "", Classes::CLASS_NONE, 0, 0, 0, 1, 50 },
+                        EnchantDefinition{ 1898, "Lifestealing", EnchantTier::PreRaid, "", Classes::CLASS_NONE, 0, 0, 0, 1, 50 },
+                        EnchantDefinition{ 912,  "Demonslaying", EnchantTier::PreRaid, "", Classes::CLASS_NONE, 0, 0, 0, 1, 50 },
+                        EnchantDefinition{ 1894, "Icy Weapon", EnchantTier::PreRaid, "", Classes::CLASS_NONE, 0, 0, 0, 1, 50 },
+                        EnchantDefinition{ 1896, "Superior Impact (+9 Damage)", EnchantTier::PreRaid, "", Classes::CLASS_NONE, 0, 0, 0, 1, 15 },
+                        EnchantDefinition{ 963,  "Greater Impact (+7 Damage)", EnchantTier::Leveling, "", Classes::CLASS_NONE, 0, 0, 0, 1, 10 },
+                        EnchantDefinition{ 1897, "Impact (+5 Damage)", EnchantTier::Leveling, "", Classes::CLASS_NONE, 0, 0, 0, 1, 5 },
+                        EnchantDefinition{ 943,  "Lesser Impact (+3 Damage)", EnchantTier::Leveling, "", Classes::CLASS_NONE, 0, 0, 0, 1, 5 },
+                        EnchantDefinition{ 241,  "Minor Impact (+2 Damage)", EnchantTier::Leveling, "", Classes::CLASS_NONE, 0, 0, 0, 1, 5 }
                     }
                 },
                 EnchantSubCategoryDefinition {
@@ -86,11 +86,11 @@ NPCEnchanterEnhancedEnchantManager::NPCEnchanterEnhancedEnchantManager()
                     .name = "One-Handed Caster",
                     .icon = "inv_weapon_shortblade_37",
                     .enchants = {
-                        EnchantDefinition{ 2505, "Healing Power (+55 Healing Power)", EnchantTier::Raid, "", 0, 0, 0, 1, 200 },
-                        EnchantDefinition{ 2332, "Spell Power (+30 Spell Power)", EnchantTier::Raid, "", 0, 0, 0, 5, 200 },
-                        EnchantDefinition{ 1124, "Mighty Intellect (+22 Intellect)", EnchantTier::PreRaid, "", 0, 0, 0, 1, 30 },
-                        EnchantDefinition{ 2567, "Mighty Spirit (+20 Spirit)", EnchantTier::PreRaid, "", 0, 0, 0, 1, 30 },
-                        EnchantDefinition{ 2443, "Winter's Might (+7 Frost Spell Power)", EnchantTier::Leveling, "", 0, 0, 0, 1, 10 }
+                        EnchantDefinition{ 2505, "Healing Power (+55 Healing Power)", EnchantTier::Raid, "", Classes::CLASS_NONE, 0, 0, 0, 1, 200 },
+                        EnchantDefinition{ 2332, "Spell Power (+30 Spell Power)", EnchantTier::Raid, "", Classes::CLASS_NONE, 0, 0, 0, 5, 200 },
+                        EnchantDefinition{ 1124, "Mighty Intellect (+22 Intellect)", EnchantTier::PreRaid, "", Classes::CLASS_NONE, 0, 0, 0, 1, 30 },
+                        EnchantDefinition{ 2567, "Mighty Spirit (+20 Spirit)", EnchantTier::PreRaid, "", Classes::CLASS_NONE, 0, 0, 0, 1, 30 },
+                        EnchantDefinition{ 2443, "Winter's Might (+7 Frost Spell Power)", EnchantTier::Leveling, "", Classes::CLASS_NONE, 0, 0, 0, 1, 10 }
                     }
                 },
                 EnchantSubCategoryDefinition {
@@ -98,12 +98,12 @@ NPCEnchanterEnhancedEnchantManager::NPCEnchanterEnhancedEnchantManager()
                     .name = "Two-Handed Caster",
                     .icon = "inv_staff_13",
                     .enchants = {
-                        EnchantDefinition{ 2505, "Healing Power (+55 Healing Power)", EnchantTier::Raid, "", 0, 0, 0, 1,  200 },
-                         EnchantDefinition{ 2332, "Spell Power (+30 Spell Power)", EnchantTier::Raid, "", 0, 0, 0, 5,  200 },
-                         EnchantDefinition{ 1903, "Major Spirit (+9 Spirit)", EnchantTier::Leveling, "", 0, 0, 0, 1,  15 },
-                         EnchantDefinition{ 255,  "Lesser Spirit (+3 Spirit)", EnchantTier::Leveling, "", 0, 0, 0, 1,  5 },
-                         EnchantDefinition{ 1901, "Major Intellect (+9 Intellect)", EnchantTier::Leveling, "", 0, 0, 0, 1,  10 },
-                         EnchantDefinition{ 723,  "Lesser Intellect (+3 Spirit)", EnchantTier::Leveling, "", 0, 0, 0, 1,  5 }
+                        EnchantDefinition{ 2505, "Healing Power (+55 Healing Power)", EnchantTier::Raid, "", Classes::CLASS_NONE, 0, 0, 0, 1,  200 },
+                        EnchantDefinition{ 2332, "Spell Power (+30 Spell Power)", EnchantTier::Raid, "", Classes::CLASS_NONE, 0, 0, 0, 5,  200 },
+                        EnchantDefinition{ 1903, "Major Spirit (+9 Spirit)", EnchantTier::Leveling, "", Classes::CLASS_NONE, 0, 0, 0, 1,  15 },
+                        EnchantDefinition{ 255,  "Lesser Spirit (+3 Spirit)", EnchantTier::Leveling, "", Classes::CLASS_NONE, 0, 0, 0, 1,  5 },
+                        EnchantDefinition{ 1901, "Major Intellect (+9 Intellect)", EnchantTier::Leveling, "", Classes::CLASS_NONE, 0, 0, 0, 1,  10 },
+                        EnchantDefinition{ 723,  "Lesser Intellect (+3 Spirit)", EnchantTier::Leveling, "", Classes::CLASS_NONE, 0, 0, 0, 1,  5 }
                     }
                 },
                 EnchantSubCategoryDefinition {
@@ -111,12 +111,12 @@ NPCEnchanterEnhancedEnchantManager::NPCEnchanterEnhancedEnchantManager()
                     .name = "Ranged Weapons",
                     .icon = "inv_weapon_bow_11",
                     .enchants = {
-                        EnchantDefinition{ 2523, "Biznick's 247x128 Accurascope (+3 Hit)", EnchantTier::Raid, "", 200, 0, 35, 1,  150 },
-                        EnchantDefinition{ 843,  "Sniper Scope (+7 Damage)",               EnchantTier::PreRaid, "", 150, 0, 25, 1,50 },
-                        EnchantDefinition{ 953,  "Deadly Scope (+5 Damage)",               EnchantTier::Leveling, "", 100, 0, 15, 1,10 },
-                        EnchantDefinition{ 33,   "Accurate Scope (+3 Damage)",             EnchantTier::Leveling, "", 50,  0, 10, 1,10 },
-                        EnchantDefinition{ 32,   "Standard Scope (+2 Damage)",             EnchantTier::Leveling, "", 1,   0,  5, 1,5 },
-                        EnchantDefinition{ 30,   "Crude Scope (+1 Damage)",                EnchantTier::Leveling, "", 1,   0,  1, 1, 5 }
+                        EnchantDefinition{ 2523, "Biznick's 247x128 Accurascope (+3 Hit)", EnchantTier::Raid, "", Classes::CLASS_NONE, 200, 0, 35, 1,  150 },
+                        EnchantDefinition{ 843,  "Sniper Scope (+7 Damage)",               EnchantTier::PreRaid, "", Classes::CLASS_NONE, 150, 0, 25, 1,50 },
+                        EnchantDefinition{ 953,  "Deadly Scope (+5 Damage)",               EnchantTier::Leveling, "", Classes::CLASS_NONE, 100, 0, 15, 1,10 },
+                        EnchantDefinition{ 33,   "Accurate Scope (+3 Damage)",             EnchantTier::Leveling, "", Classes::CLASS_NONE, 50,  0, 10, 1,10 },
+                        EnchantDefinition{ 32,   "Standard Scope (+2 Damage)",             EnchantTier::Leveling, "", Classes::CLASS_NONE, 1,   0,  5, 1,5 },
+                        EnchantDefinition{ 30,   "Crude Scope (+1 Damage)",                EnchantTier::Leveling, "", Classes::CLASS_NONE, 1,   0,  1, 1, 5 }
                     }
                 }
             }

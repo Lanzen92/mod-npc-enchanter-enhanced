@@ -11,7 +11,6 @@ class PriceHelper
 {
 private:
 
-
 public:
     static uint32 GetEnchantPriceInCopper (const EnchantDefinition* enchantDef);
     static uint32 GetEnchantPriceInGold (const EnchantDefinition* enchantDef);

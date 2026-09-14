@@ -5,7 +5,16 @@
 #include "PriceHelper.h"
 #include "SharedDefines.h"
 
-bool ValidationHelper::CheckEquipment(const Player* player, uint32 subCatId, std::string& reason)
+
+// Validate-Functions
+// true = Enchant is available
+// false = Enchant is not available.
+// If false, also gives a reason.
+
+
+
+//Check if player has an item equiped in that slot. (Also check if 2H when selecting 2H enchant)
+bool ValidationHelper::ValidateEquipment(const Player* player, uint32 subCatId, std::string& reason)
 {
     EquipmentSlots targetSlot = GetEquipmentSlotFromSubCategory(subCatId);
     Item* targetItem = player->GetItemByPos(INVENTORY_SLOT_BAG_0, targetSlot);
@@ -27,9 +36,10 @@ bool ValidationHelper::CheckEquipment(const Player* player, uint32 subCatId, std
     return true;
 }
 
-bool ValidationHelper::CheckProfession(const Player* player, const EnchantDefinition& enchant, std::string& reason)
+//Check if the player has the correct profession and required skill for that enchant.
+bool ValidationHelper::ValidateProfession(const Player* player, const EnchantDefinition& enchant, std::string& reason)
 {
-    if (!NPCEnchanterEnhancedLockProfessionEnchants || enchant.professionRequirement.empty())
+    if (NPCEnchanterEnhancedIgnoreProfessionRequirements || enchant.professionRequirement.empty())
         return true;
 
     SkillType reqSkill = GetProfessionSkillTypeFromString(enchant.professionRequirement);
@@ -42,7 +52,8 @@ bool ValidationHelper::CheckProfession(const Player* player, const EnchantDefini
     return true;
 }
 
-bool ValidationHelper::CheckGold(const Player* player, const EnchantDefinition& enchant, std::string& reason, std::string& priceString)
+//Check if the player has enough gold to buy the enchant.
+bool ValidationHelper::ValidateGold(const Player* player, const EnchantDefinition& enchant, std::string& reason, std::string& priceString)
 {
     if (NPCEnchanterEnhancedFreeEnchants)
     {
@@ -63,7 +74,9 @@ bool ValidationHelper::CheckGold(const Player* player, const EnchantDefinition& 
     return true;
 }
 
-bool ValidationHelper::CheckPhase(uint32 playerPhase, const EnchantDefinition& enchant, std::string& reason)
+//Check if the enchant is available in the current phase.
+//This
+bool ValidationHelper::ValidatePhase(uint32 playerPhase, const EnchantDefinition& enchant, std::string& reason)
 {
     if (NPCEnchanterEnhancedPhase == 0 && !NPCEnchanterEnhancedIndividualProgression)
         return true;
@@ -77,8 +90,12 @@ bool ValidationHelper::CheckPhase(uint32 playerPhase, const EnchantDefinition& e
     return true;
 }
 
-bool ValidationHelper::CheckLevel(const Player* player, const EnchantDefinition& enchant, std::string& reason)
+//Check if the player has the required level for the enchant.
+bool ValidationHelper::ValidateLevel(const Player* player, const EnchantDefinition& enchant, std::string& reason)
 {
+    if (NPCEnchanterEnhancedIgnoreLevelRequirements)
+        return true;
+
     if (enchant.levelRequirement > player->GetLevel())
     {
         reason = "Requires level " + std::to_string(enchant.levelRequirement) + ".";
@@ -88,8 +105,12 @@ bool ValidationHelper::CheckLevel(const Player* player, const EnchantDefinition&
     return true;
 }
 
-bool ValidationHelper::CheckItemLevel(const Player* player, uint32 subCatId, const EnchantDefinition& enchant, std::string& reason)
+//Check if the item got the required item level for the enchant
+bool ValidationHelper::ValidateItemLevel(const Player* player, uint32 subCatId, const EnchantDefinition& enchant, std::string& reason)
 {
+    if (NPCEnchanterEnhancedIgnoreItemLevelRequirements)
+        return true;
+
     EquipmentSlots targetSlot = GetEquipmentSlotFromSubCategory(subCatId);
     Item* targetItem = player->GetItemByPos(INVENTORY_SLOT_BAG_0, targetSlot);
 
@@ -102,46 +123,103 @@ bool ValidationHelper::CheckItemLevel(const Player* player, uint32 subCatId, con
     return true;
 }
 
+//Check if the player class is able to get this enchant.
+bool ValidationHelper::ValidatePlayerClass(const Player* player, const EnchantDefinition& enchant, std::string& reason)
+{
+    if (NPCEnchanterEnhancedIgnoreClassRequirements || enchant.classRequirement == CLASS_NONE)
+        return true;
+
+    if (player->getClass() != enchant.classRequirement)
+    {
+        reason = "Wrong class " + std::to_string(enchant.minItemLevel) + ".";
+        return false;
+    }
+
+    return true;
+}
+
+bool ValidationHelper::FilterTier(const EnchantDefinition& enchant, const std::string& allowedTiersConfig)
+{
+    std::string tierName;
+
+    switch (enchant.tier)
+    {
+        case EnchantTier::Leveling: tierName = "leveling"; break;
+        case EnchantTier::PreRaid:  tierName = "preraid";  break;
+        case EnchantTier::Raid:     tierName = "raid";     break;
+        default: return true;
+    }
+
+    return allowedTiersConfig.find(tierName) != std::string::npos;
+}
+
+
 //Public
-EnchantValidationResult ValidationHelper::ValidateEnchant(const Player* player, uint32 subCatId, const EnchantDefinition& enchant, const uint32 currentPhase)
+EnchantValidationResult ValidationHelper::EvaluateEnchant(const Player* player, uint32 subCatId, const EnchantDefinition& enchant, const uint32 currentPhase)
 {
     EnchantValidationResult result;
+    result.showEnchant = true;
     result.isLocked = false;
 
-    if (!CheckPhase(currentPhase, enchant, result.reason))
+    if (!FilterTier(enchant, NPCEnchanterEnhancedTiersToShow))
     {
+        result.showEnchant = false;
+        return result;
+    }
+    if (!ValidatePlayerClass(player, enchant, result.reason))
+    {
+        result.showEnchant = false;
+        return result;
+    }
+
+    if (!ValidatePhase(currentPhase, enchant, result.reason))
+    {
+        if (NPCEnchanterEnhancedHideUnavailableEnchants)
+            result.showEnchant = false;
+
         result.isLocked = true;
         return result;
     }
 
-    if (!CheckEquipment(player, subCatId, result.reason))
+    if (!ValidateEquipment(player, subCatId, result.reason))
     {
+        if (NPCEnchanterEnhancedHideUnavailableEnchants)
+            result.showEnchant = false;
+
         result.isLocked = true;
         return result;
     }
 
-    if (!CheckItemLevel(player, subCatId, enchant, result.reason))
+    if (!ValidateItemLevel(player, subCatId, enchant, result.reason))
     {
+        if (NPCEnchanterEnhancedHideUnavailableEnchants)
+            result.showEnchant = false;
+
         result.isLocked = true;
         return result;
     }
 
-    if (!CheckProfession(player, enchant, result.reason))
+    if (!ValidateProfession(player, enchant, result.reason))
     {
+        if (NPCEnchanterEnhancedHideUnavailableEnchants)
+            result.showEnchant = false;
+
         result.isLocked = true;
         return result;
     }
 
-    if (!CheckGold(player, enchant, result.reason, result.priceString))
+    if (!ValidateGold(player, enchant, result.reason, result.priceString))
     {
         result.isLocked = true;
+        result.showEnchant = true;
         return result;
     }
 
     return result;
 }
 
-uint32 ValidationHelper::CalculatePlayerPhase(const Player* player)
+//Get Individualprogression phase.
+uint32 ValidationHelper::GetPlayerPhase(const Player* player)
 {
     uint32 currentPhase = 1;
     static const std::vector<std::pair<uint8, uint32>> bossProgression =

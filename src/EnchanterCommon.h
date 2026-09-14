@@ -1,9 +1,10 @@
 ﻿#pragma once
 
+#include <string>
 #include "Define.h"
 #include "SharedDefines.h"
 #include "Player.h"
-#include <string>
+
 #include "EnchantManager.h"
 
 inline SkillType GetProfessionSkillTypeFromString(const std::string& profName)

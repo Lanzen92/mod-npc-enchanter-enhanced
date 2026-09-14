@@ -45,6 +45,7 @@ struct EnchantDefinition {
     std::string name;
     EnchantTier tier;
     std::string professionRequirement;
+    uint32 classRequirement;
     uint32 professionSkillRequirement;
     uint32 minItemLevel;
     uint32 levelRequirement;

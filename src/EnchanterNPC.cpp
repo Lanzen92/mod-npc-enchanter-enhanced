@@ -48,10 +48,10 @@ class NPCEnchanterEnhanced : public CreatureScript {
         {
             uint32 action = 10000 + category.enchantCategoryId;
             std::string label = "|TInterface/ICONS/" + category.icon + ":24:24:-18|t" + category.name;
-            AddGossipItemFor(player, GOSSIP_ICON_CHAT, label, GOSSIP_SENDER_MAIN, action);
+            AddGossipItemFor(player, 1, label, GOSSIP_SENDER_MAIN, action);
         }
 
-        SendGossipMenuFor(player, NPCEnchanter_ID, creature->GetGUID());
+        SendGossipMenuFor(player, NPCEnchanterID, creature->GetGUID());
         return true;
     }
 
@@ -62,7 +62,7 @@ class NPCEnchanterEnhanced : public CreatureScript {
 
         uint32 currentPhase = 1;
         if (NPCEnchanterEnhancedIndividualProgression)
-            currentPhase = ValidationHelper::CalculatePlayerPhase(player);
+            currentPhase = ValidationHelper::GetPlayerPhase(player);
         else
             currentPhase = NPCEnchanterEnhancedPhase;
 
@@ -93,7 +93,8 @@ class NPCEnchanterEnhanced : public CreatureScript {
                         bool isLocked = false;
                         std::string lockReason = "";
 
-                        if (NPCEnchanterEnhancedLockProfessionEnchants)
+                        //TODO Rewrite this..
+                        if (!NPCEnchanterEnhancedIgnoreProfessionRequirements)
                         {
                             lockReason = sEnchantManager->GetProfessionLockedPhrase(subCat.enchantCategorySubTypeId);
                             if (!lockReason.empty())
@@ -129,7 +130,7 @@ class NPCEnchanterEnhanced : public CreatureScript {
                             label = "|TInterface/ICONS/" + subCat.icon + ":24:24:-18|t" + subCat.name;
                         }
 
-                        AddGossipItemFor(player, GOSSIP_ICON_CHAT, label, GOSSIP_SENDER_MAIN, subAction);
+                        AddGossipItemFor(player, 1, label, GOSSIP_SENDER_MAIN, subAction);
                     }
                     break;
                 }
@@ -155,22 +156,24 @@ class NPCEnchanterEnhanced : public CreatureScript {
                         parentCategoryId = cat.enchantCategoryId;
                         for (const auto& enchant : subCat.enchants)
                         {
-                            EnchantValidationResult validation = ValidationHelper::ValidateEnchant(player, subCategoryId, enchant, currentPhase);
+                            EnchantValidationResult validation = ValidationHelper::EvaluateEnchant(player, subCategoryId, enchant, currentPhase);
 
                             uint32 gossipAction = (subCategoryId << 16) | (enchant.enchantId & 0xFFFF);
                             std::string label;
 
-                            if (validation.isLocked)
+                            if (validation.showEnchant)
                             {
-                                label = "|cff808080" + enchant.name + " — " + validation.reason + "|r";
-                                gossipAction = 99998; // Dummy action
+                                if (validation.isLocked)
+                                {
+                                    label = "|cff808080" + enchant.name + " — " + validation.reason + "|r";
+                                    gossipAction = 99998; // Dummy action
+                                }
+                                else
+                                {
+                                    label = enchant.name + validation.priceString;
+                                }
+                                AddGossipItemFor(player, 0, label, GOSSIP_SENDER_MAIN, gossipAction);
                             }
-                            else
-                            {
-                                label = enchant.name + validation.priceString;
-                            }
-
-                            AddGossipItemFor(player, GOSSIP_ICON_BATTLE, label, GOSSIP_SENDER_MAIN, gossipAction);
                         }
                         break;
                     }
