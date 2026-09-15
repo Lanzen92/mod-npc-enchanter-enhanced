@@ -11,9 +11,7 @@
 // false = Enchant is not available.
 // If false, also gives a reason.
 
-
-
-//Check if player has an item equiped in that slot. (Also check if 2H when selecting 2H enchant)
+//Check if player has an item equipped in that slot.
 bool ValidationHelper::ValidateEquipment(const Player* player, uint32 subCatId, std::string& reason)
 {
     EquipmentSlots targetSlot = GetEquipmentSlotFromSubCategory(subCatId);
@@ -33,10 +31,17 @@ bool ValidationHelper::ValidateEquipment(const Player* player, uint32 subCatId, 
         return false;
     }
 
+    if (subCatId == EnchantSubCategory::Subtype_Shield &&
+        targetItem->GetTemplate()->InventoryType != INVTYPE_SHIELD)
+    {
+        reason = " (Requires Shield)";
+        return false;
+    }
+
     return true;
 }
 
-//Check if the player has the correct profession and required skill for that enchant.
+//Check if the player has the correct profession and required skill
 bool ValidationHelper::ValidateProfession(const Player* player, const EnchantDefinition& enchant, std::string& reason)
 {
     if (NPCEnchanterEnhancedIgnoreProfessionRequirements || enchant.professionRequirement.empty())
@@ -52,7 +57,7 @@ bool ValidationHelper::ValidateProfession(const Player* player, const EnchantDef
     return true;
 }
 
-//Check if the player has enough gold to buy the enchant.
+//Check if the player has enough gold
 bool ValidationHelper::ValidateGold(const Player* player, const EnchantDefinition& enchant, std::string& reason, std::string& priceString)
 {
     if (NPCEnchanterEnhancedFreeEnchants)
@@ -75,7 +80,6 @@ bool ValidationHelper::ValidateGold(const Player* player, const EnchantDefinitio
 }
 
 //Check if the enchant is available in the current phase.
-//This
 bool ValidationHelper::ValidatePhase(uint32 playerPhase, const EnchantDefinition& enchant, std::string& reason)
 {
     if (NPCEnchanterEnhancedPhase == 0 && !NPCEnchanterEnhancedIndividualProgression)
@@ -90,7 +94,7 @@ bool ValidationHelper::ValidatePhase(uint32 playerPhase, const EnchantDefinition
     return true;
 }
 
-//Check if the player has the required level for the enchant.
+//Check if the player has the required level
 bool ValidationHelper::ValidateLevel(const Player* player, const EnchantDefinition& enchant, std::string& reason)
 {
     if (NPCEnchanterEnhancedIgnoreLevelRequirements)
@@ -105,7 +109,7 @@ bool ValidationHelper::ValidateLevel(const Player* player, const EnchantDefiniti
     return true;
 }
 
-//Check if the item got the required item level for the enchant
+//Check if the item got the required item level
 bool ValidationHelper::ValidateItemLevel(const Player* player, uint32 subCatId, const EnchantDefinition& enchant, std::string& reason)
 {
     if (NPCEnchanterEnhancedIgnoreItemLevelRequirements)
@@ -138,21 +142,22 @@ bool ValidationHelper::ValidatePlayerClass(const Player* player, const EnchantDe
     return true;
 }
 
-bool ValidationHelper::FilterTier(const EnchantDefinition& enchant, const std::string& allowedTiersConfig)
+//Filter Tiers
+bool ValidationHelper::FilterTier(const EnchantDefinition& enchant)
 {
     std::string tierName;
+    std::string NPCEnchanterEnhancedTiersToShow = sConfigMgr->GetOption<std::string>("NPCEnchanterEnhanced.TiersToShow", "Leveling, PreRaid, Raid");
+    std::string allowedTiersConfig = ToLower(NPCEnchanterEnhancedTiersToShow);
 
     switch (enchant.tier)
     {
-        case EnchantTier::Leveling: tierName = "leveling"; break;
-        case EnchantTier::PreRaid:  tierName = "preraid";  break;
-        case EnchantTier::Raid:     tierName = "raid";     break;
+        case EnchantTier::Leveling: tierName = "leveling"; LOG_INFO("server.loading", "Case leveling"); break;
+        case EnchantTier::PreRaid:  tierName = "preraid";  LOG_INFO("server.loading", "Case preraid"); break;
+        case EnchantTier::Raid:     tierName = "raid";     LOG_INFO("server.loading", "Case raid"); break;
         default: return true;
     }
-
     return allowedTiersConfig.find(tierName) != std::string::npos;
 }
-
 
 //Public
 EnchantValidationResult ValidationHelper::EvaluateEnchant(const Player* player, uint32 subCatId, const EnchantDefinition& enchant, const uint32 currentPhase)
@@ -161,7 +166,7 @@ EnchantValidationResult ValidationHelper::EvaluateEnchant(const Player* player, 
     result.showEnchant = true;
     result.isLocked = false;
 
-    if (!FilterTier(enchant, NPCEnchanterEnhancedTiersToShow))
+    if (!FilterTier(enchant))
     {
         result.showEnchant = false;
         return result;
@@ -222,21 +227,6 @@ EnchantValidationResult ValidationHelper::EvaluateEnchant(const Player* player, 
 uint32 ValidationHelper::GetPlayerPhase(const Player* player)
 {
     uint32 currentPhase = 1;
-    static const std::vector<std::pair<uint8, uint32>> bossProgression =
-    {
-        { 0,  RAGNAROS_KILL     }, // 686
-        { 1,  ONYXIA_KILL       }, // 684
-        { 2,  NEFARIAN_KILL     }, // 685
-        { 5,  C_THUN_KILL       }, // 687
-        { 8,  MALCHEZAAR_KILL   }, // 690
-        { 9,  KAEL_THAS_KILL    }, // 696
-        { 10, ILLIDAN_KILL      }, // 697
-        { 12, KIL_JAEDEN_KILL   }, // 698
-        { 13, KEL_THUZAD_KILL   }, // 575
-        { 15, ANUB_ARAK_KILL    }, // 3916
-        { 16, LICH_KING_KILL    }, // 4597
-        { 17, HALION_KILL       }, // 4815
-    };
 
     for (auto const& [progressionId, achievementId] : bossProgression)
     {

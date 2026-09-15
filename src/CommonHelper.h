@@ -11,7 +11,7 @@ inline SkillType GetProfessionSkillTypeFromString(const std::string& profName)
 {
     if (profName == "Enchanting")   return SKILL_ENCHANTING;
     if (profName == "Engineering")  return SKILL_ENGINEERING;
-    if (profName == "Blacksmithing") return SKILL_BLACKSMITHING;
+    if (profName == "Blacksmith") return SKILL_BLACKSMITHING;
     if (profName == "Tailoring")    return SKILL_TAILORING;
     if (profName == "Leatherworking") return SKILL_LEATHERWORKING;
     if (profName == "Alchemy")      return SKILL_ALCHEMY;
@@ -69,4 +69,12 @@ inline EquipmentSlots GetEquipmentSlotFromSubCategory(uint32 subCat)
         default:
             return EquipmentSlots::EQUIPMENT_SLOT_MAINHAND;
     }
+}
+
+inline std::string ToLower(std::string str)
+{
+    std::ranges::transform(str, str.begin(), [](unsigned char c) {
+        return std::tolower(c);
+    });
+    return str;
 }

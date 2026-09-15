@@ -43,6 +43,7 @@ enum class EnchantTier : uint32 {
 struct EnchantDefinition {
     uint32 enchantId;
     std::string name;
+    std::string description;
     EnchantTier tier;
     std::string professionRequirement;
     uint32 classRequirement;
@@ -71,9 +72,9 @@ class NPCEnchanterEnhancedEnchantManager
 {
 public:
     static NPCEnchanterEnhancedEnchantManager* instance();
-
     const std::vector<EnchantCategoryDefinition>& GetEnchantDatabase() const;
     const EnchantDefinition* GetEnchantDefinition(uint32 enchantId) const;
+    bool SubCategoryHasNoEnchants(uint32 subCategoryId) const;
     bool AllEnchantsInSubCategoryHasProfessionRequirements(uint32 subCategoryId) const;
     std::string GetProfessionLockedPhrase(uint32 subCategoryId) const;
 

@@ -1,21 +1,18 @@
 ﻿#pragma once
 
 #include "Define.h"
-#include "Config.h"
 
 //Global values
 extern const uint32 NPCEnchanterID;
 
-//Confvalues
 extern bool NPCEnchanterEnhancedEnabled;
 extern bool NPCEnchanterEnhancedAnnounce;
 
-//Filtering
+//Filter
 extern bool NPCEnchanterEnhancedIgnoreProfessionRequirements;
 extern bool NPCEnchanterEnhancedIgnoreLevelRequirements;
 extern bool NPCEnchanterEnhancedIgnoreItemLevelRequirements;
 extern bool NPCEnchanterEnhancedIgnoreClassRequirements;
-extern std::string NPCEnchanterEnhancedTiersToShow;
 extern bool NPCEnchanterEnhancedHideUnavailableEnchants;
 
 //NPC

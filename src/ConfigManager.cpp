@@ -15,7 +15,6 @@ bool NPCEnchanterEnhancedIgnoreProfessionRequirements = false;
 bool NPCEnchanterEnhancedIgnoreLevelRequirements = false;
 bool NPCEnchanterEnhancedIgnoreItemLevelRequirements = false;
 bool NPCEnchanterEnhancedIgnoreClassRequirements = false;
-std::string NPCEnchanterEnhancedTiersToShow = "Leveling, Preraid, Raid";
 bool NPCEnchanterEnhancedHideUnavailableEnchants = false;
 
 //NPC
@@ -30,8 +29,6 @@ uint32 NPCEnchanterEnhancedPhase = 1;
 bool NPCEnchanterEnhancedFreeEnchants = false;
 bool NPCEnchanterEnhancedDynamicPricesOnEnchants = false;
 
-
-
 void LoadEnchantConfig(bool /*reload*/)
 {
     NPCEnchanterEnhancedEnabled = sConfigMgr->GetOption<bool>("NPCEnchanterEnhanced.Enabled", true);
@@ -41,8 +38,10 @@ void LoadEnchantConfig(bool /*reload*/)
     NPCEnchanterEnhancedIgnoreLevelRequirements = sConfigMgr->GetOption<bool>("NPCEnchanterEnhanced.IgnoreLevelRequirements", false);
     NPCEnchanterEnhancedIgnoreItemLevelRequirements = sConfigMgr->GetOption<bool>("NPCEnchanterEnhanced.IgnoreItemLevelRequirements", false);
     NPCEnchanterEnhancedIgnoreClassRequirements = sConfigMgr->GetOption<bool>("NPCEnchanterEnhanced.IgnoreClassRequirements", false);
-    NPCEnchanterEnhancedTiersToShow = sConfigMgr->GetOption<std::string>("NPCEnchanterEnhanced.TiersToShow", "Leveling, PreRaid, Raid");
     NPCEnchanterEnhancedHideUnavailableEnchants = sConfigMgr->GetOption<bool>("NPCEnchanterEnhanced.HideUnavailableEnchants", false);
+
+    //Load this on the fly in the ValidationHelper. (bugprone-throwing-static-initialization)
+    //NPCEnchanterEnhancedTiersToShow = sConfigMgr->GetOption<std::string>("NPCEnchanterEnhanced.TiersToShow", "Leveling, PreRaid, Raid");
 
     NPCEnchanterEnhancedSpawnableByAnyone = sConfigMgr->GetOption<bool>("NPCEnchanterEnhanced.SpawnableByAnyone", true);
     NPCEnchanterEnhancedDespawnTimerInSeconds = sConfigMgr->GetOption<uint32>("NPCEnchanterEnhanced.DespawnTimerInSeconds", 120);
@@ -52,6 +51,12 @@ void LoadEnchantConfig(bool /*reload*/)
 
     NPCEnchanterEnhancedFreeEnchants = sConfigMgr->GetOption<bool>("NPCEnchanterEnhanced.FreeEnchants", false);
     NPCEnchanterEnhancedDynamicPricesOnEnchants = sConfigMgr->GetOption<bool>("NPCEnchanterEnhanced.DynamicPricesOnEnchants", false);
+
+    if (NPCEnchanterEnhancedDynamicPricesOnEnchants)
+    {
+        NPCEnchanterEnhancedFreeEnchants = false;
+    }
+
 };
 
 // Hook configuration loading into server startup and reloads
@@ -63,7 +68,6 @@ public:
     void OnStartup() override
     {
         LoadEnchantConfig(false);
-
     }
 
     void OnConfigLoad(bool reload)

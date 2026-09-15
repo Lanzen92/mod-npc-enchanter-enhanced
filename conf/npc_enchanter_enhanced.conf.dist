@@ -7,7 +7,6 @@
 ########################################
 # NPC Enchanter Enhanced
 ########################################
-
 # -------------------------------------------------------------------------------------
 #  Enable the module
 #
@@ -32,7 +31,7 @@ NPCEnchanterEnhanced.Announce = 1
 # -------------------------------------------------------------------------------------
 #  SpawnableByAnyone
 #
-#  If the NPC should be spawnable for anyone.
+#  If the NPC should be spawnable for anyone. (.NPCEE spawn)
 #  Enable : 1 (Any player can summon the enchanter)
 #  Disable: 0 (Only GM/Admin can summon the enchanter)
 # -------------------------------------------------------------------------------------
@@ -47,7 +46,8 @@ NPCEnchanterEnhanced.SpawnableByAnyone = 1
 #  Default: 90
 # -------------------------------------------------------------------------------------
 NPCEnchanterEnhanced.DespawnTimerInSeconds = 90
-
+#
+#--------------------------------------------------------------------------------------
 
 # -------------------------------------------------------------------------------------
 #
@@ -83,19 +83,34 @@ NPCEnchanterEnhanced.IgnoreLevelRequirements = 0
 NPCEnchanterEnhanced.IgnoreItemLevelRequirements = 0
 #
 # -------------------------------------------------------------------------------------
+#  IgnoreClassRequirements
+#
+#  Ignore class requirements. (ZG enchants etc)
+#  Enable : 1 - Enchants are available for all classes
+#  Disable: 0
+# -------------------------------------------------------------------------------------
+NPCEnchanterEnhanced.IgnoreClassRequirements = 0
+#
+# -------------------------------------------------------------------------------------
 #  TiersToShow
 #
 #   Raid: Crusader, +15 agility, 30+ spellpower, 55+ healing etc
 #   PreRaid:
 #   Leveling: Low-level enchants like Striking, Impact, Lesser Spirit etc
 #
-#  Ignore itemlevel requirements.
 #  Show all tiers: "Leveling, PreRaid, Raid"
-#
 # -------------------------------------------------------------------------------------
 NPCEnchanterEnhanced.TiersToShow = "Leveling, PreRaid, Raid"
 #
-
+#  HideUnavailableEnchants
+#
+#  If enchants are unavailable (Reasons like wrong phase, wrong class, to low level etc)
+#  Hide enchants : 1
+#  Show enchants but locked : 1
+# -------------------------------------------------------------------------------------
+NPCEnchanterEnhanced.HideUnavailableEnchants = 0
+#
+#--------------------------------------------------------------------------------------
 
 # -------------------------------------------------------------------------------------
 #
@@ -109,10 +124,10 @@ NPCEnchanterEnhanced.TiersToShow = "Leveling, PreRaid, Raid"
 #  NPCEnchanterEnhancedPhase
 #
 #  Only enable enchants that were available during this phase (Or lower)
-#  Enable : 1-17w
+#  Enable : 1-17
 #  Disable: 0
 # -------------------------------------------------------------------------------------
-NPCEnchanterEnhanced.NPCEnchanterEnhancedPhase = 1
+NPCEnchanterEnhanced.Phase = 1
 #
 # -------------------------------------------------------------------------------------
 #  IndividualProgression - !! This will override NPCEnchanterEnhancedPhase !!
@@ -124,9 +139,9 @@ NPCEnchanterEnhanced.NPCEnchanterEnhancedPhase = 1
 # -------------------------------------------------------------------------------------
 NPCEnchanterEnhanced.IndividualProgression = 1
 #
-#-------------------------------------------------------------------------------------
+#--------------------------------------------------------------------------------------
 
-#-------------------------------------------------------------------------------------
+#--------------------------------------------------------------------------------------
 #
 #  Prices
 #

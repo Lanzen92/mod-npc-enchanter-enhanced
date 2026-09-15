@@ -23,5 +23,3 @@ uint32 PriceHelper::GetEnchantPriceInCopper (const EnchantDefinition* enchantDef
 
     return GOLD(enchantDef->cost);
 }
-
-
