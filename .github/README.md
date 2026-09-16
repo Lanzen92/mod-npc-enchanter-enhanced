@@ -1,25 +1,69 @@
-# SKELETON - Module template
+# NPC Enchanter Enhanced 🧙‍♂️✨
 
-[English](README.md) | [Español](README_ES.md)
-
-
-## How to create your own module
-
-1. Use the script `create_module.sh` located in [`modules/`](https://github.com/azerothcore/azerothcore-wotlk/tree/master/modules) to start quickly with all the files you need and your git repo configured correctly (heavily recommended).
-1. You can then use these scripts to start your project: https://github.com/azerothcore/azerothcore-boilerplates
-1. Do not hesitate to compare with some of our newer/bigger/famous modules.
-1. Edit the `README.md` and other files (`include.sh` etc...) to fit your module. Note: the README is automatically created from `README_example.md` when you use the script `create_module.sh`.
-1. Publish your module to our [catalogue](https://www.azerothcore.org/catalogue.html).
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+[![Platform: AzerothCore](https://img.shields.io/badge/AzerothCore-C++17-blue.svg)](https://www.azerothcore.org/)
+[![Module Status: Active](https://img.shields.io/badge/Status-Active-success.svg)]()
 
 
-## How to test your module?
+**NPC Enchanter Enhanced** is an AzerothCore module inspired by the classic [`npc_enchanter module`](https://www.azerothcore.org/catalogue.html#/details/123951640). It makes in-game enchanting easy and flexible by letting players apply enchants directly through a clean NPC menu, using custom costs, items, and rules for a better quality-of-life experience.
 
-Disable PCH (precompiled headers) and try to compile. To disable PCH, set `-DNOPCH=1` with Cmake (more info [here](http://www.azerothcore.org/wiki/CMake-options)).
+> **⚠️ Note / Disclaimer:** This is my first-ever C++ project and my first custom module! While I've tested it thoroughly, you might run into minor edge cases or quirks. Please feel free to open an issue or pull request if you spot anything, and always back up your database before installing new modules on a live server!
 
-If you forgot some headers, it is time to add them!
+---
 
-## Licensing
+## 🚀 Key Features
 
-The default license of the skeleton-module template is the MIT but you can use a different license for your own modules.
+* **Advanced Menu System:** Filter, disable, or hide unavailable enchants dynamically.
+* **Summon Utility:** Conveniently summon a temporary enchanter on demand using `.NPCEE Spawn` (which can be configured to work for any player).
+* **Flexible Restriction Modes:** Toggle between showing all enchants or using more "blizzlike" restrictions based on class, level, item level, professions, and phases.
+* **Progression Integration:** Optional integration with `IndividualProgression` to check player achievements and automatically unlock enchants released for that specific phase (fully implemented as a standalone feature, so `IndividualProgression` is not required).
+* **Comprehensive Spell Data:** Includes all Vanilla enchants right out of the box, with TBC and WotLK enchants planned for upcoming updates.
 
-So modules can also be kept private. However, if you need to add new hooks to the core, as well as improving existing ones, you have to share your improvements because the main core is released under the AGPL license. Please [provide a PR](https://www.azerothcore.org/wiki/How-to-create-a-PR) if that is the case.
+Upcoming features/changes:
+* **More enchants** - Of course, all of the TBC and WotLK enchants!
+* **Dynamic Pricing** - To make it feel more "blizzlike". 
+* **Items** - A book that players can buy and use to summon Enchanter Xari.
+---
+
+## 📦 Installation
+
+1. **Navigate to your AzerothCore modules directory:**
+   ```bash
+   cd /path/to/azerothcore/modules 
+   ```
+2. **Clone or copy the module repository:**
+   ```bash
+   git clone [https://github.com/lanzen92/mod-npc-enchanter-enhanced.git](https://github.com/lanzen92/mod-npc-enchanter-enhanced.git)
+   ```
+3. **Clone or copy the module repository:**
+   ```bash
+   cd /path/to/azerothcore/build
+   cmake ../ -DCMAKE_INSTALL_PREFIX=/path/to/azerothcore/server
+   make -j$(nproc)
+   make install
+   ```
+---
+
+## ⚙️ Configuration
+
+Coming later.. :)
+
+---
+
+## 🤝 Contributing
+
+Contributions, bug reports, and feature requests are always welcome!
+
+---
+
+## 📜 License
+
+Distributed under the MIT License. See [LICENSE](LICENSE) for more information.
+
+---
+
+## 🙏 Acknowledgements
+* [AzerothCore Community](https://www.azerothcore.org/) for the incredible open-source framework.
+* All contributors and testers who helped shape this project.
+* Also big thanks to [StygianTheBest](https://github.com/StygianTheBest) and [gtao725](https://github.com/gtao725/) for the inspiration! 
+
