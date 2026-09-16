@@ -73,7 +73,7 @@ class NPCEnchanterEnhanced : public CreatureScript {
             return OnGossipHello(player, creature);
         }
 
-        //Dummy (When pressing disabled options etc)
+        //Dummy (When pressing disabled options etc.)
         if (action == 99998)
         {
             return true;
@@ -159,10 +159,10 @@ class NPCEnchanterEnhanced : public CreatureScript {
                         parentCategoryId = cat.enchantCategoryId;
                         for (const auto& enchant : subCat.enchants)
                         {
-                            EnchantValidationResult validation = ValidationHelper::EvaluateEnchant(player, subCategoryId, enchant, currentPhase);
 
-                            LOG_INFO("server.loading", "validation show enchant {}, validation islocked {}, validation reason {}, validation price {}",
-                                validation.showEnchant, validation.isLocked, validation.reason, validation.priceString);
+                            uint32 enchantCost = sEnchantManager->GetOrCacheEnchantPrice(player, &enchant, subCategoryId);
+
+                            EnchantValidationResult validation = ValidationHelper::EvaluateEnchant(player, subCategoryId, enchant, enchantCost, currentPhase);
 
                             uint32 gossipAction = (subCategoryId << 16) | (enchant.enchantId & 0xFFFF);
 
@@ -206,20 +206,20 @@ class NPCEnchanterEnhanced : public CreatureScript {
             uint8 slot = GetEquipmentSlotFromSubCategory(owningSubCategoryId);
             Item* targetItem = player->GetItemByPos(INVENTORY_SLOT_BAG_0, slot);
 
-            Enchant(player, creature, targetItem, selectedEnchant);
+            Enchant(player, creature, targetItem, selectedEnchant, owningSubCategoryId);
             return true;
         }
 
         return true;
     }
 
-    static void Enchant(Player* player, Creature* creature, Item* item, const EnchantDefinition* enchant)
+    static void Enchant(Player* player, Creature* creature, Item* item, const EnchantDefinition* enchant, uint32 subCatId)
     {
         if (!item)
         {
             creature->HandleEmoteCommand(EMOTE_ONESHOT_LAUGH);
             creature->Whisper("Please equip the item you would like to enchant!", LANG_UNIVERSAL, player);
-            player->CastSpell(player, 12512); // enchantment visual
+            player->CastSpell(player, 12512);
             player->PlayerTalkClass->SendCloseGossip();
             return;
         }
@@ -234,7 +234,7 @@ class NPCEnchanterEnhanced : public CreatureScript {
 
         if (!NPCEnchanterEnhancedFreeEnchants || NPCEnchanterEnhancedDynamicPricesOnEnchants)
         {
-            uint64 costInCopper = PriceHelper::GetEnchantPriceInCopper(enchant);
+            uint64 costInCopper = COPPER(sEnchantManager->GetOrCacheEnchantPrice(player, enchant, subCatId));
             if (player->GetMoney() < costInCopper)
             {
                 creature->Whisper("You do not have enough gold for this enchant!", LANG_UNIVERSAL, player);
@@ -246,6 +246,9 @@ class NPCEnchanterEnhanced : public CreatureScript {
 
         item->ClearEnchantment(PERM_ENCHANTMENT_SLOT);
         item->SetEnchantment(PERM_ENCHANTMENT_SLOT, enchant->enchantId, 0, 0);
+
+        //Clear the cache before closing the gossipmenu.
+        sEnchantManager->ClearPlayerPriceCache(player->GetGUID().GetCounter());
 
         creature->CastSpell(player, 12512);
         player->PlayerTalkClass->SendCloseGossip();

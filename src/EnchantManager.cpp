@@ -1,6 +1,8 @@
 ﻿#include "EnchantManager.h"
 #include <string>
 
+#include "PriceHelper.h"
+
 NPCEnchanterEnhancedEnchantManager* NPCEnchanterEnhancedEnchantManager::instance()
 {
     static NPCEnchanterEnhancedEnchantManager instance;
@@ -475,6 +477,7 @@ const EnchantDefinition* NPCEnchanterEnhancedEnchantManager::GetEnchantDefinitio
     return nullptr;
 }
 
+//Check if the subcategorys enchant-list is empty.
 bool NPCEnchanterEnhancedEnchantManager::SubCategoryHasNoEnchants(uint32 subCategoryId) const
 {
     for (const auto& cat : m_enchantDatabase)
@@ -487,7 +490,7 @@ bool NPCEnchanterEnhancedEnchantManager::SubCategoryHasNoEnchants(uint32 subCate
             }
         }
     }
-    return true; // Returns true if the subcategory wasn't found at all, or handle as needed
+    return true;
 }
 
 //Check if all enchants are locked behind profession, to lock the whole category.
@@ -553,4 +556,40 @@ std::string NPCEnchanterEnhancedEnchantManager::GetProfessionLockedPhrase(uint32
     }
 
     return "";
+}
+
+//Cache for pricing (Due to the variance, we need to cache the calculated price so it does not differ from menu and subtraction.
+//This function both sets and gets the price value for that playerGUID and enchantID.
+uint32 NPCEnchanterEnhancedEnchantManager::GetOrCacheEnchantPrice(Player* player, const EnchantDefinition* enchantDef, uint32 subCatId)
+{
+    if (!player || !enchantDef)
+        return 0;
+
+    uint32 playerGuid = player->GetGUID().GetCounter();
+    uint32 enchantId = enchantDef->enchantId;
+
+    // 1. If a price was already rolled/cached for this session, return it
+    auto playerCacheIt = m_playerPriceCache.find(playerGuid);
+    if (playerCacheIt != m_playerPriceCache.end())
+    {
+        auto enchantIt = playerCacheIt->second.find(enchantId);
+        if (enchantIt != playerCacheIt->second.end())
+        {
+            return enchantIt->second; // Matches what the player saw!
+        }
+    }
+
+    // 2. Otherwise, run your exact calculation function for the first time
+    uint32 finalPrice = PriceHelper::GetEnchantPriceInGold(player, enchantDef, subCatId);
+
+    // 3. Cache it so the purchase action uses the exact same price
+    m_playerPriceCache[playerGuid][enchantId] = finalPrice;
+
+    return finalPrice;
+}
+
+//Clear players cache.
+void NPCEnchanterEnhancedEnchantManager::ClearPlayerPriceCache(uint32 playerGuid)
+{
+    m_playerPriceCache.erase(playerGuid);
 }

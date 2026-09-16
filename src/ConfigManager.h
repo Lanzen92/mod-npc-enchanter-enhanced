@@ -25,7 +25,22 @@ extern bool NPCEnchanterEnhancedIndividualProgression;
 
 //Prices
 extern bool NPCEnchanterEnhancedFreeEnchants;
+
+//Dynamic prices
 extern bool NPCEnchanterEnhancedDynamicPricesOnEnchants;
+extern uint32 NPCEnchanterEnhancedBasePriceLeveling;
+extern uint32 NPCEnchanterEnhancedBasePricePreRaid;
+extern uint32 NPCEnchanterEnhancedBasePriceRaid;
+//
+extern float NPCEnchanterEnhancedItemLevelMultiplier;
+extern float NPCEnchanterEnhancedPlayerLevelMultiplier;
+//
+extern float NPCEnchanterEnhancedQualityMultiplierNormal;
+extern float NPCEnchanterEnhancedQualityMultiplierUncommon;
+extern float NPCEnchanterEnhancedQualityMultiplierRare;
+extern float NPCEnchanterEnhancedQualityMultiplierEpic;
+extern float NPCEnchanterEnhancedQualityMultiplierLegendary;
+
+extern float NPCEnchanterEnhancedVariancePercentage;
 
 void LoadEnchantConfig(bool reload = false);
-

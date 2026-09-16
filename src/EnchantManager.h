@@ -77,10 +77,14 @@ public:
     bool SubCategoryHasNoEnchants(uint32 subCategoryId) const;
     bool AllEnchantsInSubCategoryHasProfessionRequirements(uint32 subCategoryId) const;
     std::string GetProfessionLockedPhrase(uint32 subCategoryId) const;
+    // Price caching methods
+    uint32 GetOrCacheEnchantPrice(Player* player, const EnchantDefinition* enchantDef, uint32 subCatId);
+    void ClearPlayerPriceCache(uint32 playerGuid);
 
 private:
     NPCEnchanterEnhancedEnchantManager();
     std::vector<EnchantCategoryDefinition> m_enchantDatabase;
+    std::unordered_map<uint32, std::unordered_map<uint32, uint32>> m_playerPriceCache;
 };
 
 #define sEnchantManager NPCEnchanterEnhancedEnchantManager::instance()

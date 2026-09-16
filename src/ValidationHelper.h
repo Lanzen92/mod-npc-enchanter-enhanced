@@ -52,7 +52,7 @@ class ValidationHelper
 {
     static bool ValidateEquipment(const Player* player, uint32 subCatId, std::string& reason);
     static bool ValidateProfession(const Player* player, const EnchantDefinition& enchant, std::string& reason);
-    static bool ValidateGold(const Player* player, const EnchantDefinition& enchant, std::string& reason, std::string& priceString);
+    static bool ValidateGold(const Player* player, uint32 cost, std::string& reason, std::string& priceString);
     static bool ValidatePhase(uint32 playerPhase, const EnchantDefinition& enchant, std::string& reason);
     static bool ValidateLevel(const Player* player, const EnchantDefinition& enchant, std::string& reason);
     static bool ValidateItemLevel(const Player* player, uint32 subCatId, const EnchantDefinition& enchant, std::string& reason);
@@ -60,6 +60,6 @@ class ValidationHelper
     static bool FilterTier(const EnchantDefinition& enchant);
 
 public:
-    static EnchantValidationResult EvaluateEnchant(const Player* player, uint32 subCatId, const EnchantDefinition& enchant, const uint32 currentPhase);
+    static EnchantValidationResult EvaluateEnchant(const Player* player, uint32 subCatId, const EnchantDefinition& enchant, uint32 enchantCost, uint32 currentPhase);
     static uint32 GetPlayerPhase(const Player* player);
 };

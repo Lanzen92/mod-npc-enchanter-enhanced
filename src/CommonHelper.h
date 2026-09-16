@@ -4,7 +4,6 @@
 #include "Define.h"
 #include "SharedDefines.h"
 #include "Player.h"
-
 #include "EnchantManager.h"
 
 inline SkillType GetProfessionSkillTypeFromString(const std::string& profName)

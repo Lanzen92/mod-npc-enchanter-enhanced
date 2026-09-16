@@ -5,7 +5,6 @@
 #include "PriceHelper.h"
 #include "SharedDefines.h"
 
-
 // Validate-Functions
 // true = Enchant is available
 // false = Enchant is not available.
@@ -57,8 +56,8 @@ bool ValidationHelper::ValidateProfession(const Player* player, const EnchantDef
     return true;
 }
 
-//Check if the player has enough gold
-bool ValidationHelper::ValidateGold(const Player* player, const EnchantDefinition& enchant, std::string& reason, std::string& priceString)
+//Check if the player has enough gold AND returns a pricestring - This should be moved to a new function. TODO
+bool ValidationHelper::ValidateGold(const Player* player, uint32 cost, std::string& reason, std::string& priceString)
 {
     if (NPCEnchanterEnhancedFreeEnchants)
     {
@@ -66,11 +65,9 @@ bool ValidationHelper::ValidateGold(const Player* player, const EnchantDefinitio
         return true;
     }
 
-    uint32 currentGoldCost = PriceHelper::GetEnchantPriceInGold(&enchant);
-    priceString = currentGoldCost > 0 ? "   |cffffd700(" + std::to_string(currentGoldCost) + "g)|r" : "";
+    priceString = cost > 0 ? "   |cffffd700(" + std::to_string(cost) + "g)|r" : "";
 
-    uint32 totalCostCopper = PriceHelper::GetEnchantPriceInCopper(&enchant);
-    if (player->GetMoney() < totalCostCopper)
+    if (player->GetMoney() < COPPER(cost))
     {
         reason = "Not enough gold.";
         return false;
@@ -160,7 +157,7 @@ bool ValidationHelper::FilterTier(const EnchantDefinition& enchant)
 }
 
 //Public
-EnchantValidationResult ValidationHelper::EvaluateEnchant(const Player* player, uint32 subCatId, const EnchantDefinition& enchant, const uint32 currentPhase)
+EnchantValidationResult ValidationHelper::EvaluateEnchant(const Player* player, uint32 subCatId, const EnchantDefinition& enchant, uint32 enchantCost, const uint32 currentPhase)
 {
     EnchantValidationResult result;
     result.showEnchant = true;
@@ -213,7 +210,7 @@ EnchantValidationResult ValidationHelper::EvaluateEnchant(const Player* player, 
         return result;
     }
 
-    if (!ValidateGold(player, enchant, result.reason, result.priceString))
+    if (!ValidateGold(player, enchantCost, result.reason, result.priceString))
     {
         result.isLocked = true;
         result.showEnchant = true;
