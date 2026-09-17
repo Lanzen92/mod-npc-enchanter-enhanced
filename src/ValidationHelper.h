@@ -62,4 +62,6 @@ class ValidationHelper
 public:
     static EnchantValidationResult EvaluateEnchant(const Player* player, uint32 subCatId, const EnchantDefinition& enchant, uint32 enchantCost, uint32 currentPhase);
     static uint32 GetPlayerPhase(const Player* player);
+    static bool ValidateSubCategoryProfession(const Player* player, const EnchantSubCategoryDefinition& subCat, std::string& reason);
+    static bool ValidateSubCategoryEquipment(const Player* player, uint32 subCatId, std::string& reason);
 };

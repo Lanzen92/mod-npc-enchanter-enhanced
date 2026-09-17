@@ -37,7 +37,6 @@ class NPCEnchanterEnhanced : public CreatureScript {
 
     bool OnGossipHello(Player* player, Creature* creature) override
     {
-
         if (!NPCEnchanterEnhancedEnabled)
             return false;
 
@@ -49,7 +48,7 @@ class NPCEnchanterEnhanced : public CreatureScript {
             std::string label = "|TInterface/ICONS/" + category.icon + ":24:24:-18|t  " + category.name;
             AddGossipItemFor(player, 1, label, GOSSIP_SENDER_MAIN, action);
         }
-
+        LOG_INFO("server.loading", "DEBUG: Sending Gossip (NPCEnchanterID) Text ID: {}", NPCEnchanterID);
         SendGossipMenuFor(player, NPCEnchanterID, creature->GetGUID());
         return true;
     }
@@ -67,19 +66,42 @@ class NPCEnchanterEnhanced : public CreatureScript {
 
         ClearGossipMenuFor(player);
 
+        // Handling Dummy / Locked Option Refresh (Actions 99900 - 99999)
+        if (action >= 99900 && action < 100000)
+        {
+            uint32 subCategoryId = action - 99900;
+            uint32 parentCategoryId = 0;
+
+            for (const auto& cat : sEnchantManager->GetEnchantDatabase())
+            {
+                for (const auto& subCat : cat.subTypes)
+                {
+                    if (subCat.enchantCategorySubTypeId == subCategoryId)
+                    {
+                        parentCategoryId = cat.enchantCategoryId;
+                        break;
+                    }
+                }
+                if (parentCategoryId != 0)
+                    break;
+            }
+
+            // Retrigger the category view.
+            if (parentCategoryId != 0)
+            {
+                return OnGossipSelect(player, creature, GOSSIP_SENDER_MAIN, 10000 + parentCategoryId);
+            }
+
+            return OnGossipHello(player, creature);
+        }
+
         //Back to Main Menu
         if (action == 99999)
         {
             return OnGossipHello(player, creature);
         }
 
-        //Dummy (When pressing disabled options etc.)
-        if (action == 99998)
-        {
-            return true;
-        }
-
-        // 1. Handling Category (Actions 10000-19999)
+        // 1. Display SubCategories (Actions 10000-19999)
         if (action >= 10000 && action < 20000)
         {
             uint32 categoryId = action - 10000;
@@ -100,50 +122,49 @@ class NPCEnchanterEnhanced : public CreatureScript {
 
                         if (!NPCEnchanterEnhancedIgnoreProfessionRequirements)
                         {
-                            lockReason = sEnchantManager->GetProfessionLockedPhrase(subCat.enchantCategorySubTypeId);
-                            if (!lockReason.empty())
+                            //Check if all enchants in the subCategory needs a specific profession and skill
+                            //If the player not got the right skill for any of them, disable the subCategory
+                            if (!ValidationHelper::ValidateSubCategoryProfession(player, subCat, lockReason))
                             {
-                                //If all enchants require profession - If it does, lock the subcategory
-                                for (const auto& enchant : subCat.enchants)
-                                {
-                                    if (!enchant.professionRequirement.empty())
-                                    {
-                                        SkillType reqSkill = GetProfessionSkillTypeFromString(enchant.professionRequirement);
-                                        if (reqSkill != SKILL_NONE && (!player->HasSkill(reqSkill) || player->GetSkillValue(reqSkill) < enchant.professionSkillRequirement))
-                                        {
-                                            isLocked = true;
-                                            break;
-                                        }
-                                    }
-                                }
+                                isLocked = true;
                             }
                         }
 
-                        uint32 subAction = 20000 + subCat.enchantCategorySubTypeId;
+                        if (!isLocked)
+                        {
+                            //Check if the player got an item equipped for the subCategory.
+                            if (!ValidationHelper::ValidateSubCategoryEquipment(player, subCat.enchantCategorySubTypeId, lockReason))
+                            {
+                                isLocked = true;
+                            }
+                        }
+
+                        uint32 gossipAction = 20000 + subCat.enchantCategorySubTypeId;
                         std::string label;
 
                         if (isLocked)
                         {
                             label = "|TInterface/ICONS/" + subCat.icon + ":24:24:-18|t|cff808080" + subCat.name + lockReason + "|r";
-                            subAction = 99998; // Dummy action
+                            gossipAction = 99900 + subCat.enchantCategorySubTypeId;
                         }
                         else
                         {
                             label = "|TInterface/ICONS/" + subCat.icon + ":24:24:-18|t" + subCat.name;
                         }
 
-                        AddGossipItemFor(player, 1, label, GOSSIP_SENDER_MAIN, subAction);
+                        AddGossipItemFor(player, 1, label, GOSSIP_SENDER_MAIN, gossipAction);
                     }
                     break;
                 }
             }
 
             AddGossipItemFor(player, GOSSIP_ICON_TALK, "  <- Back to Main Menu", GOSSIP_SENDER_MAIN, 99999);
-            SendGossipMenuFor(player, DEFAULT_GOSSIP_MESSAGE, creature->GetGUID());
+            LOG_INFO("server.loading", "DEBUG: Sending Gossip (NPCEnchanterID + 1) Text ID: {}", NPCEnchanterID + 1);
+            SendGossipMenuFor(player, NPCEnchanterID + 1, creature->GetGUID());
             return true;
         }
 
-        // 2. Handling CategorySubType (Actions 20000-29999)
+        // 2. Display Enchants (Actions 20000-29999)
         if (action >= 20000 && action < 30000)
         {
             uint32 subCategoryId = action - 20000;
@@ -158,12 +179,11 @@ class NPCEnchanterEnhanced : public CreatureScript {
                         parentCategoryId = cat.enchantCategoryId;
                         for (const auto& enchant : subCat.enchants)
                         {
-
                             uint32 enchantCost = sEnchantManager->GetOrCacheEnchantPrice(player, &enchant, subCategoryId);
-
                             EnchantValidationResult validation = ValidationHelper::EvaluateEnchant(player, subCategoryId, enchant, enchantCost, currentPhase);
 
-                            uint32 gossipAction = (subCategoryId << 16) | (enchant.enchantId & 0xFFFF);
+                            // Directly point to the execution action range (e.g., 500000+)
+                            uint32 confirmAction = 500000 + (subCategoryId * 10000) + enchant.enchantId;
 
                             if (validation.showEnchant)
                             {
@@ -171,13 +191,31 @@ class NPCEnchanterEnhanced : public CreatureScript {
                                 if (validation.isLocked)
                                 {
                                     label = "  |cff808080" + enchant.name + " — " + validation.reason + "|r";
-                                    gossipAction = 99998; // Dummy action
+                                    // Locked items keep a safe dummy action or can bypass popup
+                                    AddGossipItemFor(player, GOSSIP_ICON_VENDOR, label, GOSSIP_SENDER_MAIN, 99900 + subCategoryId);
                                 }
                                 else
                                 {
                                     label = "  " + enchant.name + validation.priceString;
+                                    std::string popupMessage =  "Are you entirely certain your gear can handle this much raw power, $N?\n\n"
+                                                                "Enchant: " + enchant.name + "\n"
+                                                                "Effect: " + (enchant.description.empty() ? "None" : enchant.description) + "\n\n"
+                                                                "Price calculated via highly complex, entirely made-up arcane metrics. Totaled below:";
+
+                                    uint32 copperCost = GOLD(enchantCost);
+
+                                    // Add item with the native popup and money display attached!
+                                    AddGossipItemFor(
+                                        player,
+                                        GOSSIP_ICON_VENDOR,
+                                        label,
+                                        GOSSIP_SENDER_MAIN,
+                                        confirmAction,
+                                        popupMessage,
+                                        static_cast<uint32>(copperCost),
+                                        false
+                                    );
                                 }
-                                AddGossipItemFor(player, GOSSIP_ICON_VENDOR, label, GOSSIP_SENDER_MAIN, gossipAction);
                             }
                         }
                         break;
@@ -186,15 +224,16 @@ class NPCEnchanterEnhanced : public CreatureScript {
             }
 
             AddGossipItemFor(player, GOSSIP_ICON_TALK, "  <- Back to Categories", GOSSIP_SENDER_MAIN, 10000 + parentCategoryId);
-            SendGossipMenuFor(player, DEFAULT_GOSSIP_MESSAGE, creature->GetGUID());
+            LOG_INFO("server.loading", "DEBUG: Sending Gossip (NPCEnchanterID + 2) Text ID: {}", NPCEnchanterID + 2);
+            SendGossipMenuFor(player, NPCEnchanterID + 2, creature->GetGUID());
             return true;
         }
 
-        // 4. Handling Clicked Enchant (Packed Actions are >= 65536 since SubCat is shifted left by 16)
-        if (action >= 65536)
+        // Handling the actual enchanting (Actions >= 500000)
+        if (action >= 500000 && action < 900000)
         {
-            uint32 owningSubCategoryId = action >> 16;
-            uint32 enchantId = action & 0xFFFF;
+            uint32 owningSubCategoryId = (action - 500000) / 10000;
+            uint32 enchantId = (action - 500000) % 10000;
 
             const EnchantDefinition* selectedEnchant = sEnchantManager->GetEnchantDefinition(enchantId);
             if (!selectedEnchant)
@@ -212,6 +251,7 @@ class NPCEnchanterEnhanced : public CreatureScript {
         return true;
     }
 
+    //Enchant the item
     static void Enchant(Player* player, Creature* creature, Item* item, const EnchantDefinition* enchant, uint32 subCatId)
     {
         if (!item)
@@ -233,14 +273,14 @@ class NPCEnchanterEnhanced : public CreatureScript {
 
         if (!NPCEnchanterEnhancedFreeEnchants || NPCEnchanterEnhancedDynamicPricesOnEnchants)
         {
-            uint64 costInCopper = COPPER(sEnchantManager->GetOrCacheEnchantPrice(player, enchant, subCatId));
+            uint32 costInCopper = GOLD(sEnchantManager->GetOrCacheEnchantPrice(player, enchant, subCatId));
             if (player->GetMoney() < costInCopper)
             {
                 creature->Whisper("You do not have enough gold for this enchant!", LANG_UNIVERSAL, player);
                 return;
             }
 
-            player->ModifyMoney(-static_cast<int64>(costInCopper));
+            player->ModifyMoney(-static_cast<int32>(costInCopper));
         }
 
         item->ClearEnchantment(PERM_ENCHANTMENT_SLOT);

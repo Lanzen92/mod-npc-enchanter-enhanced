@@ -3,6 +3,7 @@
 #include "Chat.h"
 #include "Player.h"
 #include "Creature.h"
+#include "ValidationHelper.h"
 
 uint32 NPCEnchanterEnhancedDespawnTimerInMS = NPCEnchanterEnhancedDespawnTimerInSeconds * 1000;
 
@@ -20,6 +21,7 @@ public:
             { "NPCEE", HelpEnchanterCommand, SEC_PLAYER, Console::No },
             { "NPCEE spawn", SpawnEnchanterCommand, SEC_PLAYER , Console::No },
             { "NPCEE despawn", DespawnEnchanterCommand, SEC_PLAYER, Console::No },
+            { "NPCEE getphase", GetPhaseEnchanterCommand, SEC_PLAYER, Console::No },
             { "NPCEE help", HelpEnchanterCommand, SEC_PLAYER, Console::No },
             { "NPCEE config", ShowConfigurationEnchanterCommand, SEC_GAMEMASTER, Console::No },
             { "NPCEE reload", ReloadConfigurationEnchanterCommand, SEC_GAMEMASTER, Console::No }
@@ -91,6 +93,18 @@ public:
         return true;
     }
 
+    static bool GetPhaseEnchanterCommand(ChatHandler* handler)
+    {
+        Player* player = handler->GetSession()->GetPlayer();
+        if (!player)
+            return false;
+
+        uint32 playerPhase = ValidationHelper::GetPlayerPhase(player);
+
+        handler->SendSysMessage("Current phase: " + std::to_string(playerPhase));
+        return true;
+    }
+
     static bool HelpEnchanterCommand(ChatHandler* handler)
     {
         Player* player = handler->GetSession()->GetPlayer();
@@ -106,6 +120,7 @@ public:
         handler->SendSysMessage("=== NPC Enchanter Enhanced Commands ===");
         handler->SendSysMessage(".NPCEE spawn - " + (!creatureName.empty() ? creatureName : "Enchanter Xari"));
         handler->SendSysMessage(".NPCEE despawn - " + (!creatureName.empty() ? creatureName : "Enchanter Xari"));
+        handler->SendSysMessage(".NPCEE getphase - Get current phase");
         handler->SendSysMessage(".NPCEE help - Show this help menu.");
 
         //Check if configured for anyone to be able to spawn, or if level is Game master or above.

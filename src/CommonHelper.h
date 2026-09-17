@@ -6,6 +6,7 @@
 #include "Player.h"
 #include "EnchantManager.h"
 
+//Get SkillType from string. - This should prob be changed to uint in the enchantDef.
 inline SkillType GetProfessionSkillTypeFromString(const std::string& profName)
 {
     if (profName == "Enchanting")   return SKILL_ENCHANTING;
@@ -23,6 +24,7 @@ inline SkillType GetProfessionSkillTypeFromString(const std::string& profName)
     return SKILL_NONE;
 }
 
+// Get EQUIPMENT_SLOT from SubCategory
 inline EquipmentSlots GetEquipmentSlotFromSubCategory(uint32 subCat)
 {
     switch (subCat)

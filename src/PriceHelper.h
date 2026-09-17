@@ -3,7 +3,7 @@
 #include "EnchantManager.h"
 
 // Define currency conversions
-#define COPPER(n) ((uint64)(n)) // Convert n to copper
+#define COPPER(n) ((uint32)(n)) // Convert n to copper
 #define SILVER(n) (COPPER(n) * 100) // Convert n to silver
 #define GOLD(n)   (SILVER(n) * 100) // Convert n to gold
 

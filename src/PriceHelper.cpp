@@ -10,6 +10,9 @@ uint32 PriceHelper::GetEnchantPriceInGold(const Player* player, const EnchantDef
     if (!NPCEnchanterEnhancedDynamicPricesOnEnchants)
         return enchantDef->cost;
 
+    if (NPCEnchanterEnhancedFreeEnchants)
+        return 0;
+
     //Dynamic price
     return CalculateDynamicEnchantPrice(enchantDef, player, subCatId);
 }
@@ -55,14 +58,10 @@ uint32 PriceHelper::CalculateDynamicEnchantPrice(const EnchantDefinition* enchan
     float itemLevelAdjustment = static_cast<float>(itemLevel) * NPCEnchanterEnhancedItemLevelMultiplier;
     float playerLevelAdjustment = static_cast<float>(playerLevel) * NPCEnchanterEnhancedPlayerLevelMultiplier;
 
-    LOG_INFO("server.loading", "CalculateDynamicEnchantPrice itemLevelAdjustment {}, playerLevelAdjustment {},", itemLevelAdjustment, playerLevelAdjustment);
-
-    // 1. Calculate base subtotal and multiply by quality modifier
+    //Calculate base subtotal and multiply by quality modifier
     float adjustedPrice = (static_cast<float>(basePrice) + itemLevelAdjustment + playerLevelAdjustment) * qualityMultiplier;
 
-    LOG_INFO("server.loading", "CalculateDynamicEnchantPrice adjustedPrice {}", adjustedPrice);
-
-    // 2. Variance multiplier
+    //Variance multiplier
     if (variancePercentage > 0.0f)
     {
         float minMultiplier = 1.0f - variancePercentage;
@@ -71,6 +70,5 @@ uint32 PriceHelper::CalculateDynamicEnchantPrice(const EnchantDefinition* enchan
         adjustedPrice *= frand(minMultiplier, maxMultiplier);
     }
 
-    LOG_INFO("server.loading", "CalculateDynamicEnchantPrice after variance adjustedPrice {}", adjustedPrice);
     return static_cast<uint32>(adjustedPrice);
 }
