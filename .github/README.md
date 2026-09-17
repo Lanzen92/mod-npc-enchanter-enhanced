@@ -7,7 +7,7 @@
 
 **NPC Enchanter Enhanced** is an AzerothCore module inspired by the classic [`npc_enchanter module`](https://www.azerothcore.org/catalogue.html#/details/123951640). It makes in-game enchanting easy and flexible by letting players apply enchants directly through a clean NPC menu, using custom costs, items, and rules for a better quality-of-life experience.
 
-> **⚠️ Note / Disclaimer:** This is my first-ever C++ project and my first custom module! While I've tested it thoroughly, you might run into minor edge cases or quirks. Please feel free to open an issue or pull request if you spot anything, and always back up your database before installing new modules on a live server!
+> **⚠️ Note / Disclaimer:** This is one of my first C++ project and my first custom module! You might run into minor edge cases or quirks. Please feel free to open an issue or pull request if you spot anything, and always back up your database before installing new modules on a live server!
 
 ---
 
