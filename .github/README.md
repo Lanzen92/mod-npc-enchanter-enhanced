@@ -68,5 +68,6 @@ Distributed under the MIT License. See [LICENSE](LICENSE) for more information.
 ## 🙏 Acknowledgements
 * [AzerothCore Community](https://www.azerothcore.org/) for the incredible open-source framework.
 * All contributors and testers who helped shape this project.
-* Also big thanks to [StygianTheBest](https://github.com/StygianTheBest) and [gtao725](https://github.com/gtao725/) for the inspiration! 
+* Special Thanks to [StygianTheBest](https://github.com/StygianTheBest) for the original npc_enchanter and [gtao725](https://github.com/gtao725/) for the port of [`npc_enchanter module`](https://www.azerothcore.org/catalogue.html#/details/123951640).
+* The contributors of [`mod-individual-progression`](https://www.azerothcore.org/catalogue.html#/details/467290212) for their work on player progression.
 
