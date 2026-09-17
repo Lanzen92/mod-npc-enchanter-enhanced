@@ -22,9 +22,8 @@ public:
             { "NPCEE despawn", DespawnEnchanterCommand, SEC_PLAYER, Console::No },
             { "NPCEE help", HelpEnchanterCommand, SEC_PLAYER, Console::No },
             { "NPCEE config", ShowConfigurationEnchanterCommand, SEC_GAMEMASTER, Console::No },
-            //{ "NPCEE reload", ReloadConfigurationEnchanterCommand, SEC_GAMEMASTER, Console::No }
+            { "NPCEE reload", ReloadConfigurationEnchanterCommand, SEC_GAMEMASTER, Console::No }
         };
-
 
         return commandTable;
     }
@@ -157,26 +156,32 @@ public:
         handler->SendSysMessage("===  Price  ===");
         handler->SendSysMessage("NPCEnchanterEnhanced.FreeEnchants: " + std::to_string(NPCEnchanterEnhancedFreeEnchants));
         handler->SendSysMessage("NPCEnchanterEnhanced.DynamicPricesOnEnchants: " + std::to_string(NPCEnchanterEnhancedDynamicPricesOnEnchants));
+
+        std::string multipliers = "";
+
+
+
+
         return true;
     }
 
-    // static bool ReloadConfigurationEnchanterCommand(ChatHandler* handler)
-    // {
-    //     Player* player = handler->GetSession()->GetPlayer();
-    //     if (!player)
-    //         return false;
-    //
-    //     if (!sConfigMgr->Reload())
-    //     {
-    //         handler->SendSysMessage("Failed to reload configuration file.");
-    //         return false;
-    //     }
-    //
-    //     LoadEnchantConfig(true);
-    //
-    //     handler->SendSysMessage("NPC Enchanter Enhanced configuration reloaded successfully.");
-    //     return true;
-    // }
+    static bool ReloadConfigurationEnchanterCommand(ChatHandler* handler)
+    {
+        Player* player = handler->GetSession()->GetPlayer();
+        if (!player)
+            return false;
+
+        if (!sConfigMgr->Reload())
+        {
+            handler->SendSysMessage("Failed to reload configuration file.");
+            return false;
+        }
+
+        LoadEnchantConfig(true);
+
+        handler->SendSysMessage("NPC Enchanter Enhanced configuration reloaded successfully.");
+        return true;
+    }
 };
 
 void AddSC_NPCEnchanterEnhancedChatCommands()

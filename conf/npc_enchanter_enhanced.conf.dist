@@ -164,12 +164,15 @@ NPCEnchanterEnhanced.FreeEnchants = 0
 NPCEnchanterEnhanced.DynamicPricesOnEnchants = 0
 #
 #  Dynamice Prices variables
+#
 #  BasePrices
 #  Base cost of the enchants, based on tiers (Leveling, PreRaid, Raid)
 #
 #  Multipliers
 #  To make the prices more configurable and dynamic.
 #  These are based on Player level, Itemlevel of the item and Quality of the item.
+#
+#  VariancePercentage - Makes the price be +- X % (0.15 = 15%)
 #
 #  Enchant Price Calculation Formula:
 #    1. Base Price: Determined by the enchant's progression tier (Leveling, Pre-Raid, or Raid).
@@ -179,21 +182,24 @@ NPCEnchanterEnhanced.DynamicPricesOnEnchants = 0
 #    5. Random Variance: A random percentage fluctuation applied to the cost
 #       based on the configured variance percentage (e.g., +/- 10%).
 #
-#    Final Price = (Base Price + Item Level Adjustment + Player Level Adjustment) * Random Variance
+#    Final Price = ((Base Price + Item Level Adjustment + Player Level Adjustment) * Quality Multiplier) * Random Variance
 #
 #  Default values:
+#  DynamicPriceCacheDurationInSeconds = 1800 (30 minutes)
 #  NPCEnchanterEnhanced.BasePriceLeveling = 10
 #  NPCEnchanterEnhanced.BasePricePreRaid = 50
 #  NPCEnchanterEnhanced.BasePriceRaid = 200
 #  NPCEnchanterEnhanced.ItemLevelMultiplier = 0.1
 #  NPCEnchanterEnhanced.PlayerLevelMultiplier = 0.2
-#  NPCEnchanterEnhanced.QualityMultiplierNormal = 0.5
-#  NPCEnchanterEnhanced.QualityMultiplierUncommon = 0.8
-#  NPCEnchanterEnhanced.QualityMultiplierRare = 1.0
-#  NPCEnchanterEnhanced.QualityMultiplierEpic = 1.25
-#  NPCEnchanterEnhanced.QualityMultiplierLegendary = 1.75
+#  NPCEnchanterEnhanced.QualityMultiplierNormal = 0.3
+#  NPCEnchanterEnhanced.QualityMultiplierUncommon = 0.5
+#  NPCEnchanterEnhanced.QualityMultiplierRare = 0.8
+#  NPCEnchanterEnhanced.QualityMultiplierEpic = 1.0
+#  NPCEnchanterEnhanced.QualityMultiplierLegendary = 1.35
 #  NPCEnchanterEnhanced.VariancePercentage = 0.15
 #
+#
+DynamicPriceCacheDurationInSeconds = 1800
 #
 NPCEnchanterEnhanced.BasePriceLeveling = 10
 NPCEnchanterEnhanced.BasePricePreRaid = 50
@@ -203,12 +209,13 @@ NPCEnchanterEnhanced.BasePriceRaid = 200
 #
 NPCEnchanterEnhanced.ItemLevelMultiplier = 0.1
 NPCEnchanterEnhanced.PlayerLevelMultiplier = 0.2
-NPCEnchanterEnhanced.QualityMultiplierNormal = 0.5
-NPCEnchanterEnhanced.QualityMultiplierUncommon = 0.8
-NPCEnchanterEnhanced.QualityMultiplierRare = 1.0
-NPCEnchanterEnhanced.QualityMultiplierEpic = 1.25
-NPCEnchanterEnhanced.QualityMultiplierLegendary = 1.75
+NPCEnchanterEnhanced.QualityMultiplierNormal = 0.3
+NPCEnchanterEnhanced.QualityMultiplierUncommon = 0.5
+NPCEnchanterEnhanced.QualityMultiplierRare = 0.8
+NPCEnchanterEnhanced.QualityMultiplierEpic = 1.0
+NPCEnchanterEnhanced.QualityMultiplierLegendary = 1.35
 NPCEnchanterEnhanced.VariancePercentage = 0.15
+#
 #
 #-------------------------------------------------------------------------------------
 

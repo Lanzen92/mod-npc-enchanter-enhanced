@@ -42,5 +42,6 @@ extern float NPCEnchanterEnhancedQualityMultiplierEpic;
 extern float NPCEnchanterEnhancedQualityMultiplierLegendary;
 
 extern float NPCEnchanterEnhancedVariancePercentage;
+extern float NPCEnchanterEnhancedDynamicPriceCacheDurationInSeconds;
 
 void LoadEnchantConfig(bool reload = false);

@@ -1,6 +1,8 @@
 ﻿#include "EnchantManager.h"
+#include <algorithm>
 #include <string>
 
+#include "ConfigManager.h"
 #include "PriceHelper.h"
 
 NPCEnchanterEnhancedEnchantManager* NPCEnchanterEnhancedEnchantManager::instance()
@@ -538,10 +540,9 @@ std::string NPCEnchanterEnhancedEnchantManager::GetProfessionLockedPhrase(uint32
                     {
                         profession = enchant.professionRequirement;
 
-                        if (enchant.professionSkillRequirement > professionLowestSkill)
-                        {
-                            professionLowestSkill = enchant.professionSkillRequirement;
-                        }
+                        professionLowestSkill = std::max(
+                            enchant.professionSkillRequirement,
+                            professionLowestSkill);
                     }
                 }
 
@@ -567,29 +568,48 @@ uint32 NPCEnchanterEnhancedEnchantManager::GetOrCacheEnchantPrice(Player* player
 
     uint32 playerGuid = player->GetGUID().GetCounter();
     uint32 enchantId = enchantDef->enchantId;
+    auto now = std::chrono::steady_clock::now();
 
-    // 1. If a price was already rolled/cached for this session, return it
     auto playerCacheIt = m_playerPriceCache.find(playerGuid);
     if (playerCacheIt != m_playerPriceCache.end())
     {
+        // Check if cache for the player is older than NPCEnchanterEnhancedDynamicPriceCacheDuration. If it is, calculate a new price.
+        for (auto it = playerCacheIt->second.begin(); it != playerCacheIt->second.end(); )
+        {
+            auto elapsed = std::chrono::duration_cast<std::chrono::seconds>(now - it->second.timestamp).count();
+            if (elapsed >= NPCEnchanterEnhancedDynamicPriceCacheDurationInSeconds)
+            {
+                it = playerCacheIt->second.erase(it);
+            }
+            else
+            {
+                ++it;
+            }
+        }
+
         auto enchantIt = playerCacheIt->second.find(enchantId);
         if (enchantIt != playerCacheIt->second.end())
         {
-            return enchantIt->second; // Matches what the player saw!
+            return enchantIt->second.price;
         }
     }
 
-    // 2. Otherwise, run your exact calculation function for the first time
+    // Calculate fresh price if not found or expired
     uint32 finalPrice = PriceHelper::GetEnchantPriceInGold(player, enchantDef, subCatId);
-
-    // 3. Cache it so the purchase action uses the exact same price
-    m_playerPriceCache[playerGuid][enchantId] = finalPrice;
+    m_playerPriceCache[playerGuid][enchantId] = { finalPrice, now };
 
     return finalPrice;
 }
 
-//Clear players cache.
+//Clear a specific players cache.
 void NPCEnchanterEnhancedEnchantManager::ClearPlayerPriceCache(uint32 playerGuid)
 {
+    LOG_INFO("server.loading", "ClearPlayerPriceCache PlayerGUID {},", playerGuid);
     m_playerPriceCache.erase(playerGuid);
+}
+
+//Clear all players cache.
+void NPCEnchanterEnhancedEnchantManager::ClearAllPlayerPriceCaches()
+{
+    m_playerPriceCache.clear();
 }

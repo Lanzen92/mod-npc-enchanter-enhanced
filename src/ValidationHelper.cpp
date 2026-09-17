@@ -56,7 +56,7 @@ bool ValidationHelper::ValidateProfession(const Player* player, const EnchantDef
     return true;
 }
 
-//Check if the player has enough gold AND returns a pricestring - This should be moved to a new function. TODO
+//Check if the player has enough gold AND returns a pricestring.
 bool ValidationHelper::ValidateGold(const Player* player, uint32 cost, std::string& reason, std::string& priceString)
 {
     if (NPCEnchanterEnhancedFreeEnchants)
@@ -65,7 +65,8 @@ bool ValidationHelper::ValidateGold(const Player* player, uint32 cost, std::stri
         return true;
     }
 
-    priceString = cost > 0 ? "   |cffffd700(" + std::to_string(cost) + "g)|r" : "";
+    std::string coinIcon = "|TInterface/ICONS/INV_Misc_Coin_01:16:16:0:0|t";
+    priceString = cost > 0 ? " " + coinIcon + " |cffffffff[ " + std::to_string(cost) + " Gold ]|r" : "";
 
     if (player->GetMoney() < COPPER(cost))
     {

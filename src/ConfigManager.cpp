@@ -42,8 +42,9 @@ float NPCEnchanterEnhancedQualityMultiplierUncommon = 0.8f;
 float NPCEnchanterEnhancedQualityMultiplierRare = 1.0f;
 float NPCEnchanterEnhancedQualityMultiplierEpic = 1.25f;
 float NPCEnchanterEnhancedQualityMultiplierLegendary = 1.75f;
-
 float NPCEnchanterEnhancedVariancePercentage = 0.15f;
+
+float NPCEnchanterEnhancedDynamicPriceCacheDurationInSeconds = 1800;
 
 void LoadEnchantConfig(bool /*reload*/)
 {
@@ -81,6 +82,7 @@ void LoadEnchantConfig(bool /*reload*/)
     NPCEnchanterEnhancedQualityMultiplierLegendary = sConfigMgr->GetOption<float>("NPCEnchanterEnhanced.QualityMultiplierLegendary", 1.75f);
 
     NPCEnchanterEnhancedVariancePercentage = sConfigMgr->GetOption<float>("NPCEnchanterEnhanced.VariancePercentage", 0.15f);
+    NPCEnchanterEnhancedDynamicPriceCacheDurationInSeconds =sConfigMgr->GetOption<float>("NPCEnchanterEnhanced.DynamicPriceCacheDurationInSeconds", 1800);
 
     if (NPCEnchanterEnhancedDynamicPricesOnEnchants)
     {

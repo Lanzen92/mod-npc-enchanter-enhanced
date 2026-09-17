@@ -68,6 +68,12 @@ struct EnchantCategoryDefinition {
     std::vector<EnchantSubCategoryDefinition> subTypes;
 };
 
+struct CachedEnchantPriceData
+{
+    uint32 price;
+    std::chrono::steady_clock::time_point timestamp;
+};
+
 class NPCEnchanterEnhancedEnchantManager
 {
 public:
@@ -77,14 +83,16 @@ public:
     bool SubCategoryHasNoEnchants(uint32 subCategoryId) const;
     bool AllEnchantsInSubCategoryHasProfessionRequirements(uint32 subCategoryId) const;
     std::string GetProfessionLockedPhrase(uint32 subCategoryId) const;
-    // Price caching methods
+
+    //CachedEnchantPriceData methods
     uint32 GetOrCacheEnchantPrice(Player* player, const EnchantDefinition* enchantDef, uint32 subCatId);
     void ClearPlayerPriceCache(uint32 playerGuid);
+    void ClearAllPlayerPriceCaches();
 
 private:
     NPCEnchanterEnhancedEnchantManager();
     std::vector<EnchantCategoryDefinition> m_enchantDatabase;
-    std::unordered_map<uint32, std::unordered_map<uint32, uint32>> m_playerPriceCache;
+    std::unordered_map<uint32, std::unordered_map<uint32, CachedEnchantPriceData>> m_playerPriceCache;
 };
 
 #define sEnchantManager NPCEnchanterEnhancedEnchantManager::instance()

@@ -103,8 +103,7 @@ class NPCEnchanterEnhanced : public CreatureScript {
                             lockReason = sEnchantManager->GetProfessionLockedPhrase(subCat.enchantCategorySubTypeId);
                             if (!lockReason.empty())
                             {
-                                // If the subcategory requires professions across the board,
-                                // you can evaluate your conditions smoothly:
+                                //If all enchants require profession - If it does, lock the subcategory
                                 for (const auto& enchant : subCat.enchants)
                                 {
                                     if (!enchant.professionRequirement.empty())
@@ -246,9 +245,6 @@ class NPCEnchanterEnhanced : public CreatureScript {
 
         item->ClearEnchantment(PERM_ENCHANTMENT_SLOT);
         item->SetEnchantment(PERM_ENCHANTMENT_SLOT, enchant->enchantId, 0, 0);
-
-        //Clear the cache before closing the gossipmenu.
-        sEnchantManager->ClearPlayerPriceCache(player->GetGUID().GetCounter());
 
         creature->CastSpell(player, 12512);
         player->PlayerTalkClass->SendCloseGossip();
