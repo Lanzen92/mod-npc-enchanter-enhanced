@@ -66,8 +66,9 @@ Distributed under the MIT License. See [LICENSE](LICENSE) for more information.
 ---
 
 ## 🙏 Acknowledgements
-* [AzerothCore Community](https://www.azerothcore.org/) for the incredible open-source framework.
+
+*  [AzerothCore Community](https://www.azerothcore.org/) for the incredible open-source framework.
 * All contributors and testers who helped shape this project.
-* And to the creators and contributors of [`mod-individual-progression`](https://www.azerothcore.org/catalogue.html#/details/467290212) and 
+* The creators and contributors of [`mod-individual-progression`](https://www.azerothcore.org/catalogue.html#/details/467290212) and 
 [`npc_enchanter module`](https://www.azerothcore.org/catalogue.html#/details/123951640).
 
