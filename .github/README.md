@@ -10,7 +10,7 @@ I built this module completely for myself because I wanted something that actual
 The goal is to keep it feeling genuinely Blizzlike while giving your solo character a natural way to stay enchanted as you level up.
 
 Plus, I added a bunch of configurations so you can completely tailor it to whatever style you want, whether you want it strict or relaxed.
-> **⚠️ Note / Disclaimer:** This is one of my first C++ project and my first custom module! You might run into minor edge cases or quirks. Please feel free to open an issue or pull request if you spot anything, and always back up your database before installing new modules on a live server!
+> **⚠️ Note / Disclaimer:** This is one of my first C++ project and my first custom module! You might run into bugs - Please feel free to open an issue or pull request if you spot anything, and always back up your database before installing new modules on a live server!
 
 ---
 
@@ -23,7 +23,8 @@ Plus, I added a bunch of configurations so you can completely tailor it to whate
 * **Comprehensive Spell Data:** Includes all Vanilla enchants right out of the box, with TBC and WotLK enchants planned for upcoming updates.
 * **Dynamic Pricing** - Designed to feel more "blizzlike," but fully customizable through a bunch of flexible configurations so you can tailor it to your exact needs.
 
-Upcoming features/changes:
+## 📄 In the backlog:
+
 * **More enchants** - Of course, all of the TBC and WotLK enchants!
 * **Items** - A book that players can buy and use to summon Enchanter Xari.
 ---
