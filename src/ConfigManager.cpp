@@ -70,7 +70,7 @@ void LoadEnchantConfig(bool /*reload*/)
     NPCEnchanterEnhancedFreeEnchants = sConfigMgr->GetOption<bool>("NPCEnchanterEnhanced.FreeEnchants", false);
     NPCEnchanterEnhancedDynamicPricesOnEnchants = sConfigMgr->GetOption<bool>("NPCEnchanterEnhanced.DynamicPricesOnEnchants", false);
 
-	NPCEnchanterEnhancedDynamicPriceCacheDurationInSeconds =sConfigMgr->GetOption<float>("NPCEnchanterEnhanced.DynamicPriceCacheDurationInSeconds", 1800);
+	NPCEnchanterEnhancedDynamicPriceCacheDurationInSeconds = sConfigMgr->GetOption<float>("NPCEnchanterEnhanced.DynamicPriceCacheDurationInSeconds", 1800);
     NPCEnchanterEnhancedBasePriceLeveling = sConfigMgr->GetOption<uint32>("NPCEnchanterEnhanced.BasePriceLeveling", 10);
     NPCEnchanterEnhancedBasePricePreRaid = sConfigMgr->GetOption<uint32>("NPCEnchanterEnhanced.BasePricePreRaid", 50);
     NPCEnchanterEnhancedBasePriceRaid = sConfigMgr->GetOption<uint32>("NPCEnchanterEnhanced.BasePriceRaid", 200);
