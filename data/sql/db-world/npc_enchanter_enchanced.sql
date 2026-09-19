@@ -39,5 +39,5 @@ INSERT INTO `creature_equip_template` (`CreatureID`, `ID`, `ItemID1`, `ItemID2`,
 DELETE FROM `npc_text` WHERE `ID` BETWEEN @Entry AND @Entry + 2;
 INSERT INTO `npc_text` (`ID`, `text0_0`) VALUES
      (@Entry,     'Knowledge is power, $N, but properly enchanted equipment is its own distinct advantage.$B$BJust remember: I only work on what you have equipped right now—bring it worn, not tucked away in a bag.$B$BSpeak your needs..'),
-     (@Entry + 1, 'Select an equipment slot or weapon type to view available enhancements, $N.$B$BAnd as i just said.. I only work on what you have equipped right now.$B$BDisabled categories indicate missing requirements.'),
+     (@Entry + 1, 'Select an equipment slot or weapon type to view available enhancements, $N.$B$BDisabled categories indicate missing requirements.'),
      (@Entry + 2, 'Choose your preferred tier of power carefully, $N. Quality has its price.');

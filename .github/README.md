@@ -5,9 +5,12 @@
 [![Module Status: Active](https://img.shields.io/badge/Status-Active-success.svg)]()
 
 
-**NPC Enchanter Enhanced** is an AzerothCore module inspired by the classic [`npc_enchanter module`](https://www.azerothcore.org/catalogue.html#/details/123951640). It makes in-game enchanting easy and flexible by letting players apply enchants directly through a clean NPC menu, using custom costs, items, and rules for a better quality-of-life experience.
+**NPC Enchanter Enhanced** is an AzerothCore module inspired by the classic [`npc_enchanter module`](https://www.azerothcore.org/catalogue.html#/details/123951640). 
+I built this module completely for myself because I wanted something that actually matches my progression while playing solo, rather than relying on custom workarounds.
+The goal is to keep it feeling genuinely Blizzlike while giving your solo character a natural way to stay enchanted as you level up.
 
-> **⚠️ Note / Disclaimer:** This is one of my first C++ project and my first custom module! You might run into minor edge cases or quirks. Please feel free to open an issue or pull request if you spot anything, and always back up your database before installing new modules on a live server!
+Plus, I added a bunch of configurations so you can completely tailor it to whatever style you want, whether you want it strict or relaxed.
+> **⚠️ Note / Disclaimer:** This is one of my first C++ project and my first custom module! You might run into bugs - Please feel free to open an issue or pull request if you spot anything, and always back up your database before installing new modules on a live server!
 
 ---
 
@@ -16,12 +19,13 @@
 * **Advanced Menu System:** Filter, disable, or hide unavailable enchants dynamically.
 * **Summon Utility:** Conveniently summon a temporary enchanter on demand using `.NPCEE Spawn` (which can be configured to work for any player).
 * **Flexible Restriction Modes:** Toggle between showing all enchants or using more "blizzlike" restrictions based on class, level, item level, professions, and phases.
-* **Progression Integration:** Optional integration with `IndividualProgression` to check player achievements and automatically unlock enchants released for that specific phase (fully implemented as a standalone feature, so `IndividualProgression` is not required).
+* **Individual Progression:** Optional feature that looks at the same achievements to automatically unlock phase-specific enchants (fully standalone; `IndividualProgression` is not required).
 * **Comprehensive Spell Data:** Includes all Vanilla enchants right out of the box, with TBC and WotLK enchants planned for upcoming updates.
+* **Dynamic Pricing** - Designed to feel more "blizzlike," but fully customizable through a bunch of flexible configurations so you can tailor it to your exact needs.
 
-Upcoming features/changes:
+## 📄 In the backlog:
+
 * **More enchants** - Of course, all of the TBC and WotLK enchants!
-* **Dynamic Pricing** - To make it feel more "blizzlike". 
 * **Items** - A book that players can buy and use to summon Enchanter Xari.
 ---
 
@@ -63,7 +67,9 @@ Distributed under the MIT License. See [LICENSE](LICENSE) for more information.
 ---
 
 ## 🙏 Acknowledgements
-* [AzerothCore Community](https://www.azerothcore.org/) for the incredible open-source framework.
+
+*  [AzerothCore Community](https://www.azerothcore.org/) for the incredible open-source framework.
 * All contributors and testers who helped shape this project.
-* Also big thanks to [StygianTheBest](https://github.com/StygianTheBest) and [gtao725](https://github.com/gtao725/) for the inspiration! 
+* The creators and contributors of [`mod-individual-progression`](https://www.azerothcore.org/catalogue.html#/details/467290212) and 
+[`npc_enchanter module`](https://www.azerothcore.org/catalogue.html#/details/123951640).
 
