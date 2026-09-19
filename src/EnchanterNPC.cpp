@@ -267,7 +267,8 @@ class NPCEnchanterEnhanced : public CreatureScript {
         //EnchantID now found.. Something went really wrong in the gossip menu.
         if (!enchant->enchantId)
         {
-            LOG_ERROR("server.loading", "[NPCEnchanterEnhanced] Error when enchanting. EnchantId not found. PlayerGUID: {} Item: {}", player->GetGUID(), item->GetGUID(), item->GetTemplate()->Name1 );
+            //Todo fix this line.. 
+            //LOG_ERROR("server.loading", "[NPCEnchanterEnhanced] Error when enchanting. EnchantId not found. PlayerGUID: {} Item: {}", player->GetGUID(), item->GetGUID(), item->GetTemplate()->Name1 );
             ChatHandler(player->GetSession()).SendSysMessage("Something went wrong.. Sorry!");
             player->PlayerTalkClass->SendCloseGossip();
             creature->HandleEmoteCommand(EMOTE_ONESHOT_LAUGH);
