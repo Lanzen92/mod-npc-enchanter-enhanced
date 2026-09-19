@@ -174,9 +174,6 @@ public:
 
         std::string multipliers = "";
 
-
-
-
         return true;
     }
 

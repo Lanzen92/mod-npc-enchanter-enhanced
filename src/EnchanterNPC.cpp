@@ -35,6 +35,7 @@ class NPCEnchanterEnhanced : public CreatureScript {
     NPCEnchanterEnhanced() : CreatureScript("NPCEnchanterEnhanced") {
     }
 
+    //Show Categories.
     bool OnGossipHello(Player* player, Creature* creature) override
     {
         if (!NPCEnchanterEnhancedEnabled)
@@ -53,6 +54,7 @@ class NPCEnchanterEnhanced : public CreatureScript {
         return true;
     }
 
+    //Show Subcategories and enchants
     bool OnGossipSelect(Player* player, Creature* creature, uint32 /*sender*/, uint32 action) override
     {
         if (!NPCEnchanterEnhancedEnabled)
@@ -60,7 +62,7 @@ class NPCEnchanterEnhanced : public CreatureScript {
 
         uint32 currentPhase;
         if (NPCEnchanterEnhancedIndividualProgression)
-            currentPhase = ValidationHelper::GetPlayerPhase(player);
+            currentPhase = GetPlayerPhase(player);
         else
             currentPhase = NPCEnchanterEnhancedPhase;
 
@@ -86,7 +88,7 @@ class NPCEnchanterEnhanced : public CreatureScript {
                     break;
             }
 
-            // Retrigger the category view.
+            // Retrigger the subcategory view.
             if (parentCategoryId != 0)
             {
                 return OnGossipSelect(player, creature, GOSSIP_SENDER_MAIN, 10000 + parentCategoryId);
@@ -159,7 +161,7 @@ class NPCEnchanterEnhanced : public CreatureScript {
             }
 
             AddGossipItemFor(player, GOSSIP_ICON_TALK, "  <- Back to Main Menu", GOSSIP_SENDER_MAIN, 99999);
-            LOG_INFO("server.loading", "DEBUG: Sending Gossip (NPCEnchanterID + 1) Text ID: {}", NPCEnchanterID + 1);
+            //LOG_INFO("server.loading", "DEBUG: Sending Gossip (NPCEnchanterID + 1) Text ID: {}", NPCEnchanterID + 1);
             SendGossipMenuFor(player, NPCEnchanterID + 1, creature->GetGUID());
             return true;
         }
@@ -224,7 +226,6 @@ class NPCEnchanterEnhanced : public CreatureScript {
             }
 
             AddGossipItemFor(player, GOSSIP_ICON_TALK, "  <- Back to Categories", GOSSIP_SENDER_MAIN, 10000 + parentCategoryId);
-            LOG_INFO("server.loading", "DEBUG: Sending Gossip (NPCEnchanterID + 2) Text ID: {}", NPCEnchanterID + 2);
             SendGossipMenuFor(player, NPCEnchanterID + 2, creature->GetGUID());
             return true;
         }
@@ -254,6 +255,7 @@ class NPCEnchanterEnhanced : public CreatureScript {
     //Enchant the item
     static void Enchant(Player* player, Creature* creature, Item* item, const EnchantDefinition* enchant, uint32 subCatId)
     {
+        //This should already been verified, but one last check.
         if (!item)
         {
             creature->HandleEmoteCommand(EMOTE_ONESHOT_LAUGH);
@@ -262,27 +264,30 @@ class NPCEnchanterEnhanced : public CreatureScript {
             player->PlayerTalkClass->SendCloseGossip();
             return;
         }
-
+        //EnchantID now found.. Something went really wrong in the gossip menu.
         if (!enchant->enchantId)
         {
+            LOG_ERROR("server.loading", "[NPCEnchanterEnhanced] Error when enchanting. EnchantId not found. PlayerGUID: {} Item: {}", player->GetGUID(), item->GetGUID(), item->GetTemplate()->Name1 );
             ChatHandler(player->GetSession()).SendSysMessage("Something went wrong.. Sorry!");
             player->PlayerTalkClass->SendCloseGossip();
             creature->HandleEmoteCommand(EMOTE_ONESHOT_LAUGH);
             return;
         }
-
+        //Check if gold should be removed.
         if (!NPCEnchanterEnhancedFreeEnchants || NPCEnchanterEnhancedDynamicPricesOnEnchants)
         {
+            // This has been verifed already, but one last gold check.
             uint32 costInCopper = GOLD(sEnchantManager->GetOrCacheEnchantPrice(player, enchant, subCatId));
             if (player->GetMoney() < costInCopper)
             {
-                creature->Whisper("You do not have enough gold for this enchant!", LANG_UNIVERSAL, player);
+                creature->Whisper("Are you trying to fool me?! You dont have enough gold for this!", LANG_UNIVERSAL, player);
                 return;
             }
 
             player->ModifyMoney(-static_cast<int32>(costInCopper));
         }
 
+        //Enchant the item!
         item->ClearEnchantment(PERM_ENCHANTMENT_SLOT);
         item->SetEnchantment(PERM_ENCHANTMENT_SLOT, enchant->enchantId, 0, 0);
 

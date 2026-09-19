@@ -4,6 +4,7 @@
 #include "Player.h"
 #include "PriceHelper.h"
 #include "SharedDefines.h"
+#include "CommonHelper.h"
 
 // Validate-Functions
 // true = Enchant is available
@@ -83,12 +84,40 @@ bool ValidationHelper::ValidatePhase(uint32 playerPhase, const EnchantDefinition
     if (NPCEnchanterEnhancedPhase == 0 && !NPCEnchanterEnhancedIndividualProgression)
         return true;
 
-    if (enchant.phase <= playerPhase)
+    if (enchant.phase - 1 <= playerPhase)
         return true;
 
-    if (enchant.phase >= playerPhase)
+    if (enchant.phase - 1 >= playerPhase)
     {
         reason = "Unlocked in phase " + std::to_string(enchant.phase) + ".";
+        return false;
+    }
+
+    return true;
+}
+
+//Check current expansion
+bool ValidationHelper::ValidateExpansion(const Player* player, const EnchantDefinition& enchant, std::string& reason)
+{
+    // 1. Find the player's highest unlocked phase from boss progression
+    uint8 highestUnlockedPhase = 0;
+    for (const auto& pair : bossProgression)
+    {
+        if (player->HasAchieved(pair.second))
+        {
+            if (pair.first > highestUnlockedPhase)
+            {
+                highestUnlockedPhase = pair.first;
+            }
+        }
+    }
+
+    uint8 enchantTier = GetExpansionTierForPhase(enchant.phase);
+    uint8 playerTier = GetExpansionTierForPhase(highestUnlockedPhase);
+
+    if (enchant.phase > playerTier)
+    {
+        reason = "Locked: Requires " + expansionBrackets[enchantTier].expansionName + " progression.";
         return false;
     }
 
@@ -187,6 +216,15 @@ EnchantValidationResult ValidationHelper::EvaluateEnchant(const Player* player, 
         return result;
     }
 
+    if (!ValidateExpansion(player, enchant, result.reason))
+    {
+        if (NPCEnchanterEnhancedOnlyAllowSameOrLowerExpansion)
+            result.showEnchant = false;
+
+        result.isLocked = true;
+        return result;
+    }
+
     if (!ValidateEquipment(player, subCatId, result.reason))
     {
         if (NPCEnchanterEnhancedHideUnavailableEnchants)
@@ -223,23 +261,6 @@ EnchantValidationResult ValidationHelper::EvaluateEnchant(const Player* player, 
 
     return result;
 }
-
-//Get Individualprogression phase.
-uint32 ValidationHelper::GetPlayerPhase(const Player* player)
-{
-    uint32 currentPhase = 1;
-
-    for (auto const& [progressionId, achievementId] : bossProgression)
-    {
-        if (player->HasAchieved(achievementId) && progressionId > currentPhase)
-        {
-            currentPhase = progressionId;
-        }
-    }
-
-    return currentPhase;
-}
-
 
 //SubCategory helpers
 bool ValidationHelper::ValidateSubCategoryProfession(const Player* player, const EnchantSubCategoryDefinition& subCat, std::string& reason)

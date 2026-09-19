@@ -34,6 +34,7 @@ NPCEnchanterEnhanced.Announce = 1
 #  If the NPC should be spawnable for anyone. (.NPCEE spawn)
 #  Enable : 1 (Any player can summon the enchanter)
 #  Disable: 0 (Only GM/Admin can summon the enchanter)
+#  Default: 1
 # -------------------------------------------------------------------------------------
 NPCEnchanterEnhanced.SpawnableByAnyone = 1
 #
@@ -60,6 +61,7 @@ NPCEnchanterEnhanced.DespawnTimerInSeconds = 90
 #  for example Rocket Boots (Engineering), ring enchants (Enchanting) etc
 #  Enable : 1 - Ignores requirements
 #  Disable: 0
+#  Default: 0
 # -------------------------------------------------------------------------------------
 NPCEnchanterEnhanced.IgnoreProfessionRequirements = 0
 #
@@ -70,6 +72,7 @@ NPCEnchanterEnhanced.IgnoreProfessionRequirements = 0
 #  Scopes in vanilla etc.
 #  Enable : 1 - Ignores requirements
 #  Disable: 0
+#  Default: 0
 # -------------------------------------------------------------------------------------
 NPCEnchanterEnhanced.IgnoreLevelRequirements = 0
 #
@@ -79,6 +82,7 @@ NPCEnchanterEnhanced.IgnoreLevelRequirements = 0
 #  Ignore itemlevel requirements.
 #  Enable : 1 - Ignores requirements
 #  Disable: 0
+#  Default: 0
 # -------------------------------------------------------------------------------------
 NPCEnchanterEnhanced.IgnoreItemLevelRequirements = 0
 #
@@ -88,25 +92,29 @@ NPCEnchanterEnhanced.IgnoreItemLevelRequirements = 0
 #  Ignore class requirements. (ZG enchants etc)
 #  Enable : 1 - Enchants are available for all classes
 #  Disable: 0
+#  Default: 0
 # -------------------------------------------------------------------------------------
 NPCEnchanterEnhanced.IgnoreClassRequirements = 0
 #
 # -------------------------------------------------------------------------------------
 #  TiersToShow
 #
-#   Raid: Crusader, +15 agility, 30+ spellpower, 55+ healing etc
-#   PreRaid:
+#   Raid: Crusader, +15 Agility, 30+ Spell Power, 55+ Healing Power, +4 Stats etc
+#   PreRaid: +3 Stats etc
 #   Leveling: Low-level enchants like Striking, Impact, Lesser Spirit etc
 #
 #  Show all tiers: "Leveling, PreRaid, Raid"
+#  Default: "Leveling, PreRaid, Raid"
 # -------------------------------------------------------------------------------------
 NPCEnchanterEnhanced.TiersToShow = "Leveling, PreRaid, Raid"
 #
+# -------------------------------------------------------------------------------------
 #  HideUnavailableEnchants
 #
 #  If enchants are unavailable (Reasons like wrong phase, wrong class, to low level etc)
 #  Hide enchants : 1
 #  Show enchants but locked : 1
+#  Default: 0
 # -------------------------------------------------------------------------------------
 NPCEnchanterEnhanced.HideUnavailableEnchants = 0
 #
@@ -126,8 +134,9 @@ NPCEnchanterEnhanced.HideUnavailableEnchants = 0
 #  Only enable enchants that were available during this phase (Or lower)
 #  Enable : 1-17
 #  Disable: 0
+#  Default: 0
 # -------------------------------------------------------------------------------------
-NPCEnchanterEnhanced.Phase = 1
+NPCEnchanterEnhanced.Phase = 0
 #
 # -------------------------------------------------------------------------------------
 #  IndividualProgression - !! This will override NPCEnchanterEnhancedPhase !!
@@ -136,9 +145,25 @@ NPCEnchanterEnhanced.Phase = 1
 #  Uses the same achievements as the IndividualProgression-module for phases.
 #  Enable : 1
 #  Disable: 0
+#  Default: 1
 # -------------------------------------------------------------------------------------
 NPCEnchanterEnhanced.IndividualProgression = 1
 #
+# -------------------------------------------------------------------------------------
+#  OnlyAllowSameOrLowerExpansion
+#
+#  Only enable enchants that were available during the expansion.
+#  If enabled:
+#  Phase 1-7 : Only show Vanilla enchants.
+#  Phase 8-12: Show Vanilla and TBC enchants.
+#  Phase 13+ : Show all enchants.
+#
+#  Enable : 1
+#  Disable: 0
+#  Default: 1
+# -------------------------------------------------------------------------------------
+NPCEnchanterEnhanced.OnlyAllowSameOrLowerExpansion = 1
+
 #--------------------------------------------------------------------------------------
 
 #--------------------------------------------------------------------------------------
@@ -151,6 +176,7 @@ NPCEnchanterEnhanced.IndividualProgression = 1
 #  Enable free enchants
 #  Enable : 1 Enchants are free.
 #  Disable: 0 Enchants cost gold.
+#  Default: 0
 # -------------------------------------------------------------------------------------
 NPCEnchanterEnhanced.FreeEnchants = 0
 #
@@ -160,6 +186,7 @@ NPCEnchanterEnhanced.FreeEnchants = 0
 #  Enable dynamic prices on enchants (Requires populated AH.) Not implemented yet.
 #  Enable : 1
 #  Disable: 0
+#  Default: 1
 # -------------------------------------------------------------------------------------
 NPCEnchanterEnhanced.DynamicPricesOnEnchants = 0
 #
