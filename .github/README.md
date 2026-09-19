@@ -24,7 +24,7 @@ Plus, I added a bunch of configurations so you can completely tailor it to whate
 * **Dynamic Pricing** - Designed to feel more "blizzlike," but fully customizable through a bunch of flexible configurations so you can tailor it to your exact needs.
 
 ## 📄 In the backlog:
-
+* **Individual Progression:** Some phases starts on questcompletions. For example AQ-quests for Bang a Gong (Starts phase 4) and Chaos and Destructions (Starts Phase 5) etc.
 * **More enchants** - Of course, all of the TBC and WotLK enchants!
 * **Items** - A book that players can buy and use to summon Enchanter Xari.
 ---
