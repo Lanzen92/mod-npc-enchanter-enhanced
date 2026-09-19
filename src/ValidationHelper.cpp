@@ -1,4 +1,6 @@
 ﻿#include "ValidationHelper.h"
+
+#include <algorithm>
 #include "ConfigManager.h"
 #include "EnchantManager.h"
 #include "Player.h"
@@ -99,23 +101,19 @@ bool ValidationHelper::ValidatePhase(uint32 playerPhase, const EnchantDefinition
 //Check current expansion
 bool ValidationHelper::ValidateExpansion(const Player* player, const EnchantDefinition& enchant, std::string& reason)
 {
-    // 1. Find the player's highest unlocked phase from boss progression
     uint8 highestUnlockedPhase = 0;
     for (const auto& pair : bossProgression)
     {
         if (player->HasAchieved(pair.second))
         {
-            if (pair.first > highestUnlockedPhase)
-            {
-                highestUnlockedPhase = pair.first;
-            }
+            highestUnlockedPhase = std::max(pair.first, highestUnlockedPhase);
         }
     }
 
     uint8 enchantTier = GetExpansionTierForPhase(enchant.phase);
     uint8 playerTier = GetExpansionTierForPhase(highestUnlockedPhase);
 
-    if (enchant.phase > playerTier)
+    if (enchant.phase - 1 > playerTier)
     {
         reason = "Locked: Requires " + expansionBrackets[enchantTier].expansionName + " progression.";
         return false;
