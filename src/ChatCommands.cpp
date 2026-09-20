@@ -99,7 +99,7 @@ public:
         if (!player)
             return false;
 
-        uint32 playerPhase = ValidationHelper::GetPlayerPhase(player);
+        uint32 playerPhase = GetPlayerPhase(player);
 
         handler->SendSysMessage("Current phase: " + std::to_string(playerPhase));
         return true;
