@@ -199,7 +199,7 @@ class NPCEnchanterEnhanced : public CreatureScript {
                                 else
                                 {
                                     label = "  " + enchant.name + validation.priceString;
-                                    std::string popupMessage =  "Are you entirely certain your gear can handle this much raw power, $N?\n\n"
+                                    std::string popupMessage =  "Are you entirely certain your gear can handle this much raw power, " + std::string(player->GetName()) +"?\n\n"
                                                                 "Enchant: " + enchant.name + "\n"
                                                                 "Effect: " + (enchant.description.empty() ? "None" : enchant.description) + "\n\n"
                                                                 "Price calculated via highly complex, entirely made-up arcane metrics. Totaled below:";
@@ -267,7 +267,7 @@ class NPCEnchanterEnhanced : public CreatureScript {
         //EnchantID now found.. Something went really wrong in the gossip menu.
         if (!enchant->enchantId)
         {
-            //Todo fix this line.. 
+            //Todo fix this line..
             //LOG_ERROR("server.loading", "[NPCEnchanterEnhanced] Error when enchanting. EnchantId not found. PlayerGUID: {} Item: {}", player->GetGUID(), item->GetGUID(), item->GetTemplate()->Name1 );
             ChatHandler(player->GetSession()).SendSysMessage("Something went wrong.. Sorry!");
             player->PlayerTalkClass->SendCloseGossip();

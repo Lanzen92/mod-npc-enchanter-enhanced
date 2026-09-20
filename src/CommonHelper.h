@@ -91,6 +91,13 @@ enum ProgressionAchievements
     HALION_KILL          = 4815
 };
 
+enum ProgressionQuests
+{
+    PRE_AQ_WAR_EFFORT    = 8743, //Bang a Gong!
+    AQ_OPENING           = 108744, // Chaos and Destruction
+    TBC_PRE_OPENING          = 10259, //Into the Breach
+};
+
 static const std::vector<std::pair<uint8, uint32>> bossProgression =
 {
     /* Phase, Achievement */
@@ -108,6 +115,14 @@ static const std::vector<std::pair<uint8, uint32>> bossProgression =
     { 17, HALION_KILL       }, // 4815
 };
 
+static const std::vector<std::pair<uint8, uint32>> questProgression =
+{
+    /* Phase, Achievement */
+    { 3,  PRE_AQ_WAR_EFFORT     }, // 8743
+    { 4,  AQ_OPENING            }, // 108744
+    { 7,  TBC_PRE_OPENING       }, // 10259
+};
+
 struct ExpansionPhaseBracket
 {
     std::string expansionName;
@@ -122,16 +137,41 @@ static const std::vector<ExpansionPhaseBracket> expansionBrackets =
     { "WOTLK",   13, 25 }
 };
 
+//Returns the questId for phase
+inline uint32 GetQuestForPhase(uint8 targetPhase)
+{
+    auto it = std::ranges::find_if(questProgression, [targetPhase](const auto& pair) {
+        return pair.first == targetPhase;
+    });
+
+    return (it != questProgression.end()) ? it->second : 0;
+}
+
 //Get Individualprogression phase.
 inline uint32 GetPlayerPhase(const Player* player)
 {
     uint32 currentPhase = 1;
 
-    for (auto const& [progressionId, achievementId] : bossProgression)
+    //Check for boss kills
+    for (auto const& [bossKillProgressionId, achievementId] : bossProgression)
     {
-        if (player->HasAchieved(achievementId) && progressionId > currentPhase)
+        if (player->HasAchieved(achievementId) && bossKillProgressionId > currentPhase)
         {
-            currentPhase = progressionId;
+            currentPhase = bossKillProgressionId;
+
+            //Check for quest completion to know if phase 3, 4 or 7.
+            if (currentPhase == 2 && player->GetQuestStatus(GetQuestForPhase(currentPhase + 1)))
+            {
+                currentPhase = bossKillProgressionId + 1;
+            }
+            if (currentPhase == 3 && player->GetQuestStatus(GetQuestForPhase(currentPhase + 1)))
+            {
+                currentPhase = bossKillProgressionId + 1;
+            }
+            if (currentPhase == 6 && player->GetQuestStatus(GetQuestForPhase(currentPhase + 1)))
+            {
+                currentPhase = bossKillProgressionId + 1;
+            }
         }
     }
 
@@ -139,7 +179,7 @@ inline uint32 GetPlayerPhase(const Player* player)
 }
 
 // Helper function to get the expansion tier ID for any given phase
-inline uint8 GetExpansionTierForPhase(uint8 phase)
+inline uint8 GetExpansionForPhase(uint32 phase)
 {
     for (size_t i = 0; i < expansionBrackets.size(); ++i)
     {
@@ -148,7 +188,19 @@ inline uint8 GetExpansionTierForPhase(uint8 phase)
             return static_cast<uint8>(i); // 0 = Vanilla, 1 = TBC, 2 = WotLK
         }
     }
-    return 0; // Default fallback to Vanilla
+    return 0;
+}
+
+inline std::string GetExpansionNameForPhase(uint32 phase)
+{
+    for (size_t i = 0; i < expansionBrackets.size(); ++i)
+    {
+        if (phase >= expansionBrackets[i].minPhase && phase <= expansionBrackets[i].maxPhase)
+        {
+            return expansionBrackets[i].expansionName;
+        }
+    }
+    return "Unknown";
 }
 
 inline std::string ToLower(std::string str)

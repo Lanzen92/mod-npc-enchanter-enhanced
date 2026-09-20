@@ -110,8 +110,8 @@ bool ValidationHelper::ValidateExpansion(const Player* player, const EnchantDefi
         }
     }
 
-    uint8 enchantTier = GetExpansionTierForPhase(enchant.phase);
-    uint8 playerTier = GetExpansionTierForPhase(highestUnlockedPhase);
+    uint8 enchantTier = GetExpansionForPhase(enchant.phase);
+    uint8 playerTier = GetExpansionForPhase(highestUnlockedPhase);
 
     if (enchant.phase - 1 > playerTier)
     {

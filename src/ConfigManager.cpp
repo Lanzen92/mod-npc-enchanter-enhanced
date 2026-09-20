@@ -69,7 +69,7 @@ void LoadEnchantConfig(bool /*reload*/)
 
     NPCEnchanterEnhancedFreeEnchants = sConfigMgr->GetOption<bool>("NPCEnchanterEnhanced.FreeEnchants", false);
     NPCEnchanterEnhancedDynamicPricesOnEnchants = sConfigMgr->GetOption<bool>("NPCEnchanterEnhanced.DynamicPricesOnEnchants", false);
-    
+
     NPCEnchanterEnhancedDynamicPriceCacheDurationInSeconds =sConfigMgr->GetOption<float>("NPCEnchanterEnhanced.DynamicPriceCacheDurationInSeconds", 1800);
     NPCEnchanterEnhancedBasePriceLeveling = sConfigMgr->GetOption<uint32>("NPCEnchanterEnhanced.BasePriceLeveling", 10);
     NPCEnchanterEnhancedBasePricePreRaid = sConfigMgr->GetOption<uint32>("NPCEnchanterEnhanced.BasePricePreRaid", 50);
@@ -82,7 +82,6 @@ void LoadEnchantConfig(bool /*reload*/)
     NPCEnchanterEnhancedQualityMultiplierRare = sConfigMgr->GetOption<float>("NPCEnchanterEnhanced.QualityMultiplierRare", 0.8f);
     NPCEnchanterEnhancedQualityMultiplierEpic = sConfigMgr->GetOption<float>("NPCEnchanterEnhanced.QualityMultiplierEpic", 1.0f);
     NPCEnchanterEnhancedQualityMultiplierLegendary = sConfigMgr->GetOption<float>("NPCEnchanterEnhanced.QualityMultiplierLegendary", 1.35f);
-
     NPCEnchanterEnhancedVariancePercentage = sConfigMgr->GetOption<float>("NPCEnchanterEnhanced.VariancePercentage", 0.15f);
 
     if (NPCEnchanterEnhancedDynamicPricesOnEnchants)
