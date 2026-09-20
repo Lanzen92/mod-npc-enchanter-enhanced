@@ -107,7 +107,7 @@ public:
 
         uint32 playerPhase = GetPlayerPhase(player);
 
-        handler->SendSysMessage("Current phase: " + std::to_string(playerPhase) + " (Current expansion: " + GetExpansionNameForPhase(playerPhase) + ")";
+        handler->SendSysMessage("Current phase: " + std::to_string(playerPhase) + " (Current expansion: " + GetExpansionNameForPhase(playerPhase) + ")");
         return true;
     }
 
