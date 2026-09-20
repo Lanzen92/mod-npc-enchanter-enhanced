@@ -51,7 +51,7 @@ void LoadEnchantConfig(bool /*reload*/)
     NPCEnchanterEnhancedEnabled = sConfigMgr->GetOption<bool>("NPCEnchanterEnhanced.Enabled", true);
     NPCEnchanterEnhancedAnnounce = sConfigMgr->GetOption<bool>("NPCEnchanterEnhanced.Announce", true);
 
-	NPCEnchanterEnhancedSpawnableByAnyone = sConfigMgr->GetOption<bool>("NPCEnchanterEnhanced.SpawnableByAnyone", true);
+    NPCEnchanterEnhancedSpawnableByAnyone = sConfigMgr->GetOption<bool>("NPCEnchanterEnhanced.SpawnableByAnyone", true);
     NPCEnchanterEnhancedDespawnTimerInSeconds = sConfigMgr->GetOption<uint32>("NPCEnchanterEnhanced.DespawnTimerInSeconds", 90);
 
     NPCEnchanterEnhancedIgnoreProfessionRequirements = sConfigMgr->GetOption<bool>("NPCEnchanterEnhanced.IgnoreProfessionRequirements", false);
@@ -65,12 +65,12 @@ void LoadEnchantConfig(bool /*reload*/)
 
     NPCEnchanterEnhancedIndividualProgression = sConfigMgr->GetOption<bool>("NPCEnchanterEnhanced.IndividualProgression", true);
     NPCEnchanterEnhancedPhase = sConfigMgr->GetOption<uint32>("NPCEnchanterEnhanced.Phase", 0);
-	NPCEnchanterEnhancedOnlyAllowSameOrLowerExpansion = sConfigMgr->GetOption<bool>("NPCEnchanterEnhanced.OnlyAllowSameOrLowerExpansion", true);
+    NPCEnchanterEnhancedOnlyAllowSameOrLowerExpansion = sConfigMgr->GetOption<bool>("NPCEnchanterEnhanced.OnlyAllowSameOrLowerExpansion", true);
 
     NPCEnchanterEnhancedFreeEnchants = sConfigMgr->GetOption<bool>("NPCEnchanterEnhanced.FreeEnchants", false);
     NPCEnchanterEnhancedDynamicPricesOnEnchants = sConfigMgr->GetOption<bool>("NPCEnchanterEnhanced.DynamicPricesOnEnchants", false);
 
-	NPCEnchanterEnhancedDynamicPriceCacheDurationInSeconds =sConfigMgr->GetOption<float>("NPCEnchanterEnhanced.DynamicPriceCacheDurationInSeconds", 1800);
+    NPCEnchanterEnhancedDynamicPriceCacheDurationInSeconds =sConfigMgr->GetOption<float>("NPCEnchanterEnhanced.DynamicPriceCacheDurationInSeconds", 1800);
     NPCEnchanterEnhancedBasePriceLeveling = sConfigMgr->GetOption<uint32>("NPCEnchanterEnhanced.BasePriceLeveling", 10);
     NPCEnchanterEnhancedBasePricePreRaid = sConfigMgr->GetOption<uint32>("NPCEnchanterEnhanced.BasePricePreRaid", 50);
     NPCEnchanterEnhancedBasePriceRaid = sConfigMgr->GetOption<uint32>("NPCEnchanterEnhanced.BasePriceRaid", 200);
