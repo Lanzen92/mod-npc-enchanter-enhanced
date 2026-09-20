@@ -1,4 +1,10 @@
-﻿#include "ConfigManager.h"
+﻿/*
+ * Copyright (C) 2016+ AzerothCore <www.azerothcore.org>, released under GNU GPL v2 license: https://github.com/azerothcore/azerothcore-wotlk/blob/master/LICENSE
+ * Copyright (C) 2026 Lanzen92 https://github.com/Lanzen92/mod_npc_enchanter_enchanced
+ * This file is part of mod_npc_enchanter_enchanced.
+ */
+
+#include "ConfigManager.h"
 #include "ScriptMgr.h"
 #include "Chat.h"
 #include "Player.h"
