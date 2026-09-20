@@ -23,12 +23,13 @@ Plus, I added a bunch of configurations so you can completely tailor it to whate
 * **Summon Utility:** Conveniently summon a temporary enchanter on demand using `.NPCEE Spawn` (which can be configured to work for any player).
 * **Flexible Restriction Modes:** Toggle between showing all enchants or using more "blizzlike" restrictions based on class, level, item level, professions, and phases.
 * **Individual Progression:** Optional feature that looks at achievements/quests to unlock phase-specific enchants (fully standalone; `IndividualProgression` is not required). Phase tiers and logic provided by [Individual Progression](https://github.com/ZhengPeiRu21/mod-individual-progression). For a complete breakdown of supported tiers and phases, check out the [List of Progression Tiers Wiki](https://github.com/ZhengPeiRu21/mod-individual-progression/wiki/List-of-Progression-Tiers).
-* **Comprehensive Spell Data:** Includes all Vanilla enchants right out of the box, with TBC and WotLK enchants planned for upcoming updates. See all included enchants [here](https://docs.google.com/spreadsheets/d/1my52-abZ6ggKZbqpEuLy2mrlCYTh6S3YSQViI45kKKk/edit?usp=sharing).
+* **Comprehensive Spell Data:** Includes all Vanilla enchants right out of the box, with TBC and WotLK enchants planned for upcoming updates. See all included enchants [here](https://docs.google.com/spreadsheets/d/1my52-abZ6ggKZbqpEuLy2mrlCYTh6S3YSQViI45kKKk/edit?usp=sharing). (Cost in the spreadsheets are only used if Dynamic Pricing and FreeEnchants are both disabled.)
 * **Dynamic Pricing** - Designed to feel more "blizzlike," but fully customizable through a bunch of flexible configurations so you can tailor it to your exact preferences.
 
 ## 📄 In the backlog:
 * **More enchants** - Of course, all of the TBC and WotLK enchants! 
 * **Reputation Validation** Validate if the player has the correct reputation with various factions to be able to get the enchant (And ofcourse, a configuration to ignore this restriction.)
+* **Dynamic Pricing - Tier Inflation Adjustments** Adjustments for the dynamic pricing for TBC and WotLK.
 * **Items** - A book that players can buy and use to summon Enchanter Xari.
 * **Polish** - Alooot of testing and probably alot of bugfixing.
 ---
