@@ -3,6 +3,8 @@
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![Platform: AzerothCore](https://img.shields.io/badge/AzerothCore-C++17-blue.svg)](https://www.azerothcore.org/)
 [![Module Status: Active](https://img.shields.io/badge/Status-Active-success.svg)]()
+[![Build Status](https://github.com/Lanzen92/mod_npc_enchanter_enchanced/actions/workflows/core-build.yml/badge.svg)](https://github.com/Lanzen92/mod_npc_enchanter_enchanced/actions/workflows/core-build.yml)
+[![CodeStyle Status](https://github.com/Lanzen92/mod_npc_enchanter_enchanced/actions/workflows/core_codestyle.yml/badge.svg)](https://github.com/Lanzen92/mod_npc_enchanter_enchanced/actions/workflows/core_codestyle.yml)
 
 
 **NPC Enchanter Enhanced** is an AzerothCore module inspired by the classic [`npc_enchanter module`](https://www.azerothcore.org/catalogue.html#/details/123951640). 
@@ -10,6 +12,7 @@ I built this module completely for myself because I wanted something that actual
 The goal is to keep it feeling genuinely Blizzlike while giving your solo character a natural way to stay enchanted as you level up.
 
 Plus, I added a bunch of configurations so you can completely tailor it to whatever style you want, whether you want it strict or relaxed.
+
 > **⚠️ Note / Disclaimer:** This is one of my first C++ project and my first custom module! You might run into bugs - Please feel free to open an issue or pull request if you spot anything, and always back up your database before installing new modules on a live server!
 
 ---
@@ -27,6 +30,7 @@ Plus, I added a bunch of configurations so you can completely tailor it to whate
 * **Individual Progression:** Some phases starts on questcompletions. For example AQ-quests for Bang a Gong (Starts phase 4) and Chaos and Destructions (Starts Phase 5) etc.
 * **More enchants** - Of course, all of the TBC and WotLK enchants!
 * **Items** - A book that players can buy and use to summon Enchanter Xari.
+* **Polish** - Alooot of testing and probably alot of bugfixing.
 ---
 
 ## 📦 Installation
