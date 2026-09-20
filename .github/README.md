@@ -22,7 +22,7 @@ Plus, I added a bunch of configurations so you can completely tailor it to whate
 * **Advanced Menu System:** Filter, disable, or hide unavailable enchants dynamically.
 * **Summon Utility:** Conveniently summon a temporary enchanter on demand using `.NPCEE Spawn` (which can be configured to work for any player).
 * **Flexible Restriction Modes:** Toggle between showing all enchants or using more "blizzlike" restrictions based on class, level, item level, professions, and phases.
-* **Individual Progression:** Optional feature that looks at the same achievements/quests to unlock phase-specific enchants (fully standalone; `IndividualProgression` is not required).
+* **Individual Progression:** Optional feature that looks at achievements/quests to unlock phase-specific enchants (fully standalone; `IndividualProgression` is not required). Phase tiers and logic provided by [ZhengPeiRu21's Individual Progression](https://github.com/ZhengPeiRu21/mod-individual-progression). For a complete breakdown of supported tiers and phases, check out the [List of Progression Tiers Wiki](https://github.com/ZhengPeiRu21/mod-individual-progression/wiki/List-of-Progression-Tiers).
 * **Comprehensive Spell Data:** Includes all Vanilla enchants right out of the box, with TBC and WotLK enchants planned for upcoming updates.
 * **Dynamic Pricing** - Designed to feel more "blizzlike," but fully customizable through a bunch of flexible configurations so you can tailor it to your exact needs.
 
@@ -65,7 +65,7 @@ Contributions, bug reports, and feature requests are always welcome!
 
 ## 📜 License
 
-Distributed under the MIT License. See [LICENSE](LICENSE) for more information.
+Distributed under the GNU AGPL v3 License. See [LICENSE](LICENSE) for more information.
 
 ---
 
