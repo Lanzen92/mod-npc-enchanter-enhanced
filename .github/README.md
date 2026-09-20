@@ -28,8 +28,8 @@ Plus, I added a bunch of configurations so you can completely tailor it to whate
 
 ## 📄 In the backlog:
 * **More enchants** - Of course, all of the TBC and WotLK enchants! 
-* **Reputation Validation** Validate if the player has the correct reputation with various factions to be able to get the enchant (And ofcourse, a configuration to ignore this restriction.)
-* **Dynamic Pricing - Tier Inflation Adjustments** Adjustments for the dynamic pricing for TBC and WotLK.
+* **Reputation Validation** - Validate if the player has the correct reputation with various factions to be able to get the enchant (And ofcourse, a configuration to ignore this restriction.)
+* **Dynamic Pricing - Tier Inflation Adjustments** - Adjustments for the dynamic pricing for TBC and WotLK.
 * **Items** - A book that players can buy and use to summon Enchanter Xari.
 * **Polish** - Alooot of testing and probably alot of bugfixing.
 ---
