@@ -12,9 +12,5 @@ class PriceHelper
 private:
     static uint32 CalculateDynamicEnchantPrice (const EnchantDefinition* enchantDef, const Player* player, uint32 subCatId);
 public:
-    //static uint32 GetEnchantPriceInCopper (const EnchantDefinition* enchantDef);
     static uint32 GetEnchantPriceInGold (const Player* player, const EnchantDefinition* enchantDef, uint32 subCatId);
 };
-
-
-

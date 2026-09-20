@@ -59,7 +59,7 @@ bool ValidationHelper::ValidateProfession(const Player* player, const EnchantDef
     return true;
 }
 
-//Check if the player has enough gold AND returns a pricestring.
+//Check if the player has enough gold AND returns a price string.
 bool ValidationHelper::ValidateGold(const Player* player, uint32 cost, std::string& reason, std::string& priceString)
 {
     if (NPCEnchanterEnhancedFreeEnchants)
@@ -80,7 +80,7 @@ bool ValidationHelper::ValidateGold(const Player* player, uint32 cost, std::stri
     return true;
 }
 
-//Check if the enchant is available in the current phase.
+//Check if enchant is available in the current phase.
 bool ValidationHelper::ValidatePhase(uint32 playerPhase, const EnchantDefinition& enchant, std::string& reason)
 {
     if (NPCEnchanterEnhancedPhase == 0 && !NPCEnchanterEnhancedIndividualProgression)
@@ -184,6 +184,7 @@ bool ValidationHelper::FilterTier(const EnchantDefinition& enchant)
         case EnchantTier::Raid:     tierName = "raid"; break;
         default: return true;
     }
+
     return allowedTiersConfig.find(tierName) != std::string::npos;
 }
 
@@ -346,6 +347,3 @@ bool ValidationHelper::ValidateSubCategoryEquipment(const Player* player, uint32
 
     return true;
 }
-
-
-
