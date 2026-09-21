@@ -186,19 +186,16 @@ NPCEnchanterEnhanced.Phase = 0
 NPCEnchanterEnhanced.IndividualProgression = 1
 #
 # -------------------------------------------------------------------------------------
-#  OnlyAllowSameOrLowerExpansion
+#  NPCEnchanterEnhancedOnlyAllowPhaseExpansion
 #
-#  Only enable enchants that were available during the expansion.
-#  If enabled:
-#  Phase 1-7 : Only show Vanilla enchants.
-#  Phase 8-12: Show Vanilla and TBC enchants.
-#  Phase 13+ : Show all enchants.
+#  Only enable enchants for the current expansion (Based on phase)
+#  This will hide Vanilla / TBC enchants if WotLK Phase for example.
 #
 #  Enable : 1
 #  Disable: 0
 #  Default: 1
 # -------------------------------------------------------------------------------------
-NPCEnchanterEnhanced.OnlyAllowSameOrLowerExpansion = 1
+NPCEnchanterEnhanced.NPCEnchanterEnhancedOnlyAllowPhaseExpansion = 1
 
 #--------------------------------------------------------------------------------------
 
