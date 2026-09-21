@@ -118,7 +118,6 @@ bool ValidationHelper::ValidateExpansion(const Player* player, const EnchantDefi
     uint8 phaseExpansion = GetExpansionForPhase(enchant.phase);
     uint8 playerPhase = GetExpansionForPhase(highestUnlockedPhase);
 
-    // Change: Restrict so they can only access enchants matching their exact current expansion tier
     if (phaseExpansion != playerPhase)
     {
         reason = "Locked: Requires " + expansionBrackets[phaseExpansion].expansionName + " progression.";
