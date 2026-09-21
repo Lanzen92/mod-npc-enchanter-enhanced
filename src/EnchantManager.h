@@ -52,8 +52,10 @@ struct EnchantDefinition {
     std::string description;
     EnchantTier tier;
     std::string professionRequirement;
-    uint32 classRequirement;
     uint32 professionSkillRequirement;
+    uint32 reputationRequirement;
+    uint32 reputationLevelRequirement;
+    uint32 classRequirement;
     uint32 minItemLevel;
     uint32 levelRequirement;
     uint32 phase;

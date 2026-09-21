@@ -79,6 +79,35 @@ inline EquipmentSlots GetEquipmentSlotFromSubCategory(uint32 subCat)
     }
 }
 
+enum EnchantFactions
+{
+    //Vanilla
+    ZandalarTribe = 270,
+    ArgentDawn = 529,
+
+    //TBC
+    Shatar = 935,
+    HonorHold = 946,
+    Thrallmar = 947,
+    CenarionExpedition	= 942,
+    LowerCity = 1011,
+    KeepersofTime = 989,
+    ShatteredSunOffensive = 1077,
+    TheAldor = 932,
+    TheScryers = 934,
+    TheVioletEye = 967,
+    TheConsortium = 933,
+
+    //WotLK
+    KirinTor = 1090,
+    TheWyrmrestAccord = 1091,
+    KnightsoftheEbonBlade = 1098,
+    ArgentCrusade = 1106,
+    AllianceVanguard = 1037,
+    HordeExpedition = 1052,
+    TheSonsofHodir = 1119
+};
+
 enum ProgressionAchievements
 {
     KEL_THUZAD_40_KILL   = 533, // Vanilla
@@ -142,6 +171,31 @@ static const std::vector<ExpansionPhaseBracket> expansionBrackets =
     { "TBC",     8,  12 },
     { "WOTLK",   13, 25 }
 };
+
+//Get faction name by ID
+inline std::string GetFactionName(uint32 factionId, LocaleConstant locale)
+{
+    FactionEntry const* factionEntry = sFactionStore.LookupEntry(factionId);
+    if (!factionEntry)
+        return "Unknown Faction";
+
+    return factionEntry->name[locale];
+}
+
+inline std::string GetReputationLevelString(uint32 repLevel)
+{
+    switch (repLevel)
+    {
+        case 1:  return "Hated";
+        case 2:  return "Hostile";
+        case 3:  return "Unfriendly";
+        case 4:  return "Honored";
+        case 5:  return "Revered";
+        case 6:  return "Exalted";
+        case 7:  return "Revered";
+        default: return "Unknown";
+    }
+}
 
 //Returns the questId for phase
 inline uint32 GetQuestForPhase(uint8 targetPhase)

@@ -28,6 +28,8 @@ class ValidationHelper
     static bool ValidateExpansion(const Player* player, const EnchantDefinition& enchant, std::string& reason);
     static bool ValidateLevel(const Player* player, const EnchantDefinition& enchant, std::string& reason);
     static bool ValidateItemLevel(const Player* player, uint32 subCatId, const EnchantDefinition& enchant, std::string& reason);
+    static bool ValidateItemRequiredLevel(const Player* player, uint32 subCatId,const EnchantDefinition& enchant, std::string& reason);
+    static bool ValidateReputationLevel(const Player* player, uint32 subCatId, const EnchantDefinition& enchant, std::string& reason);
     static bool ValidatePlayerClass(const Player* player, const EnchantDefinition& enchant, std::string& reason);
     static bool FilterTier(const EnchantDefinition& enchant);
 

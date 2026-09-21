@@ -11,7 +11,7 @@
 #include "Creature.h"
 #include "ValidationHelper.h"
 
-uint32 NPCEnchanterEnhancedDespawnTimerInMS = NPCEnchanterEnhancedDespawnTimerInSeconds * 1000;
+static uint32 NPCEnchanterEnhancedDespawnTimerInMS = NPCEnchanterEnhancedDespawnTimerInSeconds * 1000;
 
 using namespace Acore::ChatCommands;
 
@@ -155,28 +155,31 @@ public:
         }
 
         handler->SendSysMessage("=== Current NPC Enchanter Enhanced Configuration ===");
-        handler->SendSysMessage("NPCEnchanterEnhanced.Enabled: " + std::to_string(NPCEnchanterEnhancedEnabled));
-        handler->SendSysMessage("NPCEnchanterEnhanced.Announce: " + std::to_string(NPCEnchanterEnhancedAnnounce));
+        handler->SendSysMessage("Enabled: " + std::to_string(NPCEnchanterEnhancedEnabled));
+        handler->SendSysMessage("Announce: " + std::to_string(NPCEnchanterEnhancedAnnounce));
 
         handler->SendSysMessage("===  NPC  ===");
-        handler->SendSysMessage("NPCEnchanterEnhanced.SpawnableByAnyone: " + std::to_string(NPCEnchanterEnhancedSpawnableByAnyone));
-        handler->SendSysMessage("NPCEnchanterEnhanced.DespawnTimerInSeconds: " + std::to_string(NPCEnchanterEnhancedDespawnTimerInSeconds));
+        handler->SendSysMessage("SpawnableByAnyone: " + std::to_string(NPCEnchanterEnhancedSpawnableByAnyone));
+        handler->SendSysMessage("DespawnTimerInSeconds: " + std::to_string(NPCEnchanterEnhancedDespawnTimerInSeconds));
 
         handler->SendSysMessage("===  Filtering  ===");
-        handler->SendSysMessage("NPCEnchanterEnhanced.IgnoreProfessionRequirements: " + std::to_string(NPCEnchanterEnhancedIgnoreProfessionRequirements));
-        handler->SendSysMessage("NPCEnchanterEnhanced.IgnoreLevelRequirements: " + std::to_string(NPCEnchanterEnhancedIgnoreLevelRequirements));
-        handler->SendSysMessage("NPCEnchanterEnhanced.IgnoreItemLevelRequirements: " + std::to_string(NPCEnchanterEnhancedIgnoreItemLevelRequirements));
-        handler->SendSysMessage("NPCEnchanterEnhanced.IgnoreClassRequirements: " + std::to_string(NPCEnchanterEnhancedIgnoreClassRequirements));
-        handler->SendSysMessage("NPCEnchanterEnhanced.TiersToShow: " + sConfigMgr->GetOption<std::string>("NPCEnchanterEnhanced.TiersToShow", "Leveling, PreRaid, Raid"));
-        handler->SendSysMessage("NPCEnchanterEnhanced.HideUnavailableEnchants: " + std::to_string(NPCEnchanterEnhancedHideUnavailableEnchants));
+        handler->SendSysMessage("IgnoreProfessionRequirements: " + std::to_string(NPCEnchanterEnhancedIgnoreProfessionRequirements));
+        handler->SendSysMessage("IgnoreLevelRequirements: " + std::to_string(NPCEnchanterEnhancedIgnoreLevelRequirements));
+        handler->SendSysMessage("IgnoreItemLevelRequirements: " + std::to_string(NPCEnchanterEnhancedIgnoreItemLevelRequirements));
+        handler->SendSysMessage("IgnoreClassRequirements: " + std::to_string(NPCEnchanterEnhancedIgnoreClassRequirements));
+        handler->SendSysMessage("IgnoreReputationRequirements: " + std::to_string(NPCEnchanterEnhancedIgnoreReputationRequirements));
+
+        handler->SendSysMessage("TiersToShow: " + sConfigMgr->GetOption<std::string>("NPCEnchanterEnhanced.TiersToShow", "Leveling, PreRaid, Raid"));
+        handler->SendSysMessage("HideUnavailableEnchants: " + std::to_string(NPCEnchanterEnhancedHideUnavailableEnchants));
 
         handler->SendSysMessage("===  Phases  ===");
-        handler->SendSysMessage("NPCEnchanterEnhanced.IndividualProgression: " + std::to_string(NPCEnchanterEnhancedIndividualProgression));
-        handler->SendSysMessage("NPCEnchanterEnhanced.Phase: " + std::to_string(NPCEnchanterEnhancedPhase));
+        handler->SendSysMessage("IndividualProgression: " + std::to_string(NPCEnchanterEnhancedIndividualProgression));
+        handler->SendSysMessage("Phase: " + std::to_string(NPCEnchanterEnhancedPhase));
+        handler->SendSysMessage("OnlyAllowPhaseExpansion: " + std::to_string(NPCEnchanterEnhancedOnlyAllowPhaseExpansion));
 
         handler->SendSysMessage("===  Price  ===");
-        handler->SendSysMessage("NPCEnchanterEnhanced.FreeEnchants: " + std::to_string(NPCEnchanterEnhancedFreeEnchants));
-        handler->SendSysMessage("NPCEnchanterEnhanced.DynamicPricesOnEnchants: " + std::to_string(NPCEnchanterEnhancedDynamicPricesOnEnchants));
+        handler->SendSysMessage("FreeEnchants: " + std::to_string(NPCEnchanterEnhancedFreeEnchants));
+        handler->SendSysMessage("DynamicPricesOnEnchants: " + std::to_string(NPCEnchanterEnhancedDynamicPricesOnEnchants));
 
         std::string multipliers = "";
 

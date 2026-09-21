@@ -19,6 +19,7 @@ extern bool NPCEnchanterEnhancedIgnoreProfessionRequirements;
 extern bool NPCEnchanterEnhancedIgnoreLevelRequirements;
 extern bool NPCEnchanterEnhancedIgnoreItemLevelRequirements;
 extern bool NPCEnchanterEnhancedIgnoreClassRequirements;
+extern bool NPCEnchanterEnhancedIgnoreReputationRequirements;
 extern bool NPCEnchanterEnhancedHideUnavailableEnchants;
 
 //NPC
@@ -28,7 +29,7 @@ extern uint32 NPCEnchanterEnhancedDespawnTimerInSeconds;
 //Phases
 extern uint32 NPCEnchanterEnhancedPhase;
 extern bool NPCEnchanterEnhancedIndividualProgression;
-extern bool NPCEnchanterEnhancedOnlyAllowSameOrLowerExpansion;
+extern bool NPCEnchanterEnhancedOnlyAllowPhaseExpansion;
 
 //Prices
 extern bool NPCEnchanterEnhancedFreeEnchants;

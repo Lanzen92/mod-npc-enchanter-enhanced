@@ -115,27 +115,13 @@ bool ValidationHelper::ValidateExpansion(const Player* player, const EnchantDefi
         }
     }
 
-    uint8 enchantTier = GetExpansionForPhase(enchant.phase);
-    uint8 playerTier = GetExpansionForPhase(highestUnlockedPhase);
+    uint8 phaseExpansion = GetExpansionForPhase(enchant.phase);
+    uint8 playerPhase = GetExpansionForPhase(highestUnlockedPhase);
 
-    if (enchant.phase - 1 > playerTier)
+    // Change: Restrict so they can only access enchants matching their exact current expansion tier
+    if (phaseExpansion != playerPhase)
     {
-        reason = "Locked: Requires " + expansionBrackets[enchantTier].expansionName + " progression.";
-        return false;
-    }
-
-    return true;
-}
-
-//Check if the player has the required level
-bool ValidationHelper::ValidateLevel(const Player* player, const EnchantDefinition& enchant, std::string& reason)
-{
-    if (NPCEnchanterEnhancedIgnoreLevelRequirements)
-        return true;
-
-    if (enchant.levelRequirement > player->GetLevel())
-    {
-        reason = "Requires level " + std::to_string(enchant.levelRequirement) + ".";
+        reason = "Locked: Requires " + expansionBrackets[phaseExpansion].expansionName + " progression.";
         return false;
     }
 
@@ -154,6 +140,44 @@ bool ValidationHelper::ValidateItemLevel(const Player* player, uint32 subCatId, 
     if (enchant.minItemLevel > targetItem->GetTemplate()->ItemLevel)
     {
         reason = "Requires itemlevel " + std::to_string(enchant.minItemLevel) + ".";
+        return false;
+    }
+
+    return true;
+}
+
+//Check if the required level of item (Not the item ItemLevel.)
+bool ValidationHelper::ValidateItemRequiredLevel(const Player* player, uint32 subCatId, const EnchantDefinition& enchant, std::string& reason)
+{
+    if (NPCEnchanterEnhancedIgnoreLevelRequirements)
+        return true;
+
+    EquipmentSlots targetSlot = GetEquipmentSlotFromSubCategory(subCatId);
+    Item* targetItem = player->GetItemByPos(INVENTORY_SLOT_BAG_0, targetSlot);
+
+    if (enchant.levelRequirement > targetItem->GetTemplate()->RequiredLevel)
+    {
+        reason = "Requires item with required level above" + std::to_string(enchant.minItemLevel) + ".";
+        return false;
+    }
+
+    return true;
+}
+
+//Check if the required level of item (Not the item ItemLevel.)
+bool ValidationHelper::ValidateReputationLevel(const Player* player, uint32 subCatId, const EnchantDefinition& enchant, std::string& reason)
+{
+    if (NPCEnchanterEnhancedIgnoreReputationRequirements || enchant.reputationRequirement == 0)
+        return true;
+
+    LocaleConstant loc = player->GetSession()->GetSessionDbcLocale();
+
+    uint32 factionId = enchant.reputationRequirement;
+    uint32 factionRank = static_cast<ReputationRank>(enchant.reputationLevelRequirement);
+
+    if (player->GetReputationRank(factionId) < factionRank)
+    {
+        reason = "Requires reputation " + GetReputationLevelString(factionRank) + " or above with " + GetFactionName(factionId, loc) + ".";
         return false;
     }
 
@@ -222,7 +246,7 @@ EnchantValidationResult ValidationHelper::EvaluateEnchant(const Player* player, 
 
     if (!ValidateExpansion(player, enchant, result.reason))
     {
-        if (NPCEnchanterEnhancedOnlyAllowSameOrLowerExpansion)
+        if (NPCEnchanterEnhancedOnlyAllowPhaseExpansion)
             result.showEnchant = false;
 
         result.isLocked = true;
@@ -230,6 +254,24 @@ EnchantValidationResult ValidationHelper::EvaluateEnchant(const Player* player, 
     }
 
     if (!ValidateEquipment(player, subCatId, result.reason))
+    {
+        if (NPCEnchanterEnhancedHideUnavailableEnchants)
+            result.showEnchant = false;
+
+        result.isLocked = true;
+        return result;
+    }
+
+    if (!ValidateReputationLevel(player, subCatId, enchant, result.reason))
+    {
+        if (NPCEnchanterEnhancedHideUnavailableEnchants)
+            result.showEnchant = false;
+
+        result.isLocked = true;
+        return result;
+    }
+
+    if (!ValidateItemRequiredLevel(player, subCatId, enchant, result.reason))
     {
         if (NPCEnchanterEnhancedHideUnavailableEnchants)
             result.showEnchant = false;

@@ -55,46 +55,29 @@ NPCEnchanterEnhanced.DespawnTimerInSeconds = 90
 #  Filtering - Ignore different requirements
 #
 # -------------------------------------------------------------------------------------
-#  IgnoreProfessionRequirements
+#  IgnoreRequirements
 #
-#  Ignore profession requirements.
-#  for example Rocket Boots (Engineering), ring enchants (Enchanting) etc
+#  NPCEnchanterEnhanced.IgnoreProfessionRequirements: Ignore profession requirements. for example Rocket Boots (Engineering), ring enchants (Enchanting) etc
+#  NPCEnchanterEnhanced.IgnoreLevelRequirements: Ignore level requirements.
+#  NPCEnchanterEnhanced.IgnoreItemLevelRequirements: Ignore itemlevel requirements.
+#  NPCEnchanterEnhanced.IgnoreClassRequirements: Ignore class requirements. (ZG enchants etc)
+#  NPCEnchanterEnhanced.IgnoreReputationRequirements: Ignore reputation requirements.
+#
 #  Enable : 1 - Ignores requirements
 #  Disable: 0
-#  Default: 0
-# -------------------------------------------------------------------------------------
+#
+#  Defaults values:
+#  NPCEnchanterEnhanced.IgnoreProfessionRequirements = 0
+#  NPCEnchanterEnhanced.IgnoreLevelRequirements = 0
+#  NPCEnchanterEnhanced.IgnoreItemLevelRequirements = 0
+#  NPCEnchanterEnhanced.IgnoreClassRequirements = 0
+#  NPCEnchanterEnhanced.IgnoreReputationRequirements = 0
+#
 NPCEnchanterEnhanced.IgnoreProfessionRequirements = 0
-#
-# -------------------------------------------------------------------------------------
-#  IgnoreLevelRequirements
-#
-#  Ignore level requirements.
-#  Scopes in vanilla etc.
-#  Enable : 1 - Ignores requirements
-#  Disable: 0
-#  Default: 0
-# -------------------------------------------------------------------------------------
 NPCEnchanterEnhanced.IgnoreLevelRequirements = 0
-#
-# -------------------------------------------------------------------------------------
-#  IgnoreItemLevelRequirements
-#
-#  Ignore itemlevel requirements.
-#  Enable : 1 - Ignores requirements
-#  Disable: 0
-#  Default: 0
-# -------------------------------------------------------------------------------------
 NPCEnchanterEnhanced.IgnoreItemLevelRequirements = 0
-#
-# -------------------------------------------------------------------------------------
-#  IgnoreClassRequirements
-#
-#  Ignore class requirements. (ZG enchants etc)
-#  Enable : 1 - Enchants are available for all classes
-#  Disable: 0
-#  Default: 0
-# -------------------------------------------------------------------------------------
 NPCEnchanterEnhanced.IgnoreClassRequirements = 0
+NPCEnchanterEnhanced.IgnoreReputationRequirements = 0
 #
 # -------------------------------------------------------------------------------------
 #  TiersToShow
@@ -150,19 +133,16 @@ NPCEnchanterEnhanced.Phase = 0
 NPCEnchanterEnhanced.IndividualProgression = 1
 #
 # -------------------------------------------------------------------------------------
-#  OnlyAllowSameOrLowerExpansion
+#  NPCEnchanterEnhancedOnlyAllowPhaseExpansion
 #
-#  Only enable enchants that were available during the expansion.
-#  If enabled:
-#  Phase 1-7 : Only show Vanilla enchants.
-#  Phase 8-12: Show Vanilla and TBC enchants.
-#  Phase 13+ : Show all enchants.
+#  Only enable enchants for the current expansion (Based on phase)
+#  This will hide Vanilla / TBC enchants if WotLK Phase for example.
 #
 #  Enable : 1
 #  Disable: 0
 #  Default: 1
 # -------------------------------------------------------------------------------------
-NPCEnchanterEnhanced.OnlyAllowSameOrLowerExpansion = 1
+NPCEnchanterEnhanced.NPCEnchanterEnhancedOnlyAllowPhaseExpansion = 1
 
 #--------------------------------------------------------------------------------------
 
@@ -241,7 +221,6 @@ NPCEnchanterEnhanced.QualityMultiplierRare = 0.8
 NPCEnchanterEnhanced.QualityMultiplierEpic = 1.0
 NPCEnchanterEnhanced.QualityMultiplierLegendary = 1.35
 NPCEnchanterEnhanced.VariancePercentage = 0.15
-#
 #
 #-------------------------------------------------------------------------------------
 

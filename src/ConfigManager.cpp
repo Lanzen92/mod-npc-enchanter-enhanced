@@ -25,12 +25,13 @@ bool NPCEnchanterEnhancedIgnoreProfessionRequirements = false;
 bool NPCEnchanterEnhancedIgnoreLevelRequirements = false;
 bool NPCEnchanterEnhancedIgnoreItemLevelRequirements = false;
 bool NPCEnchanterEnhancedIgnoreClassRequirements = false;
+bool NPCEnchanterEnhancedIgnoreReputationRequirements = false;
 bool NPCEnchanterEnhancedHideUnavailableEnchants = false;
 
 //Phases
 bool NPCEnchanterEnhancedIndividualProgression = true;
 uint32 NPCEnchanterEnhancedPhase = 0;
-bool NPCEnchanterEnhancedOnlyAllowSameOrLowerExpansion = true;
+bool NPCEnchanterEnhancedOnlyAllowPhaseExpansion = true;
 
 //Prices
 bool NPCEnchanterEnhancedFreeEnchants = false;
@@ -64,6 +65,7 @@ void LoadEnchantConfig(bool /*reload*/)
     NPCEnchanterEnhancedIgnoreLevelRequirements = sConfigMgr->GetOption<bool>("NPCEnchanterEnhanced.IgnoreLevelRequirements", false);
     NPCEnchanterEnhancedIgnoreItemLevelRequirements = sConfigMgr->GetOption<bool>("NPCEnchanterEnhanced.IgnoreItemLevelRequirements", false);
     NPCEnchanterEnhancedIgnoreClassRequirements = sConfigMgr->GetOption<bool>("NPCEnchanterEnhanced.IgnoreClassRequirements", false);
+    NPCEnchanterEnhancedIgnoreReputationRequirements = sConfigMgr->GetOption<bool>("NPCEnchanterEnhanced.IgnoreReputationRequirements", false);
     NPCEnchanterEnhancedHideUnavailableEnchants = sConfigMgr->GetOption<bool>("NPCEnchanterEnhanced.HideUnavailableEnchants", false);
 
     //Load this on the fly in the ValidationHelper instead.. (bugprone-throwing-static-initialization)
@@ -71,7 +73,7 @@ void LoadEnchantConfig(bool /*reload*/)
 
     NPCEnchanterEnhancedIndividualProgression = sConfigMgr->GetOption<bool>("NPCEnchanterEnhanced.IndividualProgression", true);
     NPCEnchanterEnhancedPhase = sConfigMgr->GetOption<uint32>("NPCEnchanterEnhanced.Phase", 0);
-    NPCEnchanterEnhancedOnlyAllowSameOrLowerExpansion = sConfigMgr->GetOption<bool>("NPCEnchanterEnhanced.OnlyAllowSameOrLowerExpansion", true);
+    NPCEnchanterEnhancedOnlyAllowPhaseExpansion = sConfigMgr->GetOption<bool>("NPCEnchanterEnhanced.OnlyAllowPhaseExpansion", true);
 
     NPCEnchanterEnhancedFreeEnchants = sConfigMgr->GetOption<bool>("NPCEnchanterEnhanced.FreeEnchants", false);
     NPCEnchanterEnhancedDynamicPricesOnEnchants = sConfigMgr->GetOption<bool>("NPCEnchanterEnhanced.DynamicPricesOnEnchants", false);
