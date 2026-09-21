@@ -89,7 +89,7 @@ enum EnchantFactions
     Shatar = 935,
     HonorHold = 946,
     Thrallmar = 947,
-    CenarionExpedition	= 942,
+    CenarionExpedition = 942,
     LowerCity = 1011,
     KeepersofTime = 989,
     ShatteredSunOffensive = 1077,
