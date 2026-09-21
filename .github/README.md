@@ -1,6 +1,6 @@
 # NPC Enchanter Enhanced 🧙‍♂️✨
 
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+[![License: AGPL v3](https://img.shields.io/badge/License--AGPL%20v3-blue.svg)](https://www.gnu.org/licenses/agpl-3.0)
 [![Platform: AzerothCore](https://img.shields.io/badge/AzerothCore-C++17-blue.svg)](https://www.azerothcore.org/)
 [![Module Status: Active](https://img.shields.io/badge/Status-Active-success.svg)]()
 [![Build Status](https://github.com/Lanzen92/mod_npc_enchanter_enchanced/actions/workflows/core-build.yml/badge.svg)](https://github.com/Lanzen92/mod_npc_enchanter_enchanced/actions/workflows/core-build.yml)
