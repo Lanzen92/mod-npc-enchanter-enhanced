@@ -28,7 +28,7 @@ Plus, I added a bunch of configurations so you can completely tailor it to whate
 
 ## 📄 In the backlog:
 * **Items** - A book that players can buy and use to summon Enchanter Xari.
-* **Polish** - Alooot of testing and probably alot of bugfixing.
+* **Testing and bugfixing** - Alot of testing and prob alot of bugfixing needed.
 ---
 
 ## 📦 Installation
