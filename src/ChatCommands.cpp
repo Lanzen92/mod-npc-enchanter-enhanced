@@ -117,20 +117,24 @@ namespace
             }
 
             handler->SendSysMessage("=== NPC Enchanter Enhanced Commands ===");
-            handler->SendSysMessage(".NPCEE spawn - " + (!creatureName.empty() ? creatureName : "Enchanter Xari"));
-            handler->SendSysMessage(".NPCEE despawn - " + (!creatureName.empty() ? creatureName : "Enchanter Xari"));
             handler->SendSysMessage(".NPCEE getphase - Get current phase");
             handler->SendSysMessage(".NPCEE help - Show this help menu.");
 
+            if ((NPCEnchanterEnhancedSpawnableByAnyone && handler->GetSession()->GetSecurity() == SEC_PLAYER) ||
+                handler->GetSession()->GetSecurity() >= SEC_GAMEMASTER)
+            {
+                handler->SendSysMessage(".NPCEE spawn - " + (!creatureName.empty() ? creatureName : "Enchanter Xari"));
+                handler->SendSysMessage(".NPCEE despawn - " + (!creatureName.empty() ? creatureName : "Enchanter Xari"));
+            }
+
             //Check if configured for anyone to be able to spawn, or if level is Game master or above.
-            if (!NPCEnchanterEnhancedSpawnableByAnyone && handler->GetSession()->GetSecurity() >= SEC_GAMEMASTER)
+            if (handler->GetSession()->GetSecurity() >= SEC_GAMEMASTER)
             {
                 handler->SendSysMessage(".NPCEE config - Show current configuration");
                 handler->SendSysMessage(".NPCEE reload - Reload configuration");
                 handler->SendSysMessage(".NPCEE clearcache - Clear price cache");
                 handler->SendSysMessage(".NPCEE clearcache $[playername] - Clear price cache for that player");
                 handler->SendSysMessage(".NPCEE clearallcache - Clear all cached prices");
-                return true;
             }
 
             return true;
@@ -178,11 +182,11 @@ namespace
 
             handler->SendSysMessage("TiersToShow: " + sConfigMgr->GetOption<std::string>("NPCEnchanterEnhanced.TiersToShow", "Leveling, PreRaid, Raid"));
             handler->SendSysMessage("HideUnavailableEnchants: " + std::to_string(NPCEnchanterEnhancedHideUnavailableEnchants));
+            handler->SendSysMessage("OnlyShowCurrentExpansionEnchants: " + std::to_string(NPCEnchanterEnhancedOnlyShowCurrentOrLowerExpansionEnchants));
 
             handler->SendSysMessage("===  Phases  ===");
             handler->SendSysMessage("IndividualProgression: " + std::to_string(NPCEnchanterEnhancedIndividualProgression));
             handler->SendSysMessage("Phase: " + std::to_string(NPCEnchanterEnhancedPhase));
-            handler->SendSysMessage("OnlyAllowPhaseExpansion: " + std::to_string(NPCEnchanterEnhancedOnlyShowCurrentExpansionEnchants));
 
             handler->SendSysMessage("===  BasePrices  ===");
             handler->SendSysMessage("BasePriceLeveling: " + std::to_string(NPCEnchanterEnhancedBasePriceLeveling));

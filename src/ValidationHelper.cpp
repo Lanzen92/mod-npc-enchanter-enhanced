@@ -104,23 +104,13 @@ bool ValidationHelper::ValidatePhase(uint32 playerPhase, const EnchantDefinition
 }
 
 //Check current expansion
-bool ValidationHelper::ValidateExpansion(const Player* player, const EnchantDefinition& enchant, std::string& reason)
+bool ValidationHelper::ValidateExpansion(uint32 playerPhase, const EnchantDefinition& enchant, std::string& reason)
 {
-    uint8 highestUnlockedPhase = 0;
-    for (const auto& pair : bossProgression)
-    {
-        if (player->HasAchieved(pair.second))
-        {
-            highestUnlockedPhase = std::max(pair.first, highestUnlockedPhase);
-        }
-    }
+    uint8 enchantExpansion = GetExpansionForPhase(enchant.phase);
+    uint8 playerExpansion = GetExpansionForPhase(playerPhase);
 
-    uint8 phaseExpansion = GetExpansionForPhase(enchant.phase);
-    uint8 playerPhase = GetExpansionForPhase(highestUnlockedPhase);
-
-    if (phaseExpansion != playerPhase)
+    if (enchantExpansion > playerExpansion)
     {
-        reason = "Locked: Requires " + expansionBrackets[phaseExpansion].expansionName + " progression.";
         return false;
     }
 
@@ -240,6 +230,16 @@ EnchantValidationResult ValidationHelper::EvaluateEnchant(const Player* player, 
         return result;
     }
 
+    if (NPCEnchanterEnhancedOnlyShowCurrentOrLowerExpansionEnchants)
+    {
+        if (!ValidateExpansion(currentPhase, enchant, result.reason))
+        {
+            result.showEnchant = false;
+            result.isLocked = true;
+            return result;
+        }
+    }
+
     if (!ValidatePhase(currentPhase, enchant, result.reason))
     {
         if (NPCEnchanterEnhancedHideUnavailableEnchants)
@@ -247,16 +247,6 @@ EnchantValidationResult ValidationHelper::EvaluateEnchant(const Player* player, 
 
         result.isLocked = true;
         return result;
-    }
-
-    if (NPCEnchanterEnhancedOnlyShowCurrentExpansionEnchants)
-    {
-        if (!ValidateExpansion(player, enchant, result.reason))
-        {
-            result.showEnchant = false;
-            result.isLocked = true;
-            return result;
-        }
     }
 
     if (!ValidateEquipment(player, subCatId, result.reason))

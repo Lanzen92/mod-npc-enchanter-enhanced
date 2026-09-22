@@ -25,7 +25,7 @@ class ValidationHelper
     static bool ValidateProfession(const Player* player, const EnchantDefinition& enchant, std::string& reason);
     static bool ValidateGold(const Player* player, uint32 cost, std::string& reason, std::string& priceString);
     static bool ValidatePhase(uint32 playerPhase, const EnchantDefinition& enchant, std::string& reason);
-    static bool ValidateExpansion(const Player* player, const EnchantDefinition& enchant, std::string& reason);
+    static bool ValidateExpansion(uint32 playerPhase, const EnchantDefinition& enchant, std::string& reason);
     static bool ValidateItemLevel(const Player* player, uint32 subCatId, const EnchantDefinition& enchant, std::string& reason);
     static bool ValidateItemRequiredLevel(const Player* player, uint32 subCatId,const EnchantDefinition& enchant, std::string& reason);
     static bool ValidateReputationLevel(const Player* player, const EnchantDefinition& enchant, std::string& reason);

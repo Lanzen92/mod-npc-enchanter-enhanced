@@ -27,11 +27,11 @@ bool NPCEnchanterEnhancedIgnoreItemLevelRequirements = false;
 bool NPCEnchanterEnhancedIgnoreClassRequirements = false;
 bool NPCEnchanterEnhancedIgnoreReputationRequirements = false;
 bool NPCEnchanterEnhancedHideUnavailableEnchants = false;
+bool NPCEnchanterEnhancedOnlyShowCurrentOrLowerExpansionEnchants = true;
 
 //Phases
 bool NPCEnchanterEnhancedIndividualProgression = true;
 uint32 NPCEnchanterEnhancedPhase = 0;
-bool NPCEnchanterEnhancedOnlyShowCurrentExpansionEnchants = true;
 
 //Prices
 bool NPCEnchanterEnhancedFreeEnchants = false;
@@ -67,13 +67,13 @@ void LoadEnchantConfig(bool /*reload*/)
     NPCEnchanterEnhancedIgnoreClassRequirements = sConfigMgr->GetOption<bool>("NPCEnchanterEnhanced.IgnoreClassRequirements", false);
     NPCEnchanterEnhancedIgnoreReputationRequirements = sConfigMgr->GetOption<bool>("NPCEnchanterEnhanced.IgnoreReputationRequirements", false);
     NPCEnchanterEnhancedHideUnavailableEnchants = sConfigMgr->GetOption<bool>("NPCEnchanterEnhanced.HideUnavailableEnchants", false);
+    NPCEnchanterEnhancedOnlyShowCurrentOrLowerExpansionEnchants = sConfigMgr->GetOption<bool>("NPCEnchanterEnhanced.OnlyShowCurrentOrLowerExpansionEnchants", true);
 
     //Load this on the fly in the ValidationHelper instead.. (bugprone-throwing-static-initialization)
     //NPCEnchanterEnhancedTiersToShow = sConfigMgr->GetOption<std::string>("NPCEnchanterEnhanced.TiersToShow", "Leveling, PreRaid, Raid");
 
     NPCEnchanterEnhancedIndividualProgression = sConfigMgr->GetOption<bool>("NPCEnchanterEnhanced.IndividualProgression", true);
     NPCEnchanterEnhancedPhase = sConfigMgr->GetOption<uint32>("NPCEnchanterEnhanced.Phase", 0);
-    NPCEnchanterEnhancedOnlyShowCurrentExpansionEnchants = sConfigMgr->GetOption<bool>("NPCEnchanterEnhanced.OnlyShowCurrentExpansionEnchants", true);
 
     NPCEnchanterEnhancedFreeEnchants = sConfigMgr->GetOption<bool>("NPCEnchanterEnhanced.FreeEnchants", false);
     NPCEnchanterEnhancedDynamicPricesOnEnchants = sConfigMgr->GetOption<bool>("NPCEnchanterEnhanced.DynamicPricesOnEnchants", false);

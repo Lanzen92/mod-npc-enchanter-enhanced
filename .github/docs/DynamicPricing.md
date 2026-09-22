@@ -4,6 +4,18 @@ The **NPC Enchanter Enhanced** module features a robust, expansion-aware dynamic
 
 This ensures that high-end gear in later expansions naturally commands an appropriate economic value without breaking lower-tier progression.
 
+## Cache
+
+Because the dynamic pricing model uses a random variance ($\pm 15\%$) to give each interaction an organic feel, the calculated price fluctuates slightly. To prevent the price from shifting unpredictably between the time a player views it in the NPC gossip menu and the time they click to purchase it, prices are actively cached.
+
+* **Per-Player, Per-Enchant Keying:** The module stores calculated prices inside an internal memory cache tied to the player's GUID and the specific enchantment ID.
+* **Item-Aware Invalidation:** To handle gear swaps properly (such as moving from a lower-tier Rare item to a high-end Epic or Legendary item), the cache tracks the specific `itemGuid` currently equipped in that slot. If a player swaps their gear, the item GUID changes, instantly invalidating the stale cache entry and triggering an accurate, fresh calculation.
+* **Timed Expiration:** Cached entries automatically expire after a configurable duration (`NPCEnchanterEnhanced.DynamicPriceCacheDuration`), ensuring long-term memory doesn't bloat while keeping short-term interactions completely stable.
+* **Manual Purging Commands:** Game masters can clear player price caches on-demand using the chat command system:
+    * `.NPCEE clearcache` (Clears cache for the current player)
+    * `.NPCEE clearcache [playername]` (Clears cache for a specific online player)
+    * `.NPCEE clearallcache` (Wipes the pricing cache entirely across the board)
+
 ---
 
 ## How the Formula Works

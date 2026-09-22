@@ -138,6 +138,13 @@ NPCEnchanterEnhanced.TiersToShow = "Leveling, PreRaid, Raid"
 #
 NPCEnchanterEnhanced.HideUnavailableEnchants = 0
 
+#
+#  NPCEnchanterEnhanced.OnlyShowCurrentOrLowerExpansionEnchants
+#    Hide enchants from expansions higher than the current phase.
+#    Default: 1 (Enabled)
+#           : 0 (Disabled)
+#
+NPCEnchanterEnhanced.OnlyShowCurrentOrLowerExpansionEnchants = 1
 
 # -----------------------------------------------------------------------------------------------
 #  Phases & Progression
@@ -158,15 +165,6 @@ NPCEnchanterEnhanced.Phase = 0
 #           : 0 (Disabled)
 #
 NPCEnchanterEnhanced.IndividualProgression = 1
-
-#
-#  NPCEnchanterEnhanced.NPCEnchanterEnhancedOnlyAllowPhaseExpansion
-#    Hide enchants from expansions higher than the current phase.
-#    Default: 1 (Enabled)
-#           : 0 (Disabled)
-#
-NPCEnchanterEnhanced.NPCEnchanterEnhancedOnlyAllowPhaseExpansion = 1
-
 
 # -----------------------------------------------------------------------------------------------
 #  Pricing & Economy

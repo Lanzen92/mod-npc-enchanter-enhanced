@@ -29,7 +29,7 @@ extern uint32 NPCEnchanterEnhancedDespawnTimerInSeconds;
 //Phases
 extern uint32 NPCEnchanterEnhancedPhase;
 extern bool NPCEnchanterEnhancedIndividualProgression;
-extern bool NPCEnchanterEnhancedOnlyShowCurrentExpansionEnchants;
+extern bool NPCEnchanterEnhancedOnlyShowCurrentOrLowerExpansionEnchants;
 
 //Prices
 extern bool NPCEnchanterEnhancedFreeEnchants;
