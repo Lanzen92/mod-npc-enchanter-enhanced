@@ -133,7 +133,7 @@ NPCEnchanterEnhanced.Phase = 0
 NPCEnchanterEnhanced.IndividualProgression = 1
 #
 # -------------------------------------------------------------------------------------
-#  NPCEnchanterEnhancedOnlyAllowPhaseExpansion
+#  NPCEnchanterEnhancedOnlyShowCurrentExpansionEnchants
 #
 #  Only enable enchants for the current expansion (Based on phase)
 #  This will hide Vanilla / TBC enchants if WotLK Phase for example.
@@ -142,7 +142,7 @@ NPCEnchanterEnhanced.IndividualProgression = 1
 #  Disable: 0
 #  Default: 1
 # -------------------------------------------------------------------------------------
-NPCEnchanterEnhanced.NPCEnchanterEnhancedOnlyAllowPhaseExpansion = 1
+NPCEnchanterEnhanced.NPCEnchanterEnhancedOnlyShowCurrentExpansionEnchants = 1
 
 #--------------------------------------------------------------------------------------
 
@@ -163,12 +163,13 @@ NPCEnchanterEnhanced.FreeEnchants = 0
 # -------------------------------------------------------------------------------------
 #  DynamicPricesOnEnchants - !! This will override FreeEnchants !!
 #
-#  Enable dynamic prices on enchants (Requires populated AH.) Not implemented yet.
+#  Enable dynamic prices on enchants (Calculated by BasePrices and multipliers.)
+#  Dynamic Prices also caches for a certain amount of seconds (1800 Seconds, 30 minutes by default)
 #  Enable : 1
 #  Disable: 0
 #  Default: 1
 # -------------------------------------------------------------------------------------
-NPCEnchanterEnhanced.DynamicPricesOnEnchants = 0
+NPCEnchanterEnhanced.DynamicPricesOnEnchants = 1
 #
 #  Dynamice Prices variables
 #

@@ -93,7 +93,7 @@ public:
     std::string GetProfessionLockedPhrase(uint32 subCategoryId) const;
 
     //CachedEnchantPriceData methods
-    uint32 GetOrCacheEnchantPrice(Player* player, const EnchantDefinition* enchantDef, uint32 subCatId);
+    uint32 GetOrCacheEnchantPrice(const Player* player, const EnchantDefinition* enchantDef, uint32 subCatId);
     void ClearPlayerPriceCache(uint32 playerGuid);
     void ClearAllPlayerPriceCaches();
 
