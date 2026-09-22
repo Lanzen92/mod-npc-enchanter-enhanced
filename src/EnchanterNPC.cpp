@@ -75,10 +75,11 @@ namespace
     };
 
     class NPCEnchanterEnhanced : public CreatureScript {
+
     public:
+
         NPCEnchanterEnhanced() : CreatureScript("NPCEnchanterEnhanced") {
         }
-
 
         //Show Categories.
         bool OnGossipHello(Player* player, Creature* creature) override
