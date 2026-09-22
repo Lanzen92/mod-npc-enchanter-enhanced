@@ -26,19 +26,22 @@ uint32 PriceHelper::GetEnchantPriceInGold(const Player* player, const EnchantDef
 //Adjust price according to itemlevel, level
 uint32 PriceHelper::CalculateDynamicEnchantPrice(const EnchantDefinition* enchantDef, const Player* player, uint32 subCatId)
 {
-    // Initialize basePrice with a safe default fallback
-    uint32 basePrice;
+    if (!enchantDef || !player)
+        return 0;
+
+    uint32 basePrice = NPCEnchanterEnhancedBasePriceLeveling;
     float qualityMultiplier = NPCEnchanterEnhancedQualityMultiplierNormal;
     float variancePercentage = NPCEnchanterEnhancedVariancePercentage;
 
+    // 1. Fetch Item Safely
     EquipmentSlots targetSlot = GetEquipmentSlotFromSubCategory(subCatId);
     Item* targetItem = player->GetItemByPos(INVENTORY_SLOT_BAG_0, targetSlot);
 
-    uint32 itemLevel = targetItem->GetTemplate()->ItemLevel;
-    uint32 itemQuality = targetItem->GetTemplate()->Quality; // Keep as uint32
+    uint32 itemLevel = targetItem ? targetItem->GetTemplate()->ItemLevel : 1;
+    uint32 itemQuality = targetItem ? targetItem->GetTemplate()->Quality : ITEM_QUALITY_NORMAL;
     uint32 playerLevel = player->GetLevel();
 
-    // Tier base costs
+    // 2. Tier base costs
     switch (enchantDef->tier)
     {
         case EnchantTier::Leveling:     basePrice = NPCEnchanterEnhancedBasePriceLeveling; break;
@@ -47,7 +50,7 @@ uint32 PriceHelper::CalculateDynamicEnchantPrice(const EnchantDefinition* enchan
         default:                        basePrice = NPCEnchanterEnhancedBasePriceLeveling; break;
     }
 
-    // Item Quality Modifier
+    // 3. Item Quality Modifier
     switch (itemQuality)
     {
         case ITEM_QUALITY_NORMAL:       qualityMultiplier = NPCEnchanterEnhancedQualityMultiplierNormal; break;
@@ -60,19 +63,21 @@ uint32 PriceHelper::CalculateDynamicEnchantPrice(const EnchantDefinition* enchan
         default: break;
     }
 
-    //Multiply by itemLevel and player level
+    // 4. Scale adjustments using your config multipliers
     float itemLevelAdjustment = static_cast<float>(itemLevel) * NPCEnchanterEnhancedItemLevelMultiplier;
     float playerLevelAdjustment = static_cast<float>(playerLevel) * NPCEnchanterEnhancedPlayerLevelMultiplier;
 
-    //Calculate base subtotal and multiply by quality modifier
-    float adjustedPrice = (static_cast<float>(basePrice) + itemLevelAdjustment + playerLevelAdjustment) * qualityMultiplier;
+    // 5. Multiplicative scaling across expansions
+    float adjustedPrice = static_cast<float>(basePrice)
+                        * (1.0f + itemLevelAdjustment)
+                        * (1.0f + playerLevelAdjustment)
+                        * qualityMultiplier;
 
-    //Variance multiplier
+    // 6. Variance Multiplier
     if (variancePercentage > 0.0f)
     {
         float minMultiplier = 1.0f - variancePercentage;
         float maxMultiplier = 1.0f + variancePercentage;
-
         adjustedPrice *= frand(minMultiplier, maxMultiplier);
     }
 

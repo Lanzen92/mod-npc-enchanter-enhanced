@@ -8,6 +8,7 @@
 #include <algorithm>
 #include <string>
 
+#include "CommonHelper.h"
 #include "ConfigManager.h"
 #include "PriceHelper.h"
 
@@ -1160,6 +1161,11 @@ uint32 NPCEnchanterEnhancedEnchantManager::GetOrCacheEnchantPrice(const Player* 
     uint32 enchantId = enchantDef->enchantId;
     auto now = std::chrono::steady_clock::now();
 
+    //Get itemGUID to
+    EquipmentSlots targetSlot = GetEquipmentSlotFromSubCategory(subCatId);
+    Item* targetItem = player->GetItemByPos(INVENTORY_SLOT_BAG_0, targetSlot);
+    uint64 currentItemGuid = targetItem ? targetItem->GetGUID().GetCounter() : 0;
+
     auto playerCacheIt = m_playerPriceCache.find(playerGuid);
     if (playerCacheIt != m_playerPriceCache.end())
     {
@@ -1180,13 +1186,20 @@ uint32 NPCEnchanterEnhancedEnchantManager::GetOrCacheEnchantPrice(const Player* 
         auto enchantIt = playerCacheIt->second.find(enchantId);
         if (enchantIt != playerCacheIt->second.end())
         {
-            return enchantIt->second.price;
+            if (enchantIt->second.itemGuid == currentItemGuid)
+            {
+                return enchantIt->second.price;
+            }
+            else
+            {
+                playerCacheIt->second.erase(enchantIt);
+            }
         }
     }
 
     // Calculate fresh price if not found or expired
     uint32 finalPrice = PriceHelper::GetEnchantPriceInGold(player, enchantDef, subCatId);
-    m_playerPriceCache[playerGuid][enchantId] = { finalPrice, now };
+    m_playerPriceCache[playerGuid][enchantId] = { finalPrice, currentItemGuid, now };
 
     return finalPrice;
 }
