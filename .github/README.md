@@ -1,6 +1,6 @@
 # NPC Enchanter Enhanced 🧙‍♂️✨
 
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+[![License: AGPL v3](https://img.shields.io/badge/License--AGPL%20v3-blue.svg)](https://www.gnu.org/licenses/agpl-3.0)
 [![Platform: AzerothCore](https://img.shields.io/badge/AzerothCore-C++17-blue.svg)](https://www.azerothcore.org/)
 [![Module Status: Active](https://img.shields.io/badge/Status-Active-success.svg)]()
 [![Build Status](https://github.com/Lanzen92/mod_npc_enchanter_enchanced/actions/workflows/core-build.yml/badge.svg)](https://github.com/Lanzen92/mod_npc_enchanter_enchanced/actions/workflows/core-build.yml)
@@ -28,7 +28,7 @@ Plus, I added a bunch of configurations so you can completely tailor it to whate
 
 ## 📄 In the backlog:
 * **Items** - A book that players can buy and use to summon Enchanter Xari.
-* **Polish** - Alooot of testing and probably alot of bugfixing.
+* **Testing and bugfixing** - Alot of testing and prob alot of bugfixing needed.
 ---
 
 ## 📦 Installation
