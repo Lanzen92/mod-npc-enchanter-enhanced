@@ -5,7 +5,6 @@
  */
 
 #include "ValidationHelper.h"
-#include <algorithm>
 #include "ConfigManager.h"
 #include "EnchantManager.h"
 #include "Player.h"
@@ -104,7 +103,7 @@ bool ValidationHelper::ValidatePhase(uint32 playerPhase, const EnchantDefinition
 }
 
 //Check current expansion
-bool ValidationHelper::ValidateExpansion(uint32 playerPhase, const EnchantDefinition& enchant, std::string& reason)
+bool ValidationHelper::ValidateExpansion(uint32 playerPhase, const EnchantDefinition& enchant, std::string& /*reason*/)
 {
     uint8 enchantExpansion = GetExpansionForPhase(enchant.phase);
     uint8 playerExpansion = GetExpansionForPhase(playerPhase);
