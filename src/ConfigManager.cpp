@@ -31,7 +31,7 @@ bool NPCEnchanterEnhancedHideUnavailableEnchants = false;
 //Phases
 bool NPCEnchanterEnhancedIndividualProgression = true;
 uint32 NPCEnchanterEnhancedPhase = 0;
-bool NPCEnchanterEnhancedOnlyAllowPhaseExpansion = true;
+bool NPCEnchanterEnhancedOnlyShowCurrentExpansionEnchants = true;
 
 //Prices
 bool NPCEnchanterEnhancedFreeEnchants = false;
@@ -73,7 +73,7 @@ void LoadEnchantConfig(bool /*reload*/)
 
     NPCEnchanterEnhancedIndividualProgression = sConfigMgr->GetOption<bool>("NPCEnchanterEnhanced.IndividualProgression", true);
     NPCEnchanterEnhancedPhase = sConfigMgr->GetOption<uint32>("NPCEnchanterEnhanced.Phase", 0);
-    NPCEnchanterEnhancedOnlyAllowPhaseExpansion = sConfigMgr->GetOption<bool>("NPCEnchanterEnhanced.OnlyAllowPhaseExpansion", true);
+    NPCEnchanterEnhancedOnlyShowCurrentExpansionEnchants = sConfigMgr->GetOption<bool>("NPCEnchanterEnhanced.OnlyAllowPhaseExpansion", true);
 
     NPCEnchanterEnhancedFreeEnchants = sConfigMgr->GetOption<bool>("NPCEnchanterEnhanced.FreeEnchants", false);
     NPCEnchanterEnhancedDynamicPricesOnEnchants = sConfigMgr->GetOption<bool>("NPCEnchanterEnhanced.DynamicPricesOnEnchants", false);
@@ -98,22 +98,25 @@ void LoadEnchantConfig(bool /*reload*/)
     }
 };
 
-// Hook configuration loading into server startup and reloads
-class NPCEnchanterEnhancedConfigManager : public WorldScript
+namespace
 {
-public:
-    NPCEnchanterEnhancedConfigManager() : WorldScript("NPCEnchanterEnhancedConfigManager") {}
-
-    void OnStartup() override
+    // Hook configuration loading into server startup and reloads
+    class NPCEnchanterEnhancedConfigManager : public WorldScript
     {
-        LoadEnchantConfig(false);
-    }
+    public:
+        NPCEnchanterEnhancedConfigManager() : WorldScript("NPCEnchanterEnhancedConfigManager") {}
 
-    void OnConfigLoad(bool reload)
-    {
-        LoadEnchantConfig(reload);
-    }
-};
+        void OnStartup() override
+        {
+            LoadEnchantConfig(false);
+        }
+
+        void OnConfigLoad(bool reload)
+        {
+            LoadEnchantConfig(reload);
+        }
+    };
+}
 
 void AddSC_NPCEnchanterEnhancedConfigManager()
 {

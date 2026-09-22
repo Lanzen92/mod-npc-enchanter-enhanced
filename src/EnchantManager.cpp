@@ -441,8 +441,6 @@ NPCEnchanterEnhancedEnchantManager::NPCEnchanterEnhancedEnchantManager()
 
                         // --- PRE-RAID TIER ---
                         EnchantDefinition{ 3242, "Chromatic Mantle of the Dawn", "+5 Resistance", EnchantTier::PreRaid, "", 0, 529, 3, static_cast<uint32>(Classes::CLASS_NONE), 1, 1, 2, 50 },
-
-                        EnchantDefinition{ 3242, "Chromatic Mantle of the Dawn", "+5 Resistance", EnchantTier::PreRaid, "", 0, 0, 0, static_cast<uint32>(Classes::CLASS_NONE), 1, 1, 2, 50 },
                         // --- VANILLA END ---
 
                         // --- TBC ---
@@ -561,11 +559,11 @@ NPCEnchanterEnhancedEnchantManager::NPCEnchanterEnhancedEnchantManager()
                         EnchantDefinition{ 1446, "Superior Shadow Resistance", "+20 shadow resistance", EnchantTier::PreRaid, "", 0, 0, 0, static_cast<uint32>(Classes::CLASS_NONE), 0, 60, 13, 225 },
                         EnchantDefinition{ 1951, "Titanweave", "+16 defense rating", EnchantTier::PreRaid, "", 0, 0, 0, static_cast<uint32>(Classes::CLASS_NONE), 0, 60, 13, 225 },
                         EnchantDefinition{ 3296, "Wisdom", "+10 spirit, slight decrease in threat", EnchantTier::PreRaid, "", 0, 0, 0, static_cast<uint32>(Classes::CLASS_NONE), 0, 60, 13, 225 },
-                        EnchantDefinition{ 3728, "Darkglow Embroidery", "Chance to restore 400 mana when you cast a spell, requires 400 Tailoring", EnchantTier::PreRaid, "Tailoring", 400, 0, 0, static_cast<uint32>(Classes::CLASS_NONE), 0, 60, 13, 30 },
-                        EnchantDefinition{ 3722, "Lightweave Embroidery", "Chance to increase your spell power by 295 for 15 sec when casting a spell, requires 400 Tailoring", EnchantTier::PreRaid, "Tailoring", 400, 0, 0, static_cast<uint32>(Classes::CLASS_NONE), 0, 60, 13, 30 },
-                        EnchantDefinition{ 3730, "Swordguard Embroidery", "Chance for your damaging melee and ranged attacks to sometimes increase your attack power by 400 for 15 sec, requires 400 Tailoring", EnchantTier::PreRaid, "Tailoring", 400, 0, 0, static_cast<uint32>(Classes::CLASS_NONE), 0, 60, 13, 30 },
-                        EnchantDefinition{ 3605, "Flexweave Underlay", "Turn your cloak into a parachute in order to fall slowly for 30 sec (1 min cooldown), also increases agility by 23, requires 400 Engineering", EnchantTier::PreRaid, "Engineering", 400, 0, 0, static_cast<uint32>(Classes::CLASS_NONE), 0, 60, 13, 30 },
-                        EnchantDefinition{ 0,    "Springy Arachnoweave", "+27 Spell Power and Parachute (Slow Fall 30 sec)", EnchantTier::PreRaid, "Engineering", 400, 0, 0, static_cast<uint32>(Classes::CLASS_NONE), 0, 75, 1, 100 }
+                        EnchantDefinition{ 3728, "Darkglow Embroidery", "Chance to restore 400 mana when you cast a spell, requires 400 Tailoring", EnchantTier::PreRaid, "Tailoring", 400, 0, 0, static_cast<uint32>(Classes::CLASS_NONE), 0, 0, 13, 30 },
+                        EnchantDefinition{ 3722, "Lightweave Embroidery", "Chance to increase your spell power by 295 for 15 sec when casting a spell, requires 400 Tailoring", EnchantTier::PreRaid, "Tailoring", 400, 0, 0, static_cast<uint32>(Classes::CLASS_NONE), 0, 0, 13, 30 },
+                        EnchantDefinition{ 3730, "Swordguard Embroidery", "Chance for your damaging melee and ranged attacks to sometimes increase your attack power by 400 for 15 sec, requires 400 Tailoring", EnchantTier::PreRaid, "Tailoring", 400, 0, 0, static_cast<uint32>(Classes::CLASS_NONE), 0, 0, 13, 30 },
+                        EnchantDefinition{ 3605, "Flexweave Underlay", "Turn your cloak into a parachute in order to fall slowly for 30 sec (1 min cooldown), also increases agility by 23, requires 400 Engineering", EnchantTier::PreRaid, "Engineering", 400, 0, 0, static_cast<uint32>(Classes::CLASS_NONE), 0, 0, 13, 30 },
+                        EnchantDefinition{ 3859, "Springy Arachnoweave", "+27 Spell Power and Parachute (Slow Fall 30 sec)", EnchantTier::PreRaid, "Engineering", 400, 0, 0, static_cast<uint32>(Classes::CLASS_NONE), 0, 0, 13, 100 }
                         // --- WOTLK END ---
                     }
                 },
@@ -1154,7 +1152,7 @@ std::string NPCEnchanterEnhancedEnchantManager::GetProfessionLockedPhrase(uint32
 
 //Cache for pricing (Due to the variance, we need to cache the calculated price so it does not differ from menu and subtraction.
 //This function both sets and gets the price value for that playerGUID and enchantID.
-uint32 NPCEnchanterEnhancedEnchantManager::GetOrCacheEnchantPrice(Player* player, const EnchantDefinition* enchantDef, uint32 subCatId)
+uint32 NPCEnchanterEnhancedEnchantManager::GetOrCacheEnchantPrice(const Player* player, const EnchantDefinition* enchantDef, uint32 subCatId)
 {
     if (!player || !enchantDef)
         return 0;
