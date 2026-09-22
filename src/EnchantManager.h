@@ -79,6 +79,7 @@ struct EnchantCategoryDefinition {
 struct CachedEnchantPriceData
 {
     uint32 price;
+    uint64 itemGuid;
     std::chrono::steady_clock::time_point timestamp;
 };
 

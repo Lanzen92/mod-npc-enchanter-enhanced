@@ -4,224 +4,153 @@
 
 [worldserver]
 
-########################################
-# NPC Enchanter Enhanced
-########################################
-# -------------------------------------------------------------------------------------
-#  Enable the module
+#################################################################################################
 #
-#  Enable : 1
-#  Disable: 0
-# -------------------------------------------------------------------------------------
+# NPC Enchanter Enhanced
+#
+#################################################################################################
+
+# -----------------------------------------------------------------------------------------------
+#  General Settings
+# -----------------------------------------------------------------------------------------------
+#
+#  NPCEnchanterEnhanced.Enabled
+#    Enable the module.
+#    Default: 1 (Enabled)
+#           : 0 (Disabled)
+#
 NPCEnchanterEnhanced.Enabled = 1
 
-# -------------------------------------------------------------------------------------
-#  Announce
 #
-#  Announce the module when the player logs in?
-#  Enable : 1
-#  Disable: 0
-# -------------------------------------------------------------------------------------
+#  NPCEnchanterEnhanced.Announce
+#    Announce the module in chat when a player logs in.
+#    Default: 1 (Enabled)
+#           : 0 (Disabled)
+#
 NPCEnchanterEnhanced.Announce = 1
 
-# -------------------------------------------------------------------------------------
+
+# -----------------------------------------------------------------------------------------------
+#  NPC Behavior
+# -----------------------------------------------------------------------------------------------
 #
-#  NPC Settings
+#  NPCEnchanterEnhanced.SpawnableByAnyone
+#    Allow regular players to use the summon command (.NPCEE spawn).
+#    Default: 1 (Any player)
+#           : 0 (GMs / Admins only)
 #
-# -------------------------------------------------------------------------------------
-#  SpawnableByAnyone
-#
-#  If the NPC should be spawnable for anyone. (.NPCEE spawn)
-#  Enable : 1 (Any player can summon the enchanter)
-#  Disable: 0 (Only GM/Admin can summon the enchanter)
-#  Default: 1
-# -------------------------------------------------------------------------------------
 NPCEnchanterEnhanced.SpawnableByAnyone = 1
+
 #
-# -------------------------------------------------------------------------------------
-#  DespawnTimerInSeconds
+#  NPCEnchanterEnhanced.DespawnTimerInSeconds
+#    Time in seconds before the summoned NPC automatically despawns.
+#    Default: 90
+#           : 0 (Never despawn)
 #
-#  NPC DespawnTimer in seconds
-#  0 = Dont despawn.
-#  1+ = Despawn after x seconds.
-#  Default: 90
-# -------------------------------------------------------------------------------------
 NPCEnchanterEnhanced.DespawnTimerInSeconds = 90
-#
-#--------------------------------------------------------------------------------------
 
-# -------------------------------------------------------------------------------------
+
+# -----------------------------------------------------------------------------------------------
+#  Filtering Requirements
+# -----------------------------------------------------------------------------------------------
+#  Bypass specific restrictions for enchants.
+#  Default: 0 (Enforce restrictions)
+#         : 1 (Ignore restrictions)
 #
-#  Filtering - Ignore different requirements
-#
-# -------------------------------------------------------------------------------------
-#  IgnoreRequirements
-#
-#  NPCEnchanterEnhanced.IgnoreProfessionRequirements: Ignore profession requirements. for example Rocket Boots (Engineering), ring enchants (Enchanting) etc
-#  NPCEnchanterEnhanced.IgnoreLevelRequirements: Ignore level requirements.
-#  NPCEnchanterEnhanced.IgnoreItemLevelRequirements: Ignore itemlevel requirements.
-#  NPCEnchanterEnhanced.IgnoreClassRequirements: Ignore class requirements. (ZG enchants etc)
-#  NPCEnchanterEnhanced.IgnoreReputationRequirements: Ignore reputation requirements.
-#
-#  Enable : 1 - Ignores requirements
-#  Disable: 0
-#
-#  Defaults values:
-#  NPCEnchanterEnhanced.IgnoreProfessionRequirements = 0
-#  NPCEnchanterEnhanced.IgnoreLevelRequirements = 0
-#  NPCEnchanterEnhanced.IgnoreItemLevelRequirements = 0
-#  NPCEnchanterEnhanced.IgnoreClassRequirements = 0
-#  NPCEnchanterEnhanced.IgnoreReputationRequirements = 0
-#
-NPCEnchanterEnhanced.IgnoreProfessionRequirements = 0
-NPCEnchanterEnhanced.IgnoreLevelRequirements = 0
-NPCEnchanterEnhanced.IgnoreItemLevelRequirements = 0
-NPCEnchanterEnhanced.IgnoreClassRequirements = 0
+NPCEnchanterEnhanced.IgnoreProfessionRequirements   = 0
+NPCEnchanterEnhanced.IgnoreLevelRequirements      = 0
+NPCEnchanterEnhanced.IgnoreItemLevelRequirements  = 0
+NPCEnchanterEnhanced.IgnoreClassRequirements      = 0
 NPCEnchanterEnhanced.IgnoreReputationRequirements = 0
+
 #
-# -------------------------------------------------------------------------------------
-#  TiersToShow
+#  NPCEnchanterEnhanced.TiersToShow
+#    Progression tiers displayed in the menu.
+#    Options: Leveling, PreRaid, Raid
+#    Default: "Leveling, PreRaid, Raid"
 #
-#   Raid: Crusader, +15 Agility, 30+ Spell Power, 55+ Healing Power, +4 Stats etc
-#   PreRaid: +3 Stats etc
-#   Leveling: Low-level enchants like Striking, Impact, Lesser Spirit etc
-#
-#  Show all tiers: "Leveling, PreRaid, Raid"
-#  Default: "Leveling, PreRaid, Raid"
-# -------------------------------------------------------------------------------------
 NPCEnchanterEnhanced.TiersToShow = "Leveling, PreRaid, Raid"
+
 #
-# -------------------------------------------------------------------------------------
-#  HideUnavailableEnchants
+#  NPCEnchanterEnhanced.HideUnavailableEnchants
+#    How to handle unowned or phase-locked enchants in the menu.
+#    Default: 0 (Show as locked)
+#           : 1 (Hide completely)
 #
-#  If enchants are unavailable (Reasons like wrong phase, wrong class, to low level etc)
-#  Hide enchants : 1
-#  Show enchants but locked : 1
-#  Default: 0
-# -------------------------------------------------------------------------------------
 NPCEnchanterEnhanced.HideUnavailableEnchants = 0
-#
-#--------------------------------------------------------------------------------------
 
-# -------------------------------------------------------------------------------------
+
+# -----------------------------------------------------------------------------------------------
+#  Phases & Progression
+# -----------------------------------------------------------------------------------------------
+#  Phase layout: 1-6 (Vanilla), 7-12 (TBC), 13-17 (WotLK)
 #
-#  Phases
-#  Lock enchants that was not available in the current phase.
-#  1-6 Vanilla
-#  7-12 TBC
-#  13-17 WOTLK
+#  NPCEnchanterEnhanced.Phase
+#    Global phase cap. Enchants above this phase will be locked.
+#    Default: 0 (Disabled)
 #
-# -------------------------------------------------------------------------------------
-#  NPCEnchanterEnhancedPhase
-#
-#  Only enable enchants that were available during this phase (Or lower)
-#  Enable : 1-17
-#  Disable: 0
-#  Default: 0
-# -------------------------------------------------------------------------------------
 NPCEnchanterEnhanced.Phase = 0
+
 #
-# -------------------------------------------------------------------------------------
-#  IndividualProgression - !! This will override NPCEnchanterEnhancedPhase !!
+#  NPCEnchanterEnhanced.IndividualProgression
+#    Tie phase locks to the player's IndividualProgression module achievements.
+#    Note: This overrides NPCEnchanterEnhanced.Phase.
+#    Default: 1 (Enabled)
+#           : 0 (Disabled)
 #
-#  Only enable enchants that were available during the player's current IndividualProgression phase.
-#  Uses the same achievements as the IndividualProgression-module for phases.
-#  Enable : 1
-#  Disable: 0
-#  Default: 1
-# -------------------------------------------------------------------------------------
 NPCEnchanterEnhanced.IndividualProgression = 1
-#
-# -------------------------------------------------------------------------------------
-#  NPCEnchanterEnhancedOnlyShowCurrentExpansionEnchants
-#
-#  Only enable enchants for the current expansion (Based on phase)
-#  This will hide Vanilla / TBC enchants if WotLK Phase for example.
-#
-#  Enable : 1
-#  Disable: 0
-#  Default: 1
-# -------------------------------------------------------------------------------------
-NPCEnchanterEnhanced.NPCEnchanterEnhancedOnlyShowCurrentExpansionEnchants = 1
 
-#--------------------------------------------------------------------------------------
+#
+#  NPCEnchanterEnhanced.OnlyShowCurrentExpansionEnchants
+#    Hide enchants from expansions higher than the current phase.
+#    Default: 1 (Enabled)
+#           : 0 (Disabled)
+#
+NPCEnchanterEnhanced.OnlyShowCurrentExpansionEnchants = 1
 
-#--------------------------------------------------------------------------------------
+
+# -----------------------------------------------------------------------------------------------
+#  Pricing & Economy
+# -----------------------------------------------------------------------------------------------
 #
-#  Prices
+#  NPCEnchanterEnhanced.FreeEnchants
+#    Make all enchants completely free of charge.
+#    Default: 0 (Cost gold)
+#           : 1 (Free)
 #
-# -------------------------------------------------------------------------------------
-#  FreeEnchants
-#
-#  Enable free enchants
-#  Enable : 1 Enchants are free.
-#  Disable: 0 Enchants cost gold.
-#  Default: 0
-# -------------------------------------------------------------------------------------
 NPCEnchanterEnhanced.FreeEnchants = 0
+
 #
-# -------------------------------------------------------------------------------------
-#  DynamicPricesOnEnchants - !! This will override FreeEnchants !!
+#  NPCEnchanterEnhanced.DynamicPricesOnEnchants
+#    Enable dynamic economic price scaling based on item level, player level, and quality.
+#    Note: Overrides FreeEnchants.
+#    Default: 1 (Enabled)
+#           : 0 (Disabled)
 #
-#  Enable dynamic prices on enchants (Calculated by BasePrices and multipliers.)
-#  Dynamic Prices also caches for a certain amount of seconds (1800 Seconds, 30 minutes by default)
-#  Enable : 1
-#  Disable: 0
-#  Default: 1
-# -------------------------------------------------------------------------------------
 NPCEnchanterEnhanced.DynamicPricesOnEnchants = 1
+
 #
-#  Dynamice Prices variables
-#
-#  BasePrices
-#  Base cost of the enchants, based on tiers (Leveling, PreRaid, Raid)
-#
-#  Multipliers
-#  To make the prices more configurable and dynamic.
-#  These are based on Player level, Itemlevel of the item and Quality of the item.
-#
-#  VariancePercentage - Makes the price be +- X % (0.15 = 15%)
-#
-#  Enchant Price Calculation Formula:
-#    1. Base Price: Determined by the enchant's progression tier (Leveling, Pre-Raid, or Raid).
-#    2. Item Level Scaling: itemLevel * ItemLevelMultiplier
-#    3. Player Level Scaling: playerLevel * PlayerLevelMultiplier
-#    4. Quality Multiplier: Scales the subtotal based on the item's quality (Normal, Epic, Legendary, etc.).
-#    5. Random Variance: A random percentage fluctuation applied to the cost
-#       based on the configured variance percentage (e.g., +/- 10%).
-#
-#    Final Price = ((Base Price + Item Level Adjustment + Player Level Adjustment) * Quality Multiplier) * Random Variance
-#
-#  Default values:
-#  DynamicPriceCacheDurationInSeconds = 1800 (30 minutes)
-#  NPCEnchanterEnhanced.BasePriceLeveling = 10
-#  NPCEnchanterEnhanced.BasePricePreRaid = 50
-#  NPCEnchanterEnhanced.BasePriceRaid = 200
-#  NPCEnchanterEnhanced.ItemLevelMultiplier = 0.1
-#  NPCEnchanterEnhanced.PlayerLevelMultiplier = 0.2
-#  NPCEnchanterEnhanced.QualityMultiplierNormal = 0.3
-#  NPCEnchanterEnhanced.QualityMultiplierUncommon = 0.5
-#  NPCEnchanterEnhanced.QualityMultiplierRare = 0.8
-#  NPCEnchanterEnhanced.QualityMultiplierEpic = 1.0
-#  NPCEnchanterEnhanced.QualityMultiplierLegendary = 1.35
-#  NPCEnchanterEnhanced.VariancePercentage = 0.15
+#  Dynamic Price Calculation Formula:
+#    1. Base Price        : Determined by the enchant's tier (Leveling, Pre-Raid, or Raid).
+#    2. Item Level Adj    : 1.0 + (itemLevel * ItemLevelMultiplier)
+#    3. Player Level Adj  : 1.0 + (playerLevel * PlayerLevelMultiplier)
+#    4. Quality Multiplier: Scales the subtotal based on item quality (Normal, Epic, Legendary, etc.).
+#    5. Final Calculation : Base Price * Item Level Adj * Player Level Adj * Quality Multiplier
+#    6. Random Variance   : A random percentage fluctuation applied to the final cost (+/- Configured %).
 #
 DynamicPriceCacheDurationInSeconds = 1800
-#
-NPCEnchanterEnhanced.BasePriceLeveling = 10
-NPCEnchanterEnhanced.BasePricePreRaid = 50
-NPCEnchanterEnhanced.BasePriceRaid = 200
-#
-#  Multipliers
-#
-NPCEnchanterEnhanced.ItemLevelMultiplier = 0.1
-NPCEnchanterEnhanced.PlayerLevelMultiplier = 0.2
-NPCEnchanterEnhanced.QualityMultiplierNormal = 0.3
-NPCEnchanterEnhanced.QualityMultiplierUncommon = 0.5
-NPCEnchanterEnhanced.QualityMultiplierRare = 0.8
-NPCEnchanterEnhanced.QualityMultiplierEpic = 1.0
-NPCEnchanterEnhanced.QualityMultiplierLegendary = 1.35
-NPCEnchanterEnhanced.VariancePercentage = 0.15
-#
-#-------------------------------------------------------------------------------------
 
+# Base Prices per Tier
+NPCEnchanterEnhanced.BasePriceLeveling = 2
+NPCEnchanterEnhanced.BasePricePreRaid  = 5
+NPCEnchanterEnhanced.BasePriceRaid     = 10
+
+# Scaling Multipliers & Variance
+NPCEnchanterEnhanced.ItemLevelMultiplier       = 0.05
+NPCEnchanterEnhanced.PlayerLevelMultiplier     = 0.05
+NPCEnchanterEnhanced.QualityMultiplierNormal   = 0.3
+NPCEnchanterEnhanced.QualityMultiplierUncommon = 0.5
+NPCEnchanterEnhanced.QualityMultiplierRare     = 0.8
+NPCEnchanterEnhanced.QualityMultiplierEpic     = 1.0
+NPCEnchanterEnhanced.QualityMultiplierLegendary= 1.35
+NPCEnchanterEnhanced.VariancePercentage        = 0.15
