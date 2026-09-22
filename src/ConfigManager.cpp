@@ -39,13 +39,13 @@ bool NPCEnchanterEnhancedDynamicPricesOnEnchants = false;
 
 //Dynamic Pricing Parameters
 float NPCEnchanterEnhancedDynamicPriceCacheDurationInSeconds = 1800;
-uint32 NPCEnchanterEnhancedBasePriceLeveling = 10;
-uint32 NPCEnchanterEnhancedBasePricePreRaid = 50;
-uint32 NPCEnchanterEnhancedBasePriceRaid = 200;
+uint32 NPCEnchanterEnhancedBasePriceLeveling = 2;
+uint32 NPCEnchanterEnhancedBasePricePreRaid = 5;
+uint32 NPCEnchanterEnhancedBasePriceRaid = 10;
 
 //Dynamic Pricing Multipliers
-float NPCEnchanterEnhancedItemLevelMultiplier = 0.1f;
-float NPCEnchanterEnhancedPlayerLevelMultiplier = 0.2f;
+float NPCEnchanterEnhancedItemLevelMultiplier = 0.05f;
+float NPCEnchanterEnhancedPlayerLevelMultiplier = 0.05f;
 float NPCEnchanterEnhancedQualityMultiplierNormal = 0.3f;
 float NPCEnchanterEnhancedQualityMultiplierUncommon = 0.5f;
 float NPCEnchanterEnhancedQualityMultiplierRare = 0.8f;
@@ -79,12 +79,12 @@ void LoadEnchantConfig(bool /*reload*/)
     NPCEnchanterEnhancedDynamicPricesOnEnchants = sConfigMgr->GetOption<bool>("NPCEnchanterEnhanced.DynamicPricesOnEnchants", false);
 
     NPCEnchanterEnhancedDynamicPriceCacheDurationInSeconds =sConfigMgr->GetOption<float>("NPCEnchanterEnhanced.DynamicPriceCacheDurationInSeconds", 1800);
-    NPCEnchanterEnhancedBasePriceLeveling = sConfigMgr->GetOption<uint32>("NPCEnchanterEnhanced.BasePriceLeveling", 10);
-    NPCEnchanterEnhancedBasePricePreRaid = sConfigMgr->GetOption<uint32>("NPCEnchanterEnhanced.BasePricePreRaid", 50);
-    NPCEnchanterEnhancedBasePriceRaid = sConfigMgr->GetOption<uint32>("NPCEnchanterEnhanced.BasePriceRaid", 200);
+    NPCEnchanterEnhancedBasePriceLeveling = sConfigMgr->GetOption<uint32>("NPCEnchanterEnhanced.BasePriceLeveling", 2);
+    NPCEnchanterEnhancedBasePricePreRaid = sConfigMgr->GetOption<uint32>("NPCEnchanterEnhanced.BasePricePreRaid", 5);
+    NPCEnchanterEnhancedBasePriceRaid = sConfigMgr->GetOption<uint32>("NPCEnchanterEnhanced.BasePriceRaid", 10);
 
-    NPCEnchanterEnhancedItemLevelMultiplier = sConfigMgr->GetOption<float>("NPCEnchanterEnhanced.ItemLevelMultiplier", 0.1f);
-    NPCEnchanterEnhancedPlayerLevelMultiplier = sConfigMgr->GetOption<float>("NPCEnchanterEnhanced.PlayerLevelMultiplier", 0.2f);
+    NPCEnchanterEnhancedItemLevelMultiplier = sConfigMgr->GetOption<float>("NPCEnchanterEnhanced.ItemLevelMultiplier", 0.05f);
+    NPCEnchanterEnhancedPlayerLevelMultiplier = sConfigMgr->GetOption<float>("NPCEnchanterEnhanced.PlayerLevelMultiplier", 0.05f);
     NPCEnchanterEnhancedQualityMultiplierNormal = sConfigMgr->GetOption<float>("NPCEnchanterEnhanced.QualityMultiplierNormal", 0.3f);
     NPCEnchanterEnhancedQualityMultiplierUncommon = sConfigMgr->GetOption<float>("NPCEnchanterEnhanced.QualityMultiplierUncommon", 0.5f);
     NPCEnchanterEnhancedQualityMultiplierRare = sConfigMgr->GetOption<float>("NPCEnchanterEnhanced.QualityMultiplierRare", 0.8f);

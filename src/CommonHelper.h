@@ -11,7 +11,6 @@
 #include "SharedDefines.h"
 #include "Player.h"
 #include "EnchantManager.h"
-#include "ValidationHelper.h"
 
 //Get SkillType from string. - This should prob be changed to uint in the enchantDef.
 inline SkillType GetProfessionSkillTypeFromString(const std::string& profName)

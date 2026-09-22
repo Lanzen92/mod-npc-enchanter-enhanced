@@ -30,7 +30,9 @@ public:
             { "NPCEE getphase", GetPhaseEnchanterCommand, SEC_PLAYER, Console::No },
             { "NPCEE help", HelpEnchanterCommand, SEC_PLAYER, Console::No },
             { "NPCEE config", ShowConfigurationEnchanterCommand, SEC_GAMEMASTER, Console::No },
-            { "NPCEE reload", ReloadConfigurationEnchanterCommand, SEC_GAMEMASTER, Console::No }
+            { "NPCEE reload", ReloadConfigurationEnchanterCommand, SEC_GAMEMASTER, Console::No },
+            { "NPCEE clearcache", ClearCacheConfigurationEnchanterCommand, SEC_GAMEMASTER, Console::No },
+            { "NPCEE clearallcache", ClearAllCacheConfigurationEnchanterCommand, SEC_GAMEMASTER, Console::No }
         };
 
         return commandTable;
@@ -134,13 +136,15 @@ public:
         {
             handler->SendSysMessage(".NPCEE config - Show current configuration");
             handler->SendSysMessage(".NPCEE reload - Reload configuration");
+            handler->SendSysMessage(".NPCEE clearcache - Clear price cache");
+            handler->SendSysMessage(".NPCEE clearcache $[playername] - Clear price cache for that player");
+            handler->SendSysMessage(".NPCEE clearallcache - Clear all cached prices");
             return true;
         }
 
         return true;
     }
 
-    //Todo Update...
     static bool ShowConfigurationEnchanterCommand(ChatHandler* handler)
     {
         Player* player = handler->GetSession()->GetPlayer();
@@ -181,7 +185,21 @@ public:
         handler->SendSysMessage("FreeEnchants: " + std::to_string(NPCEnchanterEnhancedFreeEnchants));
         handler->SendSysMessage("DynamicPricesOnEnchants: " + std::to_string(NPCEnchanterEnhancedDynamicPricesOnEnchants));
 
-        std::string multipliers = "";
+        handler->SendSysMessage("===  BasePrices  ===");
+        handler->SendSysMessage("BasePriceLeveling: " + std::to_string(NPCEnchanterEnhancedBasePriceLeveling));
+        handler->SendSysMessage("BasePricePreRaid: " + std::to_string(NPCEnchanterEnhancedBasePricePreRaid));
+        handler->SendSysMessage("BasePriceRaid: " + std::to_string(NPCEnchanterEnhancedBasePriceRaid));
+
+        handler->SendSysMessage("===  Multipliers  ===");
+        handler->SendSysMessage("DynamicPricesOnEnchants: " + std::to_string(NPCEnchanterEnhancedDynamicPricesOnEnchants));
+        handler->SendSysMessage("ItemLevelMultiplier: " + std::to_string(NPCEnchanterEnhancedItemLevelMultiplier));
+        handler->SendSysMessage("PlayerLevelMultiplier: " + std::to_string(NPCEnchanterEnhancedPlayerLevelMultiplier));
+        handler->SendSysMessage("QualityMultiplierNormal: " + std::to_string(NPCEnchanterEnhancedQualityMultiplierNormal));
+        handler->SendSysMessage("QualityMultiplierUncommon: " + std::to_string(NPCEnchanterEnhancedQualityMultiplierUncommon));
+        handler->SendSysMessage("QualityMultiplierRare: " + std::to_string(NPCEnchanterEnhancedQualityMultiplierRare));
+        handler->SendSysMessage("QualityMultiplierEpic: " + std::to_string(NPCEnchanterEnhancedQualityMultiplierEpic));
+        handler->SendSysMessage("QualityMultiplierLegendary: " + std::to_string(NPCEnchanterEnhancedQualityMultiplierLegendary));
+        handler->SendSysMessage("VariancePercentage: " + std::to_string(NPCEnchanterEnhancedVariancePercentage));
 
         return true;
     }
@@ -201,6 +219,44 @@ public:
         LoadEnchantConfig(true);
 
         handler->SendSysMessage("NPC Enchanter Enhanced configuration reloaded successfully.");
+        return true;
+    }
+
+    static bool ClearCacheConfigurationEnchanterCommand(ChatHandler* handler, Optional<std::string> playerName)
+    {
+        Player* player = handler->GetSession()->GetPlayer();
+        if (!player)
+            return false;
+
+        uint32 targetGuid = 0;
+        if (playerName)
+        {
+            Player* target = ObjectAccessor::FindPlayerByName(*playerName, false);
+            if (!target)
+            {
+                handler->PSendSysMessage("Player '{}' not found or offline.", playerName->c_str());
+                return false;
+            }
+            targetGuid = target->GetGUID().GetCounter();
+        }
+        else
+        {
+            targetGuid = player->GetGUID().GetCounter();
+        }
+
+        NPCEnchanterEnhancedEnchantManager::instance()->ClearPlayerPriceCache(targetGuid);
+        handler->PSendSysMessage("Price cache successfully cleared for target player (GUID: {}).", targetGuid);
+        return true;
+    }
+
+    static bool ClearAllCacheConfigurationEnchanterCommand(ChatHandler* handler, Optional<std::string> playerName)
+    {
+        Player* player = handler->GetSession()->GetPlayer();
+        if (!player)
+            return false;
+
+        NPCEnchanterEnhancedEnchantManager::instance()->ClearAllPlayerPriceCaches();
+        handler->PSendSysMessage("Price cache successfully cleared");
         return true;
     }
 };
