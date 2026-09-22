@@ -101,12 +101,12 @@ NPCEnchanterEnhanced.Phase = 0
 NPCEnchanterEnhanced.IndividualProgression = 1
 
 #
-#  NPCEnchanterEnhanced.NPCEnchanterEnhancedOnlyAllowPhaseExpansion
+#  NPCEnchanterEnhanced.OnlyShowCurrentExpansionEnchants
 #    Hide enchants from expansions higher than the current phase.
 #    Default: 1 (Enabled)
 #           : 0 (Disabled)
 #
-NPCEnchanterEnhanced.NPCEnchanterEnhancedOnlyAllowPhaseExpansion = 1
+NPCEnchanterEnhanced.OnlyShowCurrentExpansionEnchants = 1
 
 
 # -----------------------------------------------------------------------------------------------

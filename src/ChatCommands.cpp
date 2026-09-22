@@ -17,30 +17,10 @@ using namespace Acore::ChatCommands;
 
 namespace
 {
-public:
-    NPCEnchanterEnhancedChatCommands() : CommandScript("NPCEnchanterEnhancedChatCommands") {}
-
-    ChatCommandTable GetCommands() const override
-    {
-        static ChatCommandTable commandTable =
-        {
-            { "NPCEE", HelpEnchanterCommand, SEC_PLAYER, Console::No },
-            { "NPCEE spawn", SpawnEnchanterCommand, SEC_PLAYER , Console::No },
-            { "NPCEE despawn", DespawnEnchanterCommand, SEC_PLAYER, Console::No },
-            { "NPCEE getphase", GetPhaseEnchanterCommand, SEC_PLAYER, Console::No },
-            { "NPCEE help", HelpEnchanterCommand, SEC_PLAYER, Console::No },
-            { "NPCEE config", ShowConfigurationEnchanterCommand, SEC_GAMEMASTER, Console::No },
-            { "NPCEE reload", ReloadConfigurationEnchanterCommand, SEC_GAMEMASTER, Console::No },
-            { "NPCEE clearcache", ClearCacheConfigurationEnchanterCommand, SEC_GAMEMASTER, Console::No },
-            { "NPCEE clearallcache", ClearAllCacheConfigurationEnchanterCommand, SEC_GAMEMASTER, Console::No }
-        };
-
-        return commandTable;
-    }
-
-    static bool SpawnEnchanterCommand(ChatHandler* handler)
+    class NPCEnchanterEnhancedChatCommands : public CommandScript
     {
     public:
+
         NPCEnchanterEnhancedChatCommands() : CommandScript("NPCEnchanterEnhancedChatCommands") {}
 
         ChatCommandTable GetCommands() const override
@@ -50,10 +30,12 @@ public:
                 { "NPCEE", HelpEnchanterCommand, SEC_PLAYER, Console::No },
                 { "NPCEE spawn", SpawnEnchanterCommand, SEC_PLAYER , Console::No },
                 { "NPCEE despawn", DespawnEnchanterCommand, SEC_PLAYER, Console::No },
-                { "NPCEE getphase", GetPhaseEnchanterCommand, SEC_PLAYER, Console::No },
                 { "NPCEE help", HelpEnchanterCommand, SEC_PLAYER, Console::No },
+                { "NPCEE getphase", GetPhaseEnchanterCommand, SEC_PLAYER, Console::No },
                 { "NPCEE config", ShowConfigurationEnchanterCommand, SEC_GAMEMASTER, Console::No },
-                { "NPCEE reload", ReloadConfigurationEnchanterCommand, SEC_GAMEMASTER, Console::No }
+                { "NPCEE reload", ReloadConfigurationEnchanterCommand, SEC_GAMEMASTER, Console::No },
+                { "NPCEE clearcache", ClearCacheConfigurationEnchanterCommand, SEC_GAMEMASTER, Console::No },
+                { "NPCEE clearallcache", ClearAllCacheConfigurationEnchanterCommand, SEC_GAMEMASTER, Console::No }
             };
 
             return commandTable;
@@ -122,6 +104,38 @@ public:
             return true;
         }
 
+        static bool HelpEnchanterCommand(ChatHandler* handler)
+        {
+            Player* player = handler->GetSession()->GetPlayer();
+            if (!player)
+                return false;
+
+            std::string creatureName = "";
+            if (CreatureTemplate const* cInfo = sObjectMgr->GetCreatureTemplate(NPCEnchanterID))
+            {
+                creatureName = cInfo->Name;
+            }
+
+            handler->SendSysMessage("=== NPC Enchanter Enhanced Commands ===");
+            handler->SendSysMessage(".NPCEE spawn - " + (!creatureName.empty() ? creatureName : "Enchanter Xari"));
+            handler->SendSysMessage(".NPCEE despawn - " + (!creatureName.empty() ? creatureName : "Enchanter Xari"));
+            handler->SendSysMessage(".NPCEE getphase - Get current phase");
+            handler->SendSysMessage(".NPCEE help - Show this help menu.");
+
+            //Check if configured for anyone to be able to spawn, or if level is Game master or above.
+            if (!NPCEnchanterEnhancedSpawnableByAnyone && handler->GetSession()->GetSecurity() >= SEC_GAMEMASTER)
+            {
+                handler->SendSysMessage(".NPCEE config - Show current configuration");
+                handler->SendSysMessage(".NPCEE reload - Reload configuration");
+                handler->SendSysMessage(".NPCEE clearcache - Clear price cache");
+                handler->SendSysMessage(".NPCEE clearcache $[playername] - Clear price cache for that player");
+                handler->SendSysMessage(".NPCEE clearallcache - Clear all cached prices");
+                return true;
+            }
+
+            return true;
+        }
+
         static bool GetPhaseEnchanterCommand(ChatHandler* handler)
         {
             Player* player = handler->GetSession()->GetPlayer();
@@ -130,33 +144,10 @@ public:
 
             uint32 playerPhase = GetPlayerPhase(player);
 
-        //Check if configured for anyone to be able to spawn, or if level is Game master or above.
-        if (!NPCEnchanterEnhancedSpawnableByAnyone && handler->GetSession()->GetSecurity() >= SEC_GAMEMASTER)
-        {
-            handler->SendSysMessage(".NPCEE config - Show current configuration");
-            handler->SendSysMessage(".NPCEE reload - Reload configuration");
-            handler->SendSysMessage(".NPCEE clearcache - Clear price cache");
-            handler->SendSysMessage(".NPCEE clearcache $[playername] - Clear price cache for that player");
-            handler->SendSysMessage(".NPCEE clearallcache - Clear all cached prices");
+            handler->SendSysMessage("Current phase: " + std::to_string(playerPhase) + " (Current expansion: " + GetExpansionNameForPhase(playerPhase) + ")");
             return true;
         }
 
-        static bool HelpEnchanterCommand(ChatHandler* handler)
-        {
-            Player* player = handler->GetSession()->GetPlayer();
-            if (!player)
-                return false;
-
-    static bool ShowConfigurationEnchanterCommand(ChatHandler* handler)
-    {
-        Player* player = handler->GetSession()->GetPlayer();
-        if (!player)
-            return false;
-
-            return true;
-        }
-
-        //Todo Update...
         static bool ShowConfigurationEnchanterCommand(ChatHandler* handler)
         {
             Player* player = handler->GetSession()->GetPlayer();
@@ -207,7 +198,7 @@ public:
             handler->SendSysMessage("QualityMultiplierRare: " + std::to_string(NPCEnchanterEnhancedQualityMultiplierRare));
             handler->SendSysMessage("QualityMultiplierEpic: " + std::to_string(NPCEnchanterEnhancedQualityMultiplierEpic));
             handler->SendSysMessage("QualityMultiplierLegendary: " + std::to_string(NPCEnchanterEnhancedQualityMultiplierLegendary));
-            handler->SendSysMessage("VariancePercentage: " + std::to_string(NPCEnchanterEnhancedVariancePercentage)); 
+            handler->SendSysMessage("VariancePercentage: " + std::to_string(NPCEnchanterEnhancedVariancePercentage));
 
             std::string multipliers = "";
 
@@ -228,48 +219,49 @@ public:
 
             LoadEnchantConfig(true);
 
-        handler->SendSysMessage("NPC Enchanter Enhanced configuration reloaded successfully.");
-        return true;
-    }
+            handler->SendSysMessage("NPC Enchanter Enhanced configuration reloaded successfully.");
+            return true;
+        }
 
-    static bool ClearCacheConfigurationEnchanterCommand(ChatHandler* handler, Optional<std::string> playerName)
-    {
-        Player* player = handler->GetSession()->GetPlayer();
-        if (!player)
-            return false;
-
-        uint32 targetGuid = 0;
-        if (playerName)
+        static bool ClearCacheConfigurationEnchanterCommand(ChatHandler* handler, Optional<std::string> playerName)
         {
-            Player* target = ObjectAccessor::FindPlayerByName(*playerName, false);
-            if (!target)
-            {
-                handler->PSendSysMessage("Player '{}' not found or offline.", playerName->c_str());
+            Player* player = handler->GetSession()->GetPlayer();
+            if (!player)
                 return false;
+
+            uint32 targetGuid = 0;
+            if (playerName)
+            {
+                Player* target = ObjectAccessor::FindPlayerByName(*playerName, false);
+                if (!target)
+                {
+                    handler->PSendSysMessage("Player '{}' not found or offline.", playerName->c_str());
+                    return false;
+                }
+                targetGuid = target->GetGUID().GetCounter();
             }
-            targetGuid = target->GetGUID().GetCounter();
+            else
+            {
+                targetGuid = player->GetGUID().GetCounter();
+            }
+
+            NPCEnchanterEnhancedEnchantManager::instance()->ClearPlayerPriceCache(targetGuid);
+            handler->PSendSysMessage("Price cache successfully cleared for target player (GUID: {}).", targetGuid);
+            return true;
         }
-        else
+
+        static bool ClearAllCacheConfigurationEnchanterCommand(ChatHandler* handler, Optional<std::string> playerName)
         {
-            targetGuid = player->GetGUID().GetCounter();
+            Player* player = handler->GetSession()->GetPlayer();
+            if (!player)
+                return false;
+
+            NPCEnchanterEnhancedEnchantManager::instance()->ClearAllPlayerPriceCaches();
+            handler->PSendSysMessage("Price cache successfully cleared");
+            return true;
         }
-
-        NPCEnchanterEnhancedEnchantManager::instance()->ClearPlayerPriceCache(targetGuid);
-        handler->PSendSysMessage("Price cache successfully cleared for target player (GUID: {}).", targetGuid);
-        return true;
-    }
-
-    static bool ClearAllCacheConfigurationEnchanterCommand(ChatHandler* handler, Optional<std::string> playerName)
-    {
-        Player* player = handler->GetSession()->GetPlayer();
-        if (!player)
-            return false;
-
-        NPCEnchanterEnhancedEnchantManager::instance()->ClearAllPlayerPriceCaches();
-        handler->PSendSysMessage("Price cache successfully cleared");
-        return true;
-    }
-};
+    };
+}
 
 void AddSC_NPCEnchanterEnhancedChatCommands()
 {

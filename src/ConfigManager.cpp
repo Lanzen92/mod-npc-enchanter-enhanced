@@ -73,7 +73,7 @@ void LoadEnchantConfig(bool /*reload*/)
 
     NPCEnchanterEnhancedIndividualProgression = sConfigMgr->GetOption<bool>("NPCEnchanterEnhanced.IndividualProgression", true);
     NPCEnchanterEnhancedPhase = sConfigMgr->GetOption<uint32>("NPCEnchanterEnhanced.Phase", 0);
-    NPCEnchanterEnhancedOnlyShowCurrentExpansionEnchants = sConfigMgr->GetOption<bool>("NPCEnchanterEnhanced.OnlyAllowPhaseExpansion", true);
+    NPCEnchanterEnhancedOnlyShowCurrentExpansionEnchants = sConfigMgr->GetOption<bool>("NPCEnchanterEnhanced.OnlyShowCurrentExpansionEnchants", true);
 
     NPCEnchanterEnhancedFreeEnchants = sConfigMgr->GetOption<bool>("NPCEnchanterEnhanced.FreeEnchants", false);
     NPCEnchanterEnhancedDynamicPricesOnEnchants = sConfigMgr->GetOption<bool>("NPCEnchanterEnhanced.DynamicPricesOnEnchants", false);
