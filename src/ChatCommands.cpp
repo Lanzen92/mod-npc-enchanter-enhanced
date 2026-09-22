@@ -223,7 +223,7 @@ namespace
             return true;
         }
 
-        static bool ClearCacheConfigurationEnchanterCommand(ChatHandler* handler, Optional<std::string> playerName)
+        static bool ClearCacheConfigurationEnchanterCommand(ChatHandler* handler, const Optional<std::string>& playerName)
         {
             Player* player = handler->GetSession()->GetPlayer();
             if (!player)
