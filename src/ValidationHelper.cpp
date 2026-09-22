@@ -24,7 +24,7 @@ bool ValidationHelper::ValidateEquipment(const Player* player, uint32 subCatId, 
     EquipmentSlots targetSlot = GetEquipmentSlotFromSubCategory(subCatId);
     Item* targetItem = player->GetItemByPos(INVENTORY_SLOT_BAG_0, targetSlot);
 
-    if (!targetItem)
+    if (!targetItem || !targetItem->GetTemplate())
     {
         reason = " (No item equipped)";
         return false;
@@ -136,6 +136,9 @@ bool ValidationHelper::ValidateItemLevel(const Player* player, uint32 subCatId, 
     EquipmentSlots targetSlot = GetEquipmentSlotFromSubCategory(subCatId);
     Item* targetItem = player->GetItemByPos(INVENTORY_SLOT_BAG_0, targetSlot);
 
+    if (!targetItem || !targetItem->GetTemplate())
+        return false;
+
     if (enchant.minItemLevel > targetItem->GetTemplate()->ItemLevel)
     {
         reason = "Requires itemlevel " + std::to_string(enchant.minItemLevel) + ".";
@@ -154,6 +157,9 @@ bool ValidationHelper::ValidateItemRequiredLevel(const Player* player, uint32 su
     EquipmentSlots targetSlot = GetEquipmentSlotFromSubCategory(subCatId);
     Item* targetItem = player->GetItemByPos(INVENTORY_SLOT_BAG_0, targetSlot);
 
+    if (!targetItem || !targetItem->GetTemplate())
+        return false;
+
     if (enchant.levelRequirement > targetItem->GetTemplate()->RequiredLevel)
     {
         reason = "Requires item with required level above" + std::to_string(enchant.minItemLevel) + ".";
@@ -164,7 +170,7 @@ bool ValidationHelper::ValidateItemRequiredLevel(const Player* player, uint32 su
 }
 
 //Check if the required level of item (Not the item ItemLevel.)
-bool ValidationHelper::ValidateReputationLevel(const Player* player, uint32 subCatId, const EnchantDefinition& enchant, std::string& reason)
+bool ValidationHelper::ValidateReputationLevel(const Player* player, const EnchantDefinition& enchant, std::string& reason)
 {
     if (NPCEnchanterEnhancedIgnoreReputationRequirements || enchant.reputationRequirement == 0)
         return true;
@@ -243,13 +249,14 @@ EnchantValidationResult ValidationHelper::EvaluateEnchant(const Player* player, 
         return result;
     }
 
-    if (!ValidateExpansion(player, enchant, result.reason))
+    if (NPCEnchanterEnhancedOnlyAllowPhaseExpansion)
     {
-        if (NPCEnchanterEnhancedOnlyAllowPhaseExpansion)
+        if (!ValidateExpansion(player, enchant, result.reason))
+        {
             result.showEnchant = false;
-
-        result.isLocked = true;
-        return result;
+            result.isLocked = true;
+            return result;
+        }
     }
 
     if (!ValidateEquipment(player, subCatId, result.reason))
@@ -261,7 +268,7 @@ EnchantValidationResult ValidationHelper::EvaluateEnchant(const Player* player, 
         return result;
     }
 
-    if (!ValidateReputationLevel(player, subCatId, enchant, result.reason))
+    if (!ValidateReputationLevel(player, enchant, result.reason))
     {
         if (NPCEnchanterEnhancedHideUnavailableEnchants)
             result.showEnchant = false;
@@ -308,33 +315,49 @@ EnchantValidationResult ValidationHelper::EvaluateEnchant(const Player* player, 
 }
 
 //SubCategory helpers
-bool ValidationHelper::ValidateSubCategoryProfession(const Player* player, const EnchantSubCategoryDefinition& subCat, std::string& reason)
+bool ValidationHelper::ValidateSubCategoryRequirements(const Player* player, const EnchantSubCategoryDefinition& subCat, std::string& reason)
 {
-    if (NPCEnchanterEnhancedIgnoreProfessionRequirements)
+    if (NPCEnchanterEnhancedIgnoreProfessionRequirements && NPCEnchanterEnhancedIgnoreReputationRequirements)
         return true;
 
-    // Check if the manager defines a general profession lock phrase for this subcategory
-    std::string profPhrase = sEnchantManager->GetProfessionLockedPhrase(subCat.enchantCategorySubTypeId);
-    if (profPhrase.empty())
-        return true; // No profession lock for this subcategory
+    if (subCat.enchants.empty())
+        return true;
 
-    // Check if the player fails the profession requirement for the enchants inside
+    // Check if the subcategory got atleast one unlocked enchant.
     for (const auto& enchant : subCat.enchants)
     {
-        if (!enchant.professionRequirement.empty())
+        bool profPass = true;
+        bool repPass = true;
+
+        // Check Profession
+        if (!NPCEnchanterEnhancedIgnoreProfessionRequirements && !enchant.professionRequirement.empty())
         {
             SkillType reqSkill = GetProfessionSkillTypeFromString(enchant.professionRequirement);
-            if (reqSkill != SKILL_NONE && (!player->HasSkill(reqSkill) || player->GetSkillValue(reqSkill) < enchant.professionSkillRequirement))
-            {
-                reason = " (" + profPhrase + ")";
-                return false;
-            }
+            if (reqSkill == SKILL_NONE || !player->HasSkill(reqSkill) || player->GetSkillValue(reqSkill) < enchant.professionSkillRequirement)
+                profPass = false;
         }
+
+        // Check Reputation
+        if (!NPCEnchanterEnhancedIgnoreReputationRequirements && enchant.reputationRequirement != 0)
+        {
+            uint32 factionRank = static_cast<ReputationRank>(enchant.reputationLevelRequirement);
+            if (player->GetReputationRank(enchant.reputationRequirement) < factionRank)
+                repPass = false;
+        }
+
+        // If the player meets both requirements for this enchant
+        if (profPass && repPass)
+            return true;
     }
 
-    return true;
+    // every enchant failed the prof/rep check.
+    std::string lockedPhrase = sEnchantManager->GetProfessionLockedPhrase(subCat.enchantCategorySubTypeId);
+    reason = " (" + (lockedPhrase.empty() ? "Missing Requirements" : lockedPhrase) + ")";
+
+    return false;
 }
 
+//Check if the player has equipped the correct item for this subcategory (For example 2H weapon and Shield)
 bool ValidationHelper::ValidateSubCategoryEquipment(const Player* player, uint32 subCatId, std::string& reason)
 {
     EquipmentSlots targetSlot = GetEquipmentSlotFromSubCategory(subCatId);

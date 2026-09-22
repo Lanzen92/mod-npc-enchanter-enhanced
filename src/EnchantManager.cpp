@@ -69,7 +69,7 @@ NPCEnchanterEnhancedEnchantManager::NPCEnchanterEnhancedEnchantManager()
                         EnchantDefinition{ 963,  "Major Striking", "+7 Weapon Damage", EnchantTier::PreRaid, "", 0, 0, 0, static_cast<uint32>(Classes::CLASS_NONE), 0, 0, 8, 35 },
                         // --- TBC END ---
 
-                        // --- TBC ---
+                        // --- WOTLK ---
                         // --- RAID TIER ---
                         EnchantDefinition{ 3789, "Berserking", "Occasionally increases attack power by 400 at the cost of reduced armor", EnchantTier::Raid, "", 0, 0, 0, static_cast<uint32>(Classes::CLASS_NONE), 0, 60, 13, 600 },
                         EnchantDefinition{ 3869, "Blade Ward", "Occasionally increases parry rating by 200 and inflicts 600-800 damage on your next parry", EnchantTier::Raid, "", 0, 0, 0, static_cast<uint32>(Classes::CLASS_NONE), 0, 75, 14, 550 },
@@ -82,7 +82,7 @@ NPCEnchanterEnhancedEnchantManager::NPCEnchanterEnhancedEnchantManager()
                         EnchantDefinition{ 3788, "Accuracy", "+25 Critical Strike Rating and +25 Hit Rating", EnchantTier::PreRaid, "", 0, 0, 0, static_cast<uint32>(Classes::CLASS_NONE), 0, 60, 13, 200 },
                         EnchantDefinition{ 3251, "Giant Slayer", "A chance of reducing movement speed and doing additional damage against giants", EnchantTier::PreRaid, "", 0, 0, 0, static_cast<uint32>(Classes::CLASS_NONE), 0, 60, 13, 125 },
                         EnchantDefinition{ 3731, "Titanium Weapon Chain", "50% disarm duration reduction and +28 Hit Rating", EnchantTier::PreRaid, "", 0, 0, 0, static_cast<uint32>(Classes::CLASS_NONE), 0, 60, 13, 80 },
-                        // --- TBC END ---
+                        // --- WOTLK END ---
                     }
                 },
                 EnchantSubCategoryDefinition {

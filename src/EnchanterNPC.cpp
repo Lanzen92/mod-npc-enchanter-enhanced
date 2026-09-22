@@ -55,13 +55,14 @@ class NPCEnchanterEnhanced : public CreatureScript {
             std::string label = "|TInterface/ICONS/" + category.icon + ":24:24:-18|t  " + category.name;
             AddGossipItemFor(player, 1, label, GOSSIP_SENDER_MAIN, action);
         }
+
         LOG_INFO("server.loading", "DEBUG: Sending Gossip (NPCEnchanterID) Text ID: {}", NPCEnchanterID);
         SendGossipMenuFor(player, NPCEnchanterID, creature->GetGUID());
         return true;
     }
 
     //Show Subcategories and enchants
-    bool OnGossipSelect(Player* player, Creature* creature, uint32 /*sender*/, uint32 action) override
+    bool OnGossipSelect(Player* player, Creature* creature, uint32 sender, uint32 action) override
     {
         if (!NPCEnchanterEnhancedEnabled)
             return false;
@@ -132,7 +133,7 @@ class NPCEnchanterEnhanced : public CreatureScript {
                         {
                             //Check if all enchants in the subCategory needs a specific profession and skill
                             //If the player not got the right skill for any of them, disable the subCategory
-                            if (!ValidationHelper::ValidateSubCategoryProfession(player, subCat, lockReason))
+                            if (!ValidationHelper::ValidateSubCategoryRequirements(player, subCat, lockReason))
                             {
                                 isLocked = true;
                             }
@@ -167,7 +168,7 @@ class NPCEnchanterEnhanced : public CreatureScript {
             }
 
             AddGossipItemFor(player, GOSSIP_ICON_TALK, "  <- Back to Main Menu", GOSSIP_SENDER_MAIN, 99999);
-            //LOG_INFO("server.loading", "DEBUG: Sending Gossip (NPCEnchanterID + 1) Text ID: {}", NPCEnchanterID + 1);
+            LOG_INFO("server.loading", "DEBUG: Sending Gossip (NPCEnchanterID + 1) Text ID: {}", NPCEnchanterID + 1);
             SendGossipMenuFor(player, NPCEnchanterID + 1, creature->GetGUID());
             return true;
         }
@@ -178,6 +179,10 @@ class NPCEnchanterEnhanced : public CreatureScript {
             uint32 subCategoryId = action - 20000;
             uint32 parentCategoryId = 0;
 
+            // Calculate current page (Sender 5000 = Page 0, 5001 = Page 1, etc.)
+            uint32 currentPage = (sender >= 5000) ? (sender - 5000) : 0;
+            const uint32 MAX_ITEMS_PER_PAGE = 25; // Limit 32.
+
             for (const auto& cat : sEnchantManager->GetEnchantDatabase())
             {
                 for (const auto& subCat : cat.subTypes)
@@ -185,53 +190,88 @@ class NPCEnchanterEnhanced : public CreatureScript {
                     if (subCat.enchantCategorySubTypeId == subCategoryId)
                     {
                         parentCategoryId = cat.enchantCategoryId;
+
+                        uint32 visibleItemIndex = 0;
+                        uint32 addedCount = 0;
+                        bool hasNextPage = false;
+                        uint32 startItem = currentPage * MAX_ITEMS_PER_PAGE;
+
                         for (const auto& enchant : subCat.enchants)
                         {
                             uint32 enchantCost = sEnchantManager->GetOrCacheEnchantPrice(player, &enchant, subCategoryId);
                             EnchantValidationResult validation = ValidationHelper::EvaluateEnchant(player, subCategoryId, enchant, enchantCost, currentPhase);
 
-                            // Directly point to the execution action range (e.g., 500000+)
-                            uint32 confirmAction = 500000 + (subCategoryId * 10000) + enchant.enchantId;
+                            // Skip hidden enchants completely
+                            if (!validation.showEnchant)
+                                continue;
 
-                            if (validation.showEnchant)
+                            // Pagination: Skip enchants that belong to previous pages
+                            if (visibleItemIndex < startItem)
                             {
-                                std::string label;
-                                if (validation.isLocked)
-                                {
-                                    label = "  |cff808080" + enchant.name + " — " + validation.reason + "|r";
-                                    // Locked items keep a safe dummy action or can bypass popup
-                                    AddGossipItemFor(player, GOSSIP_ICON_VENDOR, label, GOSSIP_SENDER_MAIN, 99900 + subCategoryId);
-                                }
-                                else
-                                {
-                                    label = "  " + enchant.name + validation.priceString;
-                                    std::string popupMessage =  "Are you entirely certain your gear can handle this much raw power, " + std::string(player->GetName()) +"?\n\n"
-                                                                "Enchant: " + enchant.name + "\n"
-                                                                "Effect: " + (enchant.description.empty() ? "None" : enchant.description) + "\n\n"
-                                                                "Price calculated via highly complex, entirely made-up arcane metrics. Totaled below:";
-
-                                    uint32 copperCost = GOLD(enchantCost);
-
-                                    // Add item with the native popup and money display attached!
-                                    AddGossipItemFor(
-                                        player,
-                                        GOSSIP_ICON_VENDOR,
-                                        label,
-                                        GOSSIP_SENDER_MAIN,
-                                        confirmAction,
-                                        popupMessage,
-                                        static_cast<uint32>(copperCost),
-                                        false
-                                    );
-                                }
+                                visibleItemIndex++;
+                                continue;
                             }
+
+                            // Pagination: Limit hit, break.
+                            if (addedCount >= MAX_ITEMS_PER_PAGE)
+                            {
+                                hasNextPage = true;
+                                break;
+                            }
+
+                            uint32 confirmAction = 500000 + (subCategoryId * 10000) + enchant.enchantId;
+                            std::string label;
+
+                            if (validation.isLocked)
+                            {
+                                label = "  |cff808080" + enchant.name + " — " + validation.reason + "|r";
+                                AddGossipItemFor(player, GOSSIP_ICON_VENDOR, label, GOSSIP_SENDER_MAIN, 99900 + subCategoryId);
+                            }
+                            else
+                            {
+                                label = "  " + enchant.name + validation.priceString;
+                                std::string popupMessage =  "Are you entirely certain your gear can handle this much raw power, " + std::string(player->GetName()) +"?\n\n"
+                                                            "Enchant: " + enchant.name + "\n"
+                                                            "Effect: " + (enchant.description.empty() ? "None" : enchant.description) + "\n\n"
+                                                            "Price calculated via highly complex, entirely made-up arcane metrics. Totaled below:";
+
+                                uint32 copperCost = GOLD(enchantCost);
+
+                                AddGossipItemFor(
+                                    player,
+                                    GOSSIP_ICON_VENDOR,
+                                    label,
+                                    GOSSIP_SENDER_MAIN,
+                                    confirmAction,
+                                    popupMessage,
+                                    static_cast<uint32>(copperCost),
+                                    false
+                                );
+                            }
+
+                            visibleItemIndex++;
+                            addedCount++;
                         }
+
+                        // GossipOptions for next / pref page.
+                        if (currentPage > 0)
+                        {
+                            AddGossipItemFor(player, GOSSIP_ICON_CHAT, "  <- Previous Page", 5000 + currentPage - 1, action);
+                        }
+                        if (hasNextPage)
+                        {
+                            AddGossipItemFor(player, GOSSIP_ICON_CHAT, "  Next Page ->", 5000 + currentPage + 1, action);
+                        }
+
                         break;
                     }
                 }
             }
 
-            AddGossipItemFor(player, GOSSIP_ICON_TALK, "  <- Back to Categories", GOSSIP_SENDER_MAIN, 10000 + parentCategoryId);
+            if (parentCategoryId != 0)
+            {
+                AddGossipItemFor(player, GOSSIP_ICON_TALK, "  <- Back to Categories", GOSSIP_SENDER_MAIN, 10000 + parentCategoryId);
+            }
             SendGossipMenuFor(player, NPCEnchanterID + 2, creature->GetGUID());
             return true;
         }
@@ -270,11 +310,10 @@ class NPCEnchanterEnhanced : public CreatureScript {
             player->PlayerTalkClass->SendCloseGossip();
             return;
         }
-        //EnchantID now found.. Something went really wrong in the gossip menu.
+        //EnchantID not found.. Something went really wrong in the gossip menu.
         if (!enchant->enchantId)
         {
             //Todo fix this line..
-            //LOG_ERROR("server.loading", "[NPCEnchanterEnhanced] Error when enchanting. EnchantId not found. PlayerGUID: {} Item: {}", player->GetGUID(), item->GetGUID(), item->GetTemplate()->Name1 );
             ChatHandler(player->GetSession()).SendSysMessage("Something went wrong.. Sorry!");
             player->PlayerTalkClass->SendCloseGossip();
             creature->HandleEmoteCommand(EMOTE_ONESHOT_LAUGH);

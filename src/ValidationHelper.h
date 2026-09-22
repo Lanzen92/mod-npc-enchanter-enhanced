@@ -29,12 +29,12 @@ class ValidationHelper
     static bool ValidateLevel(const Player* player, const EnchantDefinition& enchant, std::string& reason);
     static bool ValidateItemLevel(const Player* player, uint32 subCatId, const EnchantDefinition& enchant, std::string& reason);
     static bool ValidateItemRequiredLevel(const Player* player, uint32 subCatId,const EnchantDefinition& enchant, std::string& reason);
-    static bool ValidateReputationLevel(const Player* player, uint32 subCatId, const EnchantDefinition& enchant, std::string& reason);
+    static bool ValidateReputationLevel(const Player* player, const EnchantDefinition& enchant, std::string& reason);
     static bool ValidatePlayerClass(const Player* player, const EnchantDefinition& enchant, std::string& reason);
     static bool FilterTier(const EnchantDefinition& enchant);
 
 public:
     static EnchantValidationResult EvaluateEnchant(const Player* player, uint32 subCatId, const EnchantDefinition& enchant, uint32 enchantCost, uint32 currentPhase);
-    static bool ValidateSubCategoryProfession(const Player* player, const EnchantSubCategoryDefinition& subCat, std::string& reason);
+    static bool ValidateSubCategoryRequirements(const Player* player, const EnchantSubCategoryDefinition& subCat, std::string& reason);
     static bool ValidateSubCategoryEquipment(const Player* player, uint32 subCatId, std::string& reason);
 };
