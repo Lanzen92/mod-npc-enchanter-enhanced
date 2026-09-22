@@ -11,7 +11,6 @@
 #include "SharedDefines.h"
 #include "Player.h"
 #include "EnchantManager.h"
-#include "ValidationHelper.h"
 
 //Get SkillType from string. - This should prob be changed to uint in the enchantDef.
 inline SkillType GetProfessionSkillTypeFromString(const std::string& profName)
@@ -251,6 +250,7 @@ inline uint8 GetExpansionForPhase(uint32 phase)
     return 0;
 }
 
+//Helper function to get the expansion for that phase.
 inline std::string GetExpansionNameForPhase(uint32 phase)
 {
     for (size_t i = 0; i < expansionBrackets.size(); ++i)

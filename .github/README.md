@@ -1,13 +1,13 @@
 # NPC Enchanter Enhanced 🧙‍♂️✨
 
 [![License: AGPL v3](https://img.shields.io/badge/License--AGPL%20v3-blue.svg)](https://www.gnu.org/licenses/agpl-3.0)
-[![Platform: AzerothCore](https://img.shields.io/badge/AzerothCore-C++17-blue.svg)](https://www.azerothcore.org/)
+[![Platform: AzerothCore](https://img.shields.io/badge/AzerothCore-C++20-blue.svg)](https://www.azerothcore.org/)
 [![Module Status: Active](https://img.shields.io/badge/Status-Active-success.svg)]()
 [![Build Status](https://github.com/Lanzen92/mod_npc_enchanter_enchanced/actions/workflows/core-build.yml/badge.svg)](https://github.com/Lanzen92/mod_npc_enchanter_enchanced/actions/workflows/core-build.yml)
 [![CodeStyle Status](https://github.com/Lanzen92/mod_npc_enchanter_enchanced/actions/workflows/core_codestyle.yml/badge.svg)](https://github.com/Lanzen92/mod_npc_enchanter_enchanced/actions/workflows/core_codestyle.yml)
 
 
-**NPC Enchanter Enhanced** is an AzerothCore module inspired by the classic [`npc_enchanter module`](https://www.azerothcore.org/catalogue.html#/details/123951640). 
+**NPC Enchanter Enhanced** is an AzerothCore module inspired by the classic [`npc_enchanter module`](https://www.azerothcore.org/catalogue.html#/details/123951640).
 I built this module completely for myself because I wanted something that actually matches my progression while playing solo, rather than relying on custom workarounds.
 The goal is to keep it feeling genuinely Blizzlike while giving your solo character a natural way to stay enchanted as you level up.
 
@@ -21,10 +21,10 @@ Plus, I added a bunch of configurations so you can completely tailor it to whate
 
 * **Advanced Menu System:** Filter, disable, or hide unavailable enchants dynamically.
 * **Summon Utility:** Conveniently summon a temporary enchanter on demand using `.NPCEE Spawn` (which can be configured to work for any player).
-* **Flexible Restriction Modes:** Toggle between showing all enchants or using more "blizzlike" restrictions based on class, level, item level, professions, and phases.
+* **Flexible Restriction Modes:** Toggle between showing all enchants or using more "blizzlike" restrictions based on class, level, item level, professions, reputations, and phases.
 * **Individual Progression:** Optional feature that looks at achievements/quests to unlock phase-specific enchants (fully standalone; `IndividualProgression` is not required). Phase tiers and logic provided by [Individual Progression](https://github.com/ZhengPeiRu21/mod-individual-progression). For a complete breakdown of supported tiers and phases, check out the [List of Progression Tiers Wiki](https://github.com/ZhengPeiRu21/mod-individual-progression/wiki/List-of-Progression-Tiers).
 * **Comprehensive Spell Data:** Includes all enchants for Vanilla, TBC and WotLK. See all included enchants [here](https://docs.google.com/spreadsheets/d/1my52-abZ6ggKZbqpEuLy2mrlCYTh6S3YSQViI45kKKk/edit?usp=sharing). (Cost in the spreadsheets are only used if Dynamic Pricing and FreeEnchants are both disabled.)
-* **Dynamic Pricing** - Designed to feel more "blizzlike," but fully customizable through a bunch of flexible configurations so you can tailor it to your exact preferences.
+* **Dynamic Pricing** - Designed to feel more "blizzlike," but fully customizable through a bunch of flexible configurations so you can tailor it to your exact preferences. With pricecaching for a configurable amount of time, so that the prices dont change every second.
 
 ## 📄 In the backlog:
 * **Items** - A book that players can buy and use to summon Enchanter Xari.
@@ -35,7 +35,7 @@ Plus, I added a bunch of configurations so you can completely tailor it to whate
 
 1. **Navigate to your AzerothCore modules directory:**
    ```bash
-   cd /path/to/azerothcore/modules 
+   cd /path/to/azerothcore/modules
    ```
 2. **Clone or copy the module repository:**
    ```bash
@@ -54,9 +54,15 @@ Plus, I added a bunch of configurations so you can completely tailor it to whate
 <details>
 <summary>Configurations</summary>
 
-Out of the box, the default settings are set up to give you that a somewhat authentic, original game feel. 
+Out of the box, the default settings are set up to give you that a somewhat authentic, original game feel.
 
 ```
+#
+# Copyright (C) 2016+ AzerothCore <www.azerothcore.org>, released under GNU AGPL v3 license: https://github.com/azerothcore/azerothcore-wotlk/blob/master/LICENSE-AGPL3
+#
+
+[worldserver]
+
 ########################################
 # NPC Enchanter Enhanced
 ########################################
@@ -186,7 +192,7 @@ NPCEnchanterEnhanced.Phase = 0
 NPCEnchanterEnhanced.IndividualProgression = 1
 #
 # -------------------------------------------------------------------------------------
-#  NPCEnchanterEnhancedOnlyAllowPhaseExpansion
+#  NPCEnchanterEnhancedOnlyShowCurrentExpansionEnchants
 #
 #  Only enable enchants for the current expansion (Based on phase)
 #  This will hide Vanilla / TBC enchants if WotLK Phase for example.
@@ -195,7 +201,7 @@ NPCEnchanterEnhanced.IndividualProgression = 1
 #  Disable: 0
 #  Default: 1
 # -------------------------------------------------------------------------------------
-NPCEnchanterEnhanced.NPCEnchanterEnhancedOnlyAllowPhaseExpansion = 1
+NPCEnchanterEnhanced.NPCEnchanterEnhancedOnlyShowCurrentExpansionEnchants = 1
 
 #--------------------------------------------------------------------------------------
 
@@ -216,12 +222,13 @@ NPCEnchanterEnhanced.FreeEnchants = 0
 # -------------------------------------------------------------------------------------
 #  DynamicPricesOnEnchants - !! This will override FreeEnchants !!
 #
-#  Enable dynamic prices on enchants (Requires populated AH.) Not implemented yet.
+#  Enable dynamic prices on enchants (Calculated by BasePrices and multipliers.)
+#  Dynamic Prices also caches for a certain amount of seconds (1800 Seconds, 30 minutes by default)
 #  Enable : 1
 #  Disable: 0
 #  Default: 1
 # -------------------------------------------------------------------------------------
-NPCEnchanterEnhanced.DynamicPricesOnEnchants = 0
+NPCEnchanterEnhanced.DynamicPricesOnEnchants = 1
 #
 #  Dynamice Prices variables
 #
@@ -276,6 +283,8 @@ NPCEnchanterEnhanced.QualityMultiplierLegendary = 1.35
 NPCEnchanterEnhanced.VariancePercentage = 0.15
 #
 #-------------------------------------------------------------------------------------
+
+
 ```
 </details>
 
@@ -297,6 +306,6 @@ Distributed under the GNU AGPL v3 License. See [LICENSE](LICENSE) for more infor
 
 *  [AzerothCore Community](https://www.azerothcore.org/) for the incredible open-source framework.
 * All contributors and testers who helped shape this project.
-* The creators and contributors of [`mod-individual-progression`](https://www.azerothcore.org/catalogue.html#/details/467290212) and 
+* The creators and contributors of [`mod-individual-progression`](https://www.azerothcore.org/catalogue.html#/details/467290212) and
 [`npc_enchanter module`](https://www.azerothcore.org/catalogue.html#/details/123951640).
 

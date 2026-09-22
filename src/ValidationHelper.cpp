@@ -162,7 +162,7 @@ bool ValidationHelper::ValidateItemRequiredLevel(const Player* player, uint32 su
 
     if (enchant.levelRequirement > targetItem->GetTemplate()->RequiredLevel)
     {
-        reason = "Requires item with required level above" + std::to_string(enchant.minItemLevel) + ".";
+        reason = "Requires item with required level above " + std::to_string(enchant.levelRequirement) + ".";
         return false;
     }
 
@@ -249,7 +249,7 @@ EnchantValidationResult ValidationHelper::EvaluateEnchant(const Player* player, 
         return result;
     }
 
-    if (NPCEnchanterEnhancedOnlyAllowPhaseExpansion)
+    if (NPCEnchanterEnhancedOnlyShowCurrentExpansionEnchants)
     {
         if (!ValidateExpansion(player, enchant, result.reason))
         {
@@ -352,7 +352,7 @@ bool ValidationHelper::ValidateSubCategoryRequirements(const Player* player, con
 
     // every enchant failed the prof/rep check.
     std::string lockedPhrase = sEnchantManager->GetProfessionLockedPhrase(subCat.enchantCategorySubTypeId);
-    reason = " (" + (lockedPhrase.empty() ? "Missing Requirements" : lockedPhrase) + ")";
+    reason =  (lockedPhrase.empty() ? "Missing Requirements" : lockedPhrase);
 
     return false;
 }
