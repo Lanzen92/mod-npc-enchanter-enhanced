@@ -136,7 +136,7 @@ NPCEnchanterEnhanced.DynamicPricesOnEnchants = 1
 #    5. Final Calculation : Base Price * Item Level Adj * Player Level Adj * Quality Multiplier
 #    6. Random Variance   : A random percentage fluctuation applied to the final cost (+/- Configured %).
 #
-DynamicPriceCacheDurationInSeconds = 1800
+NPCEnchanterEnhanced.DynamicPriceCacheDurationInSeconds = 1800
 
 # Base Prices per Tier
 NPCEnchanterEnhanced.BasePriceLeveling = 2
