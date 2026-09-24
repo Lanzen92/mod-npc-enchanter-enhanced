@@ -6,6 +6,7 @@
 
 .directory
 .mailmap
+.idea
 *.orig
 *.rej
 *.*~

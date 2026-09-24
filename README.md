@@ -30,7 +30,7 @@ Script: NPCEnchanterEnhanced
 * **Flexible Restriction Modes:** Toggle between showing all enchants or using more "blizzlike" restrictions based on class, level, item level, professions, reputations, and phases.
 * **Individual Progression:** Optional feature that looks at achievements/quests to unlock phase-specific enchants (fully standalone; `IndividualProgression` is not required). Phase tiers and logic provided by [Individual Progression](https://github.com/ZhengPeiRu21/mod-individual-progression). For a complete breakdown of supported tiers and phases, check out the [List of Progression Tiers Wiki](https://github.com/ZhengPeiRu21/mod-individual-progression/wiki/List-of-Progression-Tiers).
 * **Comprehensive Spell Data:** Includes all enchants for Vanilla, TBC and WotLK. See all included enchants [here](https://docs.google.com/spreadsheets/d/1my52-abZ6ggKZbqpEuLy2mrlCYTh6S3YSQViI45kKKk/edit?usp=sharing). (Cost in the spreadsheets are only used if Dynamic Pricing and FreeEnchants are both disabled.)
-* **Dynamic Pricing** - Designed to feel more "blizzlike," but fully customizable through a bunch of flexible configurations so you can tailor it to your exact preferences. [Read the Dynamic Pricing Guide](docs/DynamicPricing.md)
+* **Dynamic Pricing** - Designed to feel more "blizzlike," but fully customizable through a bunch of flexible configurations so you can tailor it to your exact preferences. [Read the Dynamic Pricing Guide](DynamicPricing.md)
 
 ## 📄 In the backlog:
 * **Items** - A book that players can buy and use to summon Enchanter Xari.
