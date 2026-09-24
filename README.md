@@ -1,6 +1,6 @@
 # mod-npc-enchanter-enhanced
 
-[![License: AGPL v3](https://img.shields.io/badge/License--AGPL%20v3-blue.svg)](https://www.gnu.org/licenses/agpl-3.0)
+[![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
 [![Platform: AzerothCore](https://img.shields.io/badge/AzerothCore-C++20-blue.svg)](https://www.azerothcore.org/)
 [![Module Status: Active](https://img.shields.io/badge/Status-Active-success.svg)]()
 [![core-build](https://github.com/Lanzen92/mod_npc_enchanter_enchanced/actions/workflows/core-build.yml/badge.svg)](https://github.com/Lanzen92/mod_npc_enchanter_enchanced/actions/workflows/core-build.yml)
