@@ -12,7 +12,7 @@ void AddSC_NPCEnchanterEnhancedChatCommands();
 // Add all
 // cf. the naming convention https://github.com/azerothcore/azerothcore-wotlk/blob/master/doc/changelog/master.md#how-to-upgrade-4
 // additionally replace all '-' in the module folder name with '_' here
-void Addmod_npc_enchanter_enchancedScripts()
+void Addmod_npc_enchanter_enhancedScripts()
 {
     AddSC_NPCEnchanterEnhanced();
     AddSC_NPCEnchanterEnhancedConfigManager();
