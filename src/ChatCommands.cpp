@@ -181,7 +181,7 @@ namespace
             handler->SendSysMessage("IgnoreClassRequirements: " + std::to_string(NPCEnchanterEnhancedIgnoreClassRequirements));
             handler->SendSysMessage("IgnoreReputationRequirements: " + std::to_string(NPCEnchanterEnhancedIgnoreReputationRequirements));
             handler->SendSysMessage("OnlyShowCurrentExpansionEnchants: " + std::to_string(NPCEnchanterEnhancedOnlyShowCurrentOrLowerExpansionEnchants));
-            
+
             handler->SendSysMessage("===  Filtering  ===");
             handler->SendSysMessage("TiersToShow: " + sConfigMgr->GetOption<std::string>("NPCEnchanterEnhanced.TiersToShow", "Leveling, PreRaid, Raid"));
             handler->SendSysMessage("HideUnavailableEnchants: " + std::to_string(NPCEnchanterEnhancedHideUnavailableEnchants));

@@ -296,7 +296,7 @@ inline uint32 GetPhase(const Player* player)
         // 4. Default if all phase confs are disabled.
         currentPhase = 18;
     }
-    
+
     return currentPhase;
 }
 
