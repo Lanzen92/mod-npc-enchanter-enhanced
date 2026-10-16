@@ -83,7 +83,7 @@ The module operates using the base `.NPCEE` command.
 
 ## ⚡ Performance & Optimization
 
-Server stability is just as important as gameplay. This module is built natively in C++ and optimized to have a near-zero footprint on your server's performance:
+This module is built and optimized to have a near-zero footprint on your server's performance:
 * **Smart Price Caching:** Dynamic price calculations are temporarily cached per-player (configurable duration). This ensures that opening the enchanter menu repeatedly doesn't spam the server with complex math or database queries.
 * **On-Demand Memory:** Because the Enchanter is summoned temporarily and despawns automatically, there are no idle NPCs constantly ticking or taking up memory in the world when not in use.
 
