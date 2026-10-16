@@ -146,9 +146,9 @@ namespace
             if (!player)
                 return false;
 
-            uint32 playerPhase = GetPlayerPhase(player);
+            uint32 currentPhase = GetPhase(player);
 
-            handler->SendSysMessage("Current phase: " + std::to_string(playerPhase) + " (Current expansion: " + GetExpansionNameForPhase(playerPhase) + ")");
+            handler->SendSysMessage("Current phase: " + std::to_string(currentPhase) + " (Current expansion: " + GetExpansionNameForPhase(currentPhase) + ")");
             return true;
         }
 
@@ -173,19 +173,22 @@ namespace
             handler->SendSysMessage("SpawnableByAnyone: " + std::to_string(NPCEnchanterEnhancedSpawnableByAnyone));
             handler->SendSysMessage("DespawnTimerInSeconds: " + std::to_string(NPCEnchanterEnhancedDespawnTimerInSeconds));
 
-            handler->SendSysMessage("===  Filtering  ===");
+            handler->SendSysMessage("===  Restrictions  ===");
+            handler->SendSysMessage("ShowAndEnableAll: " + std::to_string(NPCEnchanterEnhancedShowAndEnableAll));
             handler->SendSysMessage("IgnoreProfessionRequirements: " + std::to_string(NPCEnchanterEnhancedIgnoreProfessionRequirements));
             handler->SendSysMessage("IgnoreLevelRequirements: " + std::to_string(NPCEnchanterEnhancedIgnoreLevelRequirements));
             handler->SendSysMessage("IgnoreItemLevelRequirements: " + std::to_string(NPCEnchanterEnhancedIgnoreItemLevelRequirements));
             handler->SendSysMessage("IgnoreClassRequirements: " + std::to_string(NPCEnchanterEnhancedIgnoreClassRequirements));
             handler->SendSysMessage("IgnoreReputationRequirements: " + std::to_string(NPCEnchanterEnhancedIgnoreReputationRequirements));
+            handler->SendSysMessage("OnlyShowCurrentExpansionEnchants: " + std::to_string(NPCEnchanterEnhancedOnlyShowCurrentOrLowerExpansionEnchants));
 
+            handler->SendSysMessage("===  Filtering  ===");
             handler->SendSysMessage("TiersToShow: " + sConfigMgr->GetOption<std::string>("NPCEnchanterEnhanced.TiersToShow", "Leveling, PreRaid, Raid"));
             handler->SendSysMessage("HideUnavailableEnchants: " + std::to_string(NPCEnchanterEnhancedHideUnavailableEnchants));
-            handler->SendSysMessage("OnlyShowCurrentExpansionEnchants: " + std::to_string(NPCEnchanterEnhancedOnlyShowCurrentOrLowerExpansionEnchants));
 
             handler->SendSysMessage("===  Phases  ===");
             handler->SendSysMessage("IndividualProgression: " + std::to_string(NPCEnchanterEnhancedIndividualProgression));
+            handler->SendSysMessage("PhaseByLevel: " + std::to_string(NPCEnchanterEnhancedPhaseByLevel));
             handler->SendSysMessage("Phase: " + std::to_string(NPCEnchanterEnhancedPhase));
 
             handler->SendSysMessage("===  BasePrices  ===");

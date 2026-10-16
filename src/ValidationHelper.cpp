@@ -186,7 +186,7 @@ bool ValidationHelper::ValidatePlayerClass(const Player* player, const EnchantDe
 
     if (player->getClass() != enchant.classRequirement)
     {
-        reason = "Wrong class " + std::to_string(enchant.minItemLevel) + ".";
+        reason = "Wrong class " + std::to_string(enchant.classRequirement) + ".";
         return false;
     }
 
@@ -223,6 +223,7 @@ EnchantValidationResult ValidationHelper::EvaluateEnchant(const Player* player, 
         result.showEnchant = false;
         return result;
     }
+
     if (!ValidatePlayerClass(player, enchant, result.reason))
     {
         result.showEnchant = false;
@@ -306,42 +307,27 @@ EnchantValidationResult ValidationHelper::EvaluateEnchant(const Player* player, 
 //SubCategory helpers
 bool ValidationHelper::ValidateSubCategoryRequirements(const Player* player, const EnchantSubCategoryDefinition& subCat, std::string& reason)
 {
-    if (NPCEnchanterEnhancedIgnoreProfessionRequirements && NPCEnchanterEnhancedIgnoreReputationRequirements)
-        return true;
-
     if (subCat.enchants.empty())
-        return true;
+        return false;
 
-    // Check if the subcategory got atleast one unlocked enchant.
+    uint32 currentPhase = GetPhase(player);
+
+    // Check if at least one enchant in this subcategory is fully unlocked/available
     for (const auto& enchant : subCat.enchants)
     {
-        bool profPass = true;
-        bool repPass = true;
+        uint32 enchantCost = sEnchantManager->GetOrCacheEnchantPrice(player, &enchant, subCat.enchantCategorySubTypeId);
+        EnchantValidationResult validationResult = EvaluateEnchant(player, subCat.enchantCategorySubTypeId, enchant, enchantCost, currentPhase);
 
-        // Check Profession
-        if (!NPCEnchanterEnhancedIgnoreProfessionRequirements && !enchant.professionRequirement.empty())
+        // An enchant is available if it's shown AND not locked (ignoring gold locks if you want them to see it even if broke, or check !validationResult.isLocked entirely)
+        // If you want to hide it only if they lack requirements like level/profession:
+        if (validationResult.showEnchant && !validationResult.isLocked)
         {
-            SkillType reqSkill = GetProfessionSkillTypeFromString(enchant.professionRequirement);
-            if (reqSkill == SKILL_NONE || !player->HasSkill(reqSkill) || player->GetSkillValue(reqSkill) < enchant.professionSkillRequirement)
-                profPass = false;
-        }
-
-        // Check Reputation
-        if (!NPCEnchanterEnhancedIgnoreReputationRequirements && enchant.reputationRequirement != 0)
-        {
-            uint32 factionRank = static_cast<ReputationRank>(enchant.reputationLevelRequirement);
-            if (player->GetReputationRank(enchant.reputationRequirement) < factionRank)
-                repPass = false;
-        }
-
-        // If the player meets both requirements for this enchant
-        if (profPass && repPass)
             return true;
+        }
     }
 
-    // every enchant failed the prof/rep check.
     std::string lockedPhrase = sEnchantManager->GetProfessionLockedPhrase(subCat.enchantCategorySubTypeId);
-    reason =  (lockedPhrase.empty() ? "Missing Requirements" : lockedPhrase);
+    reason = (lockedPhrase.empty() ? "Missing Requirements" : lockedPhrase);
 
     return false;
 }

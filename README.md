@@ -36,6 +36,28 @@ Script: NPCEnchanterEnhanced
 * **Items** - A book that players can buy and use to summon Enchanter Xari.
 * **Testing and bugfixing** - A lot of testing and prob alot of bugfixing needed.
 
+## ⚙️ Changelog
+<details>
+<summary>2026-10-15</summary>
+
+#### Bugfixes
+* **Ring Slot 2:** Fixed a bug where enchants on Ring Slot 2 could not be applied (Issue: #7) due to action ID overflow. Adjusted and lowered the SubCategory IDs.
+* **Cloak Superior Defense:** Fixed the incorrect enchant ID (Issue: #3).
+* **Resistance Enchants:** Fixed Greater Fire Resistance and Greater Nature Resistance (Issue: #6) by moving them to phase 3 (the AQ pre-patch, as they were added in vanilla patch 1.9.x).
+* **Empty Subcategories:** Fixed a bug where subcategories were being shown even when no enchants were available (Issue: #5).
+* **Phase Sync:** Fixed a bug where `.ip get` and `.npcee getphase` were unsynced (Issue: #4).
+
+#### Other Fixes & Adjustments
+* **Config Change (`NPCEnchanterEnhanced.Phase`):** `-1` is now disabled by default, allowing you to easily turn off the global phase restriction.
+* **New Config (`NPCEnchanterEnhanced.PhaseByLevel`):**
+    * Levels 1–60: All Vanilla enchants available.
+    * Levels 61–70: All Vanilla and TBC enchants available.
+    * Levels 71–80: All enchants available.
+* **New Config (`NPCEnchanterEnhanced.ShowAndEnableAll`):**
+    * If enabled, overrides all restrictions, phases, etc., and shows/enables all enchants.
+
+</details>
+
 ---
 
 ## ⌨️ In-Game Commands
@@ -142,11 +164,20 @@ NPCEnchanterEnhanced.SpawnableByAnyone = 1
 #
 #  NPCEnchanterEnhanced.DespawnTimerInSeconds
 #    Time in seconds before the summoned NPC automatically despawns.
-#    Default: 90
+#    Default: 120
 #           : 0 (Never despawn)
 #
-NPCEnchanterEnhanced.DespawnTimerInSeconds = 90
+NPCEnchanterEnhanced.DespawnTimerInSeconds = 120
 
+# -----------------------------------------------------------------------------------------------
+#  Show and enable all enchants
+# -----------------------------------------------------------------------------------------------
+#  Overrides all restrictions and shows all enchants
+#  If enabled - Shows and enables all enchants. (Dont override TiersToShow, to still be able to filter on tiers.)
+#  Default: 0 (Disabled)
+#         : 1 (Enabled)
+#
+NPCEnchanterEnhanced.ShowAndEnableAll = 0
 
 # -----------------------------------------------------------------------------------------------
 #  Filtering Requirements
@@ -156,10 +187,10 @@ NPCEnchanterEnhanced.DespawnTimerInSeconds = 90
 #         : 1 (Ignore restrictions)
 #
 NPCEnchanterEnhanced.IgnoreProfessionRequirements   = 0
-NPCEnchanterEnhanced.IgnoreLevelRequirements      = 0
-NPCEnchanterEnhanced.IgnoreItemLevelRequirements  = 0
-NPCEnchanterEnhanced.IgnoreClassRequirements      = 0
-NPCEnchanterEnhanced.IgnoreReputationRequirements = 0
+NPCEnchanterEnhanced.IgnoreLevelRequirements        = 0
+NPCEnchanterEnhanced.IgnoreItemLevelRequirements    = 0
+NPCEnchanterEnhanced.IgnoreClassRequirements        = 0
+NPCEnchanterEnhanced.IgnoreReputationRequirements   = 0
 
 #
 #  NPCEnchanterEnhanced.TiersToShow
@@ -188,18 +219,34 @@ NPCEnchanterEnhanced.OnlyShowCurrentOrLowerExpansionEnchants = 1
 # -----------------------------------------------------------------------------------------------
 #  Phases & Progression
 # -----------------------------------------------------------------------------------------------
-#  Phase layout: 1-6 (Vanilla), 7-12 (TBC), 13-17 (WotLK)
+#  Phase layout: 0-6 (Vanilla), 7 (TBC PrePatch), 8-12 (TBC), 13-17 (WotLK)
 #
 #  NPCEnchanterEnhanced.Phase
 #    Global phase cap. Enchants above this phase will be locked.
-#    Default: 0 (Disabled)
+#    If disabled - All enchants will be available.
+#    If enabled - Enchants that were available during that phase will be available.
+#    Default: -1 (Disabled)
+#           : 0+ (Enabled)
 #
-NPCEnchanterEnhanced.Phase = 0
+NPCEnchanterEnhanced.Phase = -1
 
 #
+#   NPCEnchanterEnhanced.PhaseByLevel
+#   Use level to determine the highest phase of the current expansion based on player level.
+#   This can be used for a more expansion to expansion enchant availability.
+#   Note: This overrides NPCEnchanterEnhanced.Phase.
+#   If Enabled:
+#       When level 1-60: All Vanilla will be available.
+#       When level 61-70: All Vanilla and TBC will be available.
+#       When level 71-80: All enchants will be available.
+#    Default: 0 (Disabled)
+#           : 1 (Enabled)
+#
+NPCEnchanterEnhanced.PhaseByLevel = 0
+
 #  NPCEnchanterEnhanced.IndividualProgression
 #    Tie phase locks to the player's IndividualProgression module achievements.
-#    Note: This overrides NPCEnchanterEnhanced.Phase.
+#    Note: This overrides NPCEnchanterEnhanced.Phase and NPCEnchanterEnhanced.PhaseByLevel.
 #    Default: 1 (Enabled)
 #           : 0 (Disabled)
 #
@@ -234,6 +281,9 @@ NPCEnchanterEnhanced.DynamicPricesOnEnchants = 1
 #    5. Final Calculation : Base Price * Item Level Adj * Player Level Adj * Quality Multiplier
 #    6. Random Variance   : A random percentage fluctuation applied to the final cost (+/- Configured %).
 #
+#    Formula:
+#    Final Price = Base Price × (1 + Item Level × iLvl Mult) × (1 + Player Level × pLvl Mult) × Quality Multiplier
+#
 NPCEnchanterEnhanced.DynamicPriceCacheDurationInSeconds = 1800
 
 # Base Prices per Tier
@@ -250,6 +300,7 @@ NPCEnchanterEnhanced.QualityMultiplierRare     = 0.8
 NPCEnchanterEnhanced.QualityMultiplierEpic     = 1.0
 NPCEnchanterEnhanced.QualityMultiplierLegendary= 1.35
 NPCEnchanterEnhanced.VariancePercentage        = 0.15
+
 
 ```
 </details>

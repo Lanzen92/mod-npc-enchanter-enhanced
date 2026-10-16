@@ -96,7 +96,6 @@ namespace
                 AddGossipItemFor(player, 1, label, GOSSIP_SENDER_MAIN, action);
             }
 
-            //LOG_INFO("server.loading", "DEBUG: Sending Gossip (NPCEnchanterID) Text ID: {}", NPCEnchanterID);
             SendGossipMenuFor(player, NPCEnchanterID, creature->GetGUID());
             return true;
         }
@@ -107,11 +106,7 @@ namespace
             if (!NPCEnchanterEnhancedEnabled)
                 return false;
 
-            uint32 currentPhase;
-            if (NPCEnchanterEnhancedIndividualProgression)
-                currentPhase = GetPlayerPhase(player);
-            else
-                currentPhase = NPCEnchanterEnhancedPhase;
+            uint32 currentPhase = GetPhase(player);
 
             ClearGossipMenuFor(player);
 
@@ -169,27 +164,26 @@ namespace
                                 continue;
                             }
 
-                            if (!NPCEnchanterEnhancedIgnoreProfessionRequirements)
+                            //If no enchants are available due to validations.
+                            if (!ValidationHelper::ValidateSubCategoryRequirements(player, subCat, lockReason))
                             {
-                                //Check if all enchants in the subCategory needs a specific profession and skill
-                                //If the player not got the right skill for any of them, disable the subCategory
-                                if (!ValidationHelper::ValidateSubCategoryRequirements(player, subCat, lockReason))
-                                {
-                                    isLocked = true;
-                                }
+                                lockReason = " (No enchants available)";
+                                isLocked = true;
                             }
 
-                            if (!isLocked)
+                            //Check if the player got an item equipped for the subCategory.
+                            if (!ValidationHelper::ValidateSubCategoryEquipment(player, subCat.enchantCategorySubTypeId, lockReason))
                             {
-                                //Check if the player got an item equipped for the subCategory.
-                                if (!ValidationHelper::ValidateSubCategoryEquipment(player, subCat.enchantCategorySubTypeId, lockReason))
-                                {
-                                    isLocked = true;
-                                }
+                                isLocked = true;
                             }
 
                             uint32 gossipAction = 20000 + subCat.enchantCategorySubTypeId;
                             std::string label;
+
+                            if (isLocked && NPCEnchanterEnhancedHideUnavailableEnchants)
+                            {
+                                continue;
+                            }
 
                             if (isLocked)
                             {
@@ -208,13 +202,12 @@ namespace
                 }
 
                 AddGossipItemFor(player, GOSSIP_ICON_TALK, "  <- Back to Main Menu", GOSSIP_SENDER_MAIN, 99999);
-                //LOG_INFO("server.loading", "DEBUG: Sending Gossip (NPCEnchanterID + 1) Text ID: {}", NPCEnchanterID + 1);
                 SendGossipMenuFor(player, NPCEnchanterID + 1, creature->GetGUID());
                 return true;
             }
 
-            // 2. Display Enchants (Actions 20000-29999)
-            if (action >= 20000 && action < 30000)
+            // 2. Display Enchants (Actions 20000-49999)
+            if (action >= 20000 && action < 50000)
             {
                 uint32 subCategoryId = action - 20000;
                 uint32 parentCategoryId = 0;
@@ -342,6 +335,9 @@ namespace
                 const EnchantDefinition* selectedEnchant = sEnchantManager->GetEnchantDefinition(enchantId);
                 if (!selectedEnchant)
                 {
+                    LOG_ERROR("world.loading", "[mod-npc-enchanter-enhanced] Selected enchant definition is null. | Player: {} | SubCategory: {} | EnchantId: {} | Action: {}",
+                        player->GetName(), player->GetGUID().GetRawValue(), owningSubCategoryId, enchantId, action);
+                    ChatHandler(player->GetSession()).SendSysMessage("Something went wrong.. Sorry!");
                     return true;
                 }
 
@@ -390,7 +386,7 @@ namespace
                 player->ModifyMoney(-static_cast<int32>(costInCopper));
             }
 
-            //Enchant the item!
+            //Clear previous enchant and then enchant the item!
             item->ClearEnchantment(PERM_ENCHANTMENT_SLOT);
             item->SetEnchantment(PERM_ENCHANTMENT_SLOT, enchant->enchantId, 0, 0);
 

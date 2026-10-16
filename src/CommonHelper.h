@@ -7,6 +7,8 @@
 #pragma once
 
 #include <string>
+
+#include "ConfigManager.h"
 #include "Define.h"
 #include "SharedDefines.h"
 #include "Player.h"
@@ -52,24 +54,34 @@ inline EquipmentSlots GetEquipmentSlotFromSubCategory(uint32 subCat)
 
         case EnchantSubCategory::Armor_Helm:
             return EquipmentSlots::EQUIPMENT_SLOT_HEAD;
+
         case EnchantSubCategory::Armor_Shoulders:
             return EquipmentSlots::EQUIPMENT_SLOT_SHOULDERS;
+
         case EnchantSubCategory::Armor_Cloak:
             return EquipmentSlots::EQUIPMENT_SLOT_BACK;
+
         case EnchantSubCategory::Armor_Chest:
             return EquipmentSlots::EQUIPMENT_SLOT_CHEST;
+
         case EnchantSubCategory::Armor_Waist:
             return EquipmentSlots::EQUIPMENT_SLOT_WAIST;
+
         case EnchantSubCategory::Armor_Bracers:
             return EquipmentSlots::EQUIPMENT_SLOT_WRISTS;
+
         case EnchantSubCategory::Armor_Gloves:
             return EquipmentSlots::EQUIPMENT_SLOT_HANDS;
+
         case EnchantSubCategory::Armor_Legs:
             return EquipmentSlots::EQUIPMENT_SLOT_LEGS;
+
         case EnchantSubCategory::Armor_Boots:
             return EquipmentSlots::EQUIPMENT_SLOT_FEET;
+
         case EnchantSubCategory::Armor_Ring_Slot1:
             return EquipmentSlots::EQUIPMENT_SLOT_FINGER1;
+
         case EnchantSubCategory::Armor_Ring_Slot2:
             return EquipmentSlots::EQUIPMENT_SLOT_FINGER2;
 
@@ -136,22 +148,22 @@ static const std::vector<std::pair<uint8, uint32>> bossProgression =
 {
     /* Phase, Achievement */
     { 0,  RAGNAROS_KILL     }, // 686
-    { 1,  ONYXIA_KILL       }, // 684
-    { 2,  NEFARIAN_KILL     }, // 685
-    { 5,  C_THUN_KILL       }, // 687
-    { 8,  MALCHEZAAR_KILL   }, // 690
-    { 9,  KAEL_THAS_KILL    }, // 696
-    { 10, ILLIDAN_KILL      }, // 697
-    { 12, KIL_JAEDEN_KILL   }, // 698
-    { 13, KEL_THUZAD_KILL   }, // 575
-    { 15, ANUB_ARAK_KILL    }, // 3916
-    { 16, LICH_KING_KILL    }, // 4597
-    { 17, HALION_KILL       }, // 4815
+    { 0,  ONYXIA_KILL       }, // 684
+    { 3,  NEFARIAN_KILL     }, // 685
+    { 6,  C_THUN_KILL       }, // 687
+    { 9,  MALCHEZAAR_KILL   }, // 690
+    { 10,  KAEL_THAS_KILL    }, // 696
+    { 11, ILLIDAN_KILL      }, // 697
+    { 13, KIL_JAEDEN_KILL   }, // 698
+    { 14, KEL_THUZAD_KILL   }, // 575
+    { 16, ANUB_ARAK_KILL    }, // 3916
+    { 17, LICH_KING_KILL    }, // 4597
+    { 18, HALION_KILL       }, // 4815
 };
 
 static const std::vector<std::pair<uint8, uint32>> questProgression =
 {
-    /* Phase, Achievement */
+    /* Phase, Quest */
     { 3,  PRE_AQ_WAR_EFFORT     }, // 8743
     { 4,  AQ_OPENING            }, // 108744
     { 7,  TBC_PRE_OPENING       }, // 10259
@@ -166,9 +178,10 @@ struct ExpansionPhaseBracket
 
 static const std::vector<ExpansionPhaseBracket> expansionBrackets =
 {
-    { "VANILLA", 1,  7  },
+    { "VANILLA", 0,  6  },
+    { "TBC PrePatch",     7,  7 },
     { "TBC",     8,  12 },
-    { "WOTLK",   13, 25 }
+    { "WOTLK",   13, 18 }
 };
 
 //Get faction name by ID
@@ -206,17 +219,17 @@ inline uint32 GetQuestForPhase(uint8 targetPhase)
     return (it != questProgression.end()) ? it->second : 0;
 }
 
-//Get Individualprogression phase.
-inline uint32 GetPlayerPhase(const Player* player)
+//Get phase.
+inline uint32 GetPlayerPhaseIP(const Player* player)
 {
-    uint32 currentPhase = 1;
+    uint32 currentPhase = 0;
 
     //Check for boss kills
     for (auto const& [bossKillProgressionId, achievementId] : bossProgression)
     {
         if (player->HasAchieved(achievementId) && bossKillProgressionId > currentPhase)
         {
-            currentPhase = bossKillProgressionId;
+            currentPhase = bossKillProgressionId + 1;
 
             //Check for quest completion to know if phase 3, 4 or 7.
             if (currentPhase == 2 && player->GetQuestStatus(GetQuestForPhase(currentPhase + 1)))
@@ -232,6 +245,56 @@ inline uint32 GetPlayerPhase(const Player* player)
                 currentPhase = bossKillProgressionId + 1;
             }
         }
+    }
+
+    return currentPhase;
+}
+
+//Get phase.
+inline uint32 GetPlayerPhaseByLevel(const Player* player)
+{
+    uint32 currentPhase = 18;
+    uint32 currentLevel = player->GetLevel();
+
+    if (currentLevel >= 71)
+    {
+        currentPhase = 18; // WotLK max phase
+    }
+    else if (currentLevel >= 61)
+    {
+        currentPhase = 12; // TBC max phase
+    }
+    else
+    {
+        currentPhase = 6;  // Vanilla max phase
+    }
+
+    return currentPhase;
+}
+
+inline uint32 GetPhase(const Player* player)
+{
+    uint32 currentPhase = 18;
+
+    if (NPCEnchanterEnhancedIndividualProgression)
+    {
+        // 1. Highest priority: IndividualProgression
+        currentPhase = GetPlayerPhaseIP(player);
+    }
+    else if (NPCEnchanterEnhancedPhaseByLevel)
+    {
+        // 2. Second priority: NPCEnchanterEnhancedPhaseByLevel
+        currentPhase = GetPlayerPhaseByLevel(player);
+    }
+    else if (NPCEnchanterEnhancedPhase >= 0)
+    {
+        // 3. Third priority: NPCEnchanterEnhancedPhase
+        currentPhase = static_cast<uint32>(NPCEnchanterEnhancedPhase);
+    }
+    else
+    {
+        // 4. Default if all phase confs are disabled.
+        currentPhase = 18;
     }
 
     return currentPhase;
