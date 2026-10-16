@@ -283,12 +283,12 @@ inline uint32 GetPhase(const Player* player)
     }
     else if (NPCEnchanterEnhancedPhaseByLevel)
     {
-        // 2. Third priority: NPCEnchanterEnhancedPhaseByLevel
+        // 2. Second priority: NPCEnchanterEnhancedPhaseByLevel
         currentPhase = GetPlayerPhaseByLevel(player);
     }
     else if (NPCEnchanterEnhancedPhase >= 0)
     {
-        // 3. Second priority: NPCEnchanterEnhancedPhase
+        // 3. Third priority: NPCEnchanterEnhancedPhase
         currentPhase = static_cast<uint32>(NPCEnchanterEnhancedPhase);
     }
     else
@@ -297,8 +297,7 @@ inline uint32 GetPhase(const Player* player)
         currentPhase = 18;
     }
 
-    LOG_DEBUG("MyDebug", "GetPhase: {} (NPCEnchanterEnhancedIndividualProgression: {} | NPCEnchanterEnhancedPhaseByLevel: {} | NPCEnchanterEnhancedPhase {})",
-        currentPhase, NPCEnchanterEnhancedIndividualProgression, NPCEnchanterEnhancedPhaseByLevel, NPCEnchanterEnhancedPhase);
+    currentPhase, NPCEnchanterEnhancedIndividualProgression, NPCEnchanterEnhancedPhaseByLevel, NPCEnchanterEnhancedPhase);
 
     return currentPhase;
 }
