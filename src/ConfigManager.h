@@ -14,6 +14,8 @@ extern const uint32 NPCEnchanterID;
 extern bool NPCEnchanterEnhancedEnabled;
 extern bool NPCEnchanterEnhancedAnnounce;
 
+extern bool NPCEnchanterEnhancedShowAndEnableAll;
+
 //Filter
 extern bool NPCEnchanterEnhancedIgnoreProfessionRequirements;
 extern bool NPCEnchanterEnhancedIgnoreLevelRequirements;
@@ -27,8 +29,10 @@ extern bool NPCEnchanterEnhancedSpawnableByAnyone;
 extern uint32 NPCEnchanterEnhancedDespawnTimerInSeconds;
 
 //Phases
-extern uint32 NPCEnchanterEnhancedPhase;
 extern bool NPCEnchanterEnhancedIndividualProgression;
+extern bool NPCEnchanterEnhancedPhaseByLevel;
+extern int NPCEnchanterEnhancedPhase;
+
 extern bool NPCEnchanterEnhancedOnlyShowCurrentOrLowerExpansionEnchants;
 
 //Prices

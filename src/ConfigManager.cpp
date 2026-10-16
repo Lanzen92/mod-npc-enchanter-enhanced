@@ -20,6 +20,8 @@ bool NPCEnchanterEnhancedAnnounce = true;
 bool NPCEnchanterEnhancedSpawnableByAnyone = true;
 uint32 NPCEnchanterEnhancedDespawnTimerInSeconds = 90;
 
+bool NPCEnchanterEnhancedShowAndEnableAll = false;
+
 //Filtering
 bool NPCEnchanterEnhancedIgnoreProfessionRequirements = false;
 bool NPCEnchanterEnhancedIgnoreLevelRequirements = false;
@@ -31,7 +33,8 @@ bool NPCEnchanterEnhancedOnlyShowCurrentOrLowerExpansionEnchants = true;
 
 //Phases
 bool NPCEnchanterEnhancedIndividualProgression = true;
-uint32 NPCEnchanterEnhancedPhase = 0;
+bool NPCEnchanterEnhancedPhaseByLevel = false;
+int NPCEnchanterEnhancedPhase = -1;
 
 //Prices
 bool NPCEnchanterEnhancedFreeEnchants = false;
@@ -59,7 +62,9 @@ void LoadEnchantConfig(bool /*reload*/)
     NPCEnchanterEnhancedAnnounce = sConfigMgr->GetOption<bool>("NPCEnchanterEnhanced.Announce", true);
 
     NPCEnchanterEnhancedSpawnableByAnyone = sConfigMgr->GetOption<bool>("NPCEnchanterEnhanced.SpawnableByAnyone", true);
-    NPCEnchanterEnhancedDespawnTimerInSeconds = sConfigMgr->GetOption<uint32>("NPCEnchanterEnhanced.DespawnTimerInSeconds", 90);
+    NPCEnchanterEnhancedDespawnTimerInSeconds = sConfigMgr->GetOption<uint32>("NPCEnchanterEnhanced.DespawnTimerInSeconds", 120);
+
+    NPCEnchanterEnhancedShowAndEnableAll = NPCEnchanterEnhancedIgnoreProfessionRequirements = sConfigMgr->GetOption<bool>("NPCEnchanterEnhanced.ShowAndEnableAll", false);
 
     NPCEnchanterEnhancedIgnoreProfessionRequirements = sConfigMgr->GetOption<bool>("NPCEnchanterEnhanced.IgnoreProfessionRequirements", false);
     NPCEnchanterEnhancedIgnoreLevelRequirements = sConfigMgr->GetOption<bool>("NPCEnchanterEnhanced.IgnoreLevelRequirements", false);
@@ -73,7 +78,8 @@ void LoadEnchantConfig(bool /*reload*/)
     //NPCEnchanterEnhancedTiersToShow = sConfigMgr->GetOption<std::string>("NPCEnchanterEnhanced.TiersToShow", "Leveling, PreRaid, Raid");
 
     NPCEnchanterEnhancedIndividualProgression = sConfigMgr->GetOption<bool>("NPCEnchanterEnhanced.IndividualProgression", true);
-    NPCEnchanterEnhancedPhase = sConfigMgr->GetOption<uint32>("NPCEnchanterEnhanced.Phase", 0);
+    NPCEnchanterEnhancedPhaseByLevel = sConfigMgr->GetOption<uint32>("NPCEnchanterEnhanced.PhaseByLevel", 0);
+    NPCEnchanterEnhancedPhase = sConfigMgr->GetOption<uint32>("NPCEnchanterEnhanced.Phase", -1);
 
     NPCEnchanterEnhancedFreeEnchants = sConfigMgr->GetOption<bool>("NPCEnchanterEnhanced.FreeEnchants", false);
     NPCEnchanterEnhancedDynamicPricesOnEnchants = sConfigMgr->GetOption<bool>("NPCEnchanterEnhanced.DynamicPricesOnEnchants", false);
@@ -92,6 +98,35 @@ void LoadEnchantConfig(bool /*reload*/)
     NPCEnchanterEnhancedQualityMultiplierLegendary = sConfigMgr->GetOption<float>("NPCEnchanterEnhanced.QualityMultiplierLegendary", 1.35f);
     NPCEnchanterEnhancedVariancePercentage = sConfigMgr->GetOption<float>("NPCEnchanterEnhanced.VariancePercentage", 0.15f);
 
+    //Override NPCEnchanterEnhancedPhaseByLevel and NPCEnchanterEnhancedPhase
+    if (NPCEnchanterEnhancedIndividualProgression)
+    {
+        NPCEnchanterEnhancedPhaseByLevel = false;
+        NPCEnchanterEnhancedPhase = -1;
+    }
+
+    //Override NPCEnchanterEnhancedPhase
+    if (NPCEnchanterEnhancedPhaseByLevel)
+    {
+        NPCEnchanterEnhancedPhase = -1;
+    }
+
+    //Override all Requirements, phases etc. - Just show all enchants.
+    if (NPCEnchanterEnhancedShowAndEnableAll)
+    {
+        NPCEnchanterEnhancedIgnoreProfessionRequirements = true;
+        NPCEnchanterEnhancedIgnoreClassRequirements = true;
+        NPCEnchanterEnhancedIgnoreItemLevelRequirements = true;
+        NPCEnchanterEnhancedIgnoreLevelRequirements = true;
+        NPCEnchanterEnhancedIgnoreReputationRequirements = true;
+        NPCEnchanterEnhancedOnlyShowCurrentOrLowerExpansionEnchants = true;
+        NPCEnchanterEnhancedPhase = -1;
+        NPCEnchanterEnhancedIndividualProgression = false;
+        NPCEnchanterEnhancedPhaseByLevel = false;
+        NPCEnchanterEnhancedHideUnavailableEnchants = false;
+    }
+
+    //Override NPCEnchanterEnhancedFreeEnchants
     if (NPCEnchanterEnhancedDynamicPricesOnEnchants)
     {
         NPCEnchanterEnhancedFreeEnchants = false;

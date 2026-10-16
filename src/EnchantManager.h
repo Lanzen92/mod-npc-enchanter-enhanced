@@ -18,26 +18,26 @@ enum EnchantCategory : uint32 {
 };
 
 enum EnchantSubCategory : uint32 {
-    Weapon_1H_Melee = 10,
-    Weapon_1H_Melee_Offhand = 11,
-    Weapon_2H_Melee = 12,
-    Weapon_Ranged = 13,
-    Weapon_1H_Caster = 14,
-    Weapon_2H_Caster = 15,
+    Weapon_1H_Melee = 0,
+    Weapon_1H_Melee_Offhand = 1,
+    Weapon_2H_Melee = 2,
+    Weapon_Ranged = 3,
+    Weapon_1H_Caster = 4,
+    Weapon_2H_Caster = 5,
 
-    Subtype_Shield = 20,
+    Subtype_Shield = 8,
 
-    Armor_Helm = 30,
-    Armor_Shoulders = 31,
-    Armor_Cloak = 32,
-    Armor_Chest = 33,
-    Armor_Waist = 34,
-    Armor_Bracers = 35,
-    Armor_Gloves = 36,
-    Armor_Legs = 37,
-    Armor_Boots = 38,
-    Armor_Ring_Slot1 = 39,
-    Armor_Ring_Slot2 = 40,
+    Armor_Helm = 10,
+    Armor_Shoulders = 11,
+    Armor_Cloak = 12,
+    Armor_Chest = 13,
+    Armor_Waist = 14,
+    Armor_Bracers = 15,
+    Armor_Gloves = 16,
+    Armor_Legs = 17,
+    Armor_Boots = 18,
+    Armor_Ring_Slot1 = 19,
+    Armor_Ring_Slot2 = 20,
 };
 
 enum class EnchantTier : uint32 {

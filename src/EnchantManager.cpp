@@ -506,15 +506,15 @@ NPCEnchanterEnhancedEnchantManager::NPCEnchanterEnhancedEnchantManager()
                         // --- RAID TIER ---
                         EnchantDefinition{ 910,  "Stealth", "Increase to stealth", EnchantTier::Raid, "", 0, 0, 0, static_cast<uint32>(Classes::CLASS_NONE), 1, 1, 5, 200 },
                         EnchantDefinition{ 2622, "Dodge", "+1% Dodge", EnchantTier::Raid, "", 0, 0, 0, static_cast<uint32>(Classes::CLASS_NONE), 1, 1, 5, 200 },
-                        EnchantDefinition{ 2619, "Greater Fire Resistance", "+15 Fire Resistance", EnchantTier::Raid, "", 0, 0, 0, static_cast<uint32>(Classes::CLASS_NONE), 1, 1, 1, 50 },
-                        EnchantDefinition{ 2620, "Greater Nature Resistance", "+15 Nature Resistance", EnchantTier::Raid, "", 0, 0, 0, static_cast<uint32>(Classes::CLASS_NONE), 1, 1, 1, 50 },
+                        EnchantDefinition{ 2619, "Greater Fire Resistance", "+15 Fire Resistance", EnchantTier::Raid, "", 0, 0, 0, static_cast<uint32>(Classes::CLASS_NONE), 1, 1, 3, 50 },
+                        EnchantDefinition{ 2620, "Greater Nature Resistance", "+15 Nature Resistance", EnchantTier::Raid, "", 0, 0, 0, static_cast<uint32>(Classes::CLASS_NONE), 1, 1, 3, 50 },
                         EnchantDefinition{ 804,  "Lesser Shadow Resistance", "+10 Shadow Resistance", EnchantTier::Raid, "", 0, 0, 0, static_cast<uint32>(Classes::CLASS_NONE), 1, 1, 1, 50 },
                         EnchantDefinition{ 1888, "Greater Resistance", "+5 Resistance", EnchantTier::Raid, "", 0, 0, 0, static_cast<uint32>(Classes::CLASS_NONE), 1, 1, 1, 50 },
                         EnchantDefinition{ 2621, "Subtlety", "-2% Threat", EnchantTier::Raid, "", 0, 0, 0, static_cast<uint32>(Classes::CLASS_NONE), 1, 1, 1, 100 },
 
                         // --- PRE-RAID TIER ---
                         EnchantDefinition{ 2463, "Fire Resistance", "+7 Fire Resistance", EnchantTier::PreRaid, "", 0, 0, 0, static_cast<uint32>(Classes::CLASS_NONE), 1, 1, 1, 50 },
-                        EnchantDefinition{ 1899, "Superior Defense", "+70 Armor", EnchantTier::PreRaid, "", 0, 0, 0, static_cast<uint32>(Classes::CLASS_NONE), 1, 1, 1, 50 },
+                        EnchantDefinition{ 1889, "Superior Defense", "+70 Armor", EnchantTier::PreRaid, "", 0, 0, 0, static_cast<uint32>(Classes::CLASS_NONE), 1, 1, 1, 50 },
                         EnchantDefinition{ 884,  "Greater Defense", "+50 Armor", EnchantTier::PreRaid, "", 0, 0, 0, static_cast<uint32>(Classes::CLASS_NONE), 1, 1, 1, 50 },
 
                         // --- LEVELING TIER ---
